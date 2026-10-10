@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rotina</title>
+<style>
+:root{--bg:#e3ebe3;--p:#f4f8f3;--p2:#e8f0e9;--tx:#17281f;--mu:#5d7066;--ac:#d9432b;--ln:#c4d2c8;--cell:#cfdcd2;--inp:#fff;color-scheme:light}
+:root[data-theme=dark]{--bg:#0f1913;--p:#17241d;--p2:#203128;--tx:#e4efe7;--mu:#8fa699;--ac:#ff6a4d;--ln:#2c3f34;--cell:#263a2f;--inp:#203128;color-scheme:dark}
+[data-theme=dark] .chip.pendente{background:#2a3a31;color:#b7cbbd}[data-theme=dark] .chip.andamento{background:#4a3a14;color:#f5c04a}[data-theme=dark] .chip.feito{background:#174a33;color:#6fe0a8}
+[data-theme=dark] .btn.pri,[data-theme=dark] #modes button.on{color:#0f1913}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,sans-serif}
+header{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;padding:12px 22px;border-bottom:2px solid var(--tx);position:sticky;top:0;background:var(--bg);z-index:5}
+h1{font:italic 700 28px Georgia,serif;margin:0}
+h2{font:700 20px Georgia,serif;margin:22px 0 10px}
+nav{display:flex;gap:2px;flex-wrap:wrap;flex:1}
+nav button{background:none;border:0;border-bottom:3px solid transparent;padding:6px 12px;font:inherit;color:var(--mu);cursor:pointer}
+nav button.on{color:var(--tx);border-color:var(--ac);font-weight:700}
+.br{display:flex;gap:6px;align-items:center;color:var(--mu)}
+#sv{font-size:12px;color:var(--mu);width:100%;text-align:right}
+.view{display:none;padding:22px;max-width:1000px;margin:auto}.view.on{display:block}
+.card{background:var(--p);border:1px solid var(--ln);border-radius:12px;padding:16px;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.stat{margin:0}.stat b{display:block;font:700 32px Georgia,serif;color:var(--ac)}
+.mu{color:var(--mu)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.btn{background:var(--p);color:var(--tx);border:1.5px solid var(--tx);border-radius:8px;padding:7px 14px;cursor:pointer;font:inherit;transition:transform .12s,background .12s}
+.btn:hover{background:var(--p2);transform:translateY(-1px)}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,nav button:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.btn.pri{background:var(--ac);border-color:var(--ac);color:#fff;font-weight:600}
+.btn.sm{padding:3px 9px;border-color:var(--ln)}
+input,select,textarea{background:var(--inp);color:var(--tx);border:1px solid var(--ln);border-radius:8px;padding:7px 10px;font:inherit}
+input[type=color]{padding:0;width:38px;height:32px;cursor:pointer}
+input[type=number]{width:90px}textarea{width:100%;min-height:90px}
+form.row input[type=text]{flex:1;min-width:180px}
+#pomo{display:grid;grid-template-columns:auto 1fr;gap:30px;align-items:center}
+@media(max-width:720px){#pomo{grid-template-columns:1fr;justify-items:center}}
+.ring{width:290px;height:290px;border-radius:50%;background:conic-gradient(var(--ac) var(--pg,0deg),var(--cell) 0);display:grid;place-items:center}
+.ring>div{width:258px;height:258px;border-radius:50%;background:var(--p);display:grid;place-items:center;align-content:center}
+#clock{font:700 62px Georgia,serif;font-variant-numeric:tabular-nums}
+#modes{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+#modes button{border:1.5px solid var(--ln);background:none;border-radius:99px;padding:5px 14px;cursor:pointer;font:inherit}
+#modes button.on{background:var(--tx);color:var(--bg);border-color:var(--tx)}
+.set{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px}.set label{display:grid;gap:3px;font-size:13px;color:var(--mu)}
+.task{border-left:6px solid var(--ln)}.task.andamento{border-left-color:#e0a21a}.task.feito{border-left-color:#2f9e6b;opacity:.75}
+.tt{display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+.chip{padding:1px 10px;border-radius:99px;font-size:12px;font-weight:700}
+.chip.pendente{background:#dde5df;color:#4b5d52}.chip.andamento{background:#fbe8b5;color:#7a5200}.chip.feito{background:#c9ecd9;color:#14633f}
+.bar{height:9px;background:var(--cell);border-radius:9px;overflow:hidden;margin:10px 0}.bar i{display:block;height:100%;background:var(--c,var(--ac))}
+.hh{display:flex;justify-content:space-between;gap:10px}
+.heatw{overflow-x:auto;padding:12px 0 2px}
+.heat{display:grid;grid-template-rows:repeat(7,12px);grid-auto-flow:column;grid-auto-columns:12px;gap:3px;width:max-content}
+.heat i{background:var(--cell);border-radius:3px}
+.bars{display:flex;align-items:flex-end;gap:5px;height:160px}
+.b{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;font-size:11px;color:var(--mu)}
+.b i{width:100%;background:var(--ac);border-radius:4px 4px 0 0;min-height:2px}.b em{font-style:normal}
+.row2{display:grid;grid-template-columns:130px 1fr 50px;gap:12px;align-items:center}.row2 .bar{margin:4px 0}
+.entry .mu{font-size:13px}.entry p{white-space:pre-wrap;margin:6px 0 0}
+.dsum{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:12px}
+</style></head><body>
+<header>
+  <h1>Rotina</h1>
+  <nav id="nav">
+    <button data-tab="pomodoro">Pomodoro</button><button data-tab="dashboard">Dashboard</button><button data-tab="tarefas">Tarefas</button><button data-tab="habitos">Hábitos</button><button data-tab="diario">Diário</button>
+  </nav>
+  <button class="btn" id="theme" data-act="theme"></button>
+  <div id="sv"></div>
+</header>
+
+<section class="view" id="v-pomodoro">
+  <div class="card" id="pomo">
+    <div class="ring" id="ring"><div><span id="clock">25:00</span><span class="mu" id="pcount"></span></div></div>
+    <div>
+      <div id="modes"><button data-m="focus">Foco</button><button data-m="short">Pausa curta</button><button data-m="long">Pausa longa</button></div>
+      <div class="row" style="margin-bottom:14px"><button class="btn pri" id="go" data-act="toggle">Iniciar</button><button class="btn" data-act="reset">Reiniciar</button><button class="btn" data-act="skip">Pular</button></div>
+      <div id="ptask" class="row" style="margin-bottom:10px"></div>
+      <select id="phab" aria-label="Hábito vinculado"></select>
+    </div>
+  </div>
+  <h2>Configurações</h2>
+  <div class="card set">
+    <label>Foco (min)<input type="number" min="1" data-set="focus"></label>
+    <label>Pausa curta (min)<input type="number" min="1" data-set="short"></label>
+    <label>Pausa longa (min)<input type="number" min="1" data-set="long"></label>
+    <label>Focos até a pausa longa<input type="number" min="1" data-set="cycles"></label>
+  </div>
+</section>
+
+<section class="view" id="v-dashboard"><div id="dash"></div></section>
+
+<section class="view" id="v-tarefas">
+  <form class="card row" id="ft"><input type="text" name="title" placeholder="Nova tarefa" required><button class="btn pri">Adicionar tarefa</button></form>
+  <div class="row" style="margin-bottom:12px"><span class="mu">Mostrar:</span>
+    <select id="tf"><option value="abertas">Abertas</option><option value="pendente">Pendentes</option><option value="andamento">Em andamento</option><option value="feito">Feitas</option><option value="todas">Todas</option></select></div>
+  <div id="tlist"></div>
+</section>
+
+<section class="view" id="v-habitos">
+  <form class="card row" id="fh">
+    <input type="text" name="name" placeholder="Novo hábito (ex.: Ler)" required>
+    <select name="type"><option value="count">Por repetição</option><option value="time">Por tempo</option></select>
+    <input type="number" name="goal" min="1" value="1" title="Meta diária" aria-label="Meta diária">
+    <input type="text" name="unit" placeholder="unidade (copos, min…)" style="flex:0 1 170px;min-width:120px">
+    <input type="color" name="color" value="#2f9e6b" title="Cor do painel">
+    <button class="btn pri">Adicionar hábito</button>
+  </form>
+  <div id="hlist"></div>
+</section>
+
+<section class="view" id="v-diario">
+  <form class="card" id="fd">
+    <div class="row" style="margin-bottom:10px"><input type="date" name="date" required>
+      <select name="mood"><option value="5">😄 Ótimo</option><option value="4" selected>🙂 Bem</option><option value="3">😐 Normal</option><option value="2">😕 Ruim</option><option value="1">😢 Péssimo</option></select></div>
+    <textarea name="text" placeholder="Como foi o seu dia?" required></textarea>
+    <div style="margin-top:10px"><button class="btn pri">Salvar nota</button></div>
+  </form>
+  <div class="dsum" id="dsum"></div>
+  <input type="text" id="dq" placeholder="Buscar nas notas" style="width:100%;margin-bottom:12px">
+  <div id="dlist"></div>
+</section>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const iso=d=>d.toLocaleDateString('sv'),today=()=>iso(new Date()),uid=()=>Math.random().toString(36).slice(2,9);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const sum=(a,k)=>a.reduce((s,x)=>s+(x[k]||0),0);
+const ST={pendente:'Pendente',andamento:'Em andamento',feito:'Feito'},NEXT={pendente:'andamento',andamento:'feito',feito:'pendente'};
+const MOODS={1:'😢',2:'😕',3:'😐',4:'🙂',5:'😄'};
+let S,tab='pomodoro',P={mode:'focus',left:0,run:false,end:0,cycle:0,task:null};
+const DEF=()=>({settings:{focus:25,short:5,long:15,cycles:4,theme:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'},tasks:[],diary:[],stats:{days:{}},
+  habits:[{id:uid(),name:'Estudar',type:'time',goal:120,unit:'min',color:'#3b82c4',log:{}},{id:uid(),name:'Beber água',type:'count',goal:8,unit:'copos',color:'#2f9e6b',log:{}}]});
+const day=(d=today())=>S.stats.days[d]??={pomos:0,focusMin:0,tasksDone:0};
+const val=(h,d)=>h.log[d]||0;
+const dur=m=>S.settings[m]*60;
+
+/* ---------- armazenamento ---------- */
+async function load(){
+  let d=null;
+  try{const r=await fetch('/api/data');if(!r.ok)throw 0;d=await r.json();if(!Object.keys(d).length)d=null}
+  catch(e){try{d=JSON.parse(localStorage.getItem('rotina'))}catch(e){}}
+  const f=DEF();S=Object.assign(f,d||{});S.settings=Object.assign(f.settings,S.settings);
+}
+function streak(h){let d=new Date(),n=0;if(val(h,iso(d))<h.goal)d.setDate(d.getDate()-1);while(val(h,iso(d))>=h.goal){n++;d.setDate(d.getDate()-1)}return n}
+function best(h){let b=0,c=0,p=null;for(const d of Object.keys(h.log).filter(k=>h.log[k]>=h.goal).sort()){c=p&&new Date(d)-new Date(p)==864e5?c+1:1;b=Math.max(b,c);p=d}return b}
+function summ(){const D=Object.values(S.stats.days);S.stats.resumo={atualizadoEm:new Date().toISOString(),pomodoros:sum(D,'pomos'),minutosFoco:sum(D,'focusMin'),
+  tarefasFeitas:S.tasks.filter(t=>t.status=='feito').length,tarefasAbertas:S.tasks.filter(t=>t.status!='feito').length,notasDiario:S.diary.length,
+  habitos:Object.fromEntries(S.habits.map(h=>[h.name,{tipo:h.type,meta:h.goal,total:Object.values(h.log).reduce((a,b)=>a+b,0),diasMetaBatida:Object.values(h.log).filter(v=>v>=h.goal).length,sequenciaAtual:streak(h),melhorSequencia:best(h)}]))}}
+let tm;
+function save(){summ();localStorage.setItem('rotina',JSON.stringify(S));clearTimeout(tm);
+  tm=setTimeout(async()=>{try{const r=await fetch('/api/data',{method:'POST',body:JSON.stringify(S)});if(!r.ok)throw 0;$('#sv').textContent='✓ Salvo em data/dados.json'}
+  catch(e){$('#sv').textContent='⚠ Servidor off: salvo só neste navegador. Rode python server.py'}},300)}
+
+/* ---------- pomodoro ---------- */
+function beep(){try{const c=new AudioContext(),o=c.createOscillator();o.connect(c.destination);o.frequency.value=880;o.start();o.stop(c.currentTime+.6)}catch(e){}}
+function pv(){const m=Math.floor(P.left/60),s=P.left%60,t=String(m).padStart(2,0)+':'+String(s).padStart(2,0);
+  $('#clock').textContent=t;document.title=P.run?t+' · Rotina':'Rotina';$('#go').textContent=P.run?'Pausar':'Iniciar';
+  $$('#modes button').forEach(b=>b.classList.toggle('on',b.dataset.m==P.mode));$('#ring').style.setProperty('--pg',(1-P.left/dur(P.mode))*360+'deg')}
+function ptask(){const k=S.tasks.find(x=>x.id==P.task);$('#ptask').innerHTML=k?`<span>Tarefa: <b>${esc(k.title)}</b></span><button class="btn sm" data-act="unlink">Desvincular</button>`:'<span class="mu">Nenhuma tarefa vinculada (inicie uma pela aba Tarefas)</span>'}
+function setMode(m){P.mode=m;P.run=false;P.left=dur(m);pv()}
+function toggle(){if(P.run){P.left=Math.max(0,Math.ceil((P.end-Date.now())/1000));P.run=false}else{P.run=true;P.end=Date.now()+P.left*1000}pv()}
+function next(){P.cycle++;setMode(P.cycle%S.settings.cycles?'short':'long')}
+function fin(){P.run=false;beep();
+  if(P.mode=='focus'){const m=S.settings.focus,d=day();d.pomos++;d.focusMin+=m;
+    const k=S.tasks.find(x=>x.id==P.task);if(k){k.pomos=(k.pomos||0)+1;k.minutes=(k.minutes||0)+m}
+    const h=S.habits.find(x=>x.id==$('#phab').value);if(h)h.log[today()]=val(h,today())+m;
+    next()}else setMode('focus');
+  save();render()}
+setInterval(()=>{if(!P.run)return;P.left=Math.max(0,Math.ceil((P.end-Date.now())/1000));pv();if(!P.left)fin()},250);
+function rPomo(){$$('[data-set]').forEach(i=>i.value=S.settings[i.dataset.set]);
+  const s=$('#phab'),c=s.value;s.innerHTML='<option value="">Não somar a nenhum hábito</option>'+S.habits.filter(h=>h.type=='time').map(h=>`<option value="${h.id}">Somar foco em: ${esc(h.name)}</option>`).join('');s.value=c;
+  ptask();$('#pcount').textContent=`🍅 ${(S.stats.days[today()]||{}).pomos||0} hoje · ciclo ${P.cycle%S.settings.cycles}/${S.settings.cycles}`;pv()}
+
+/* ---------- tarefas ---------- */
+function setSt(t,s){if(!t||t.status==s)return;
+  if(s=='feito'){t.done=today();day().tasksDone++}else if(t.status=='feito'){const d=S.stats.days[t.done];if(d&&d.tasksDone)d.tasksDone--;t.done=null}
+  t.status=s}
+function rTasks(){const f=$('#tf').value,L=S.tasks.filter(t=>f=='todas'||(f=='abertas'?t.status!='feito':t.status==f));
+  $('#tlist').innerHTML=L.map(t=>`<div class="card task ${t.status}" data-id="${t.id}"><div class="tt"><b>${esc(t.title)}</b><span class="chip ${t.status}">${ST[t.status]}</span>${t.pomos?`<span class="mu">🍅 ${t.pomos} · ${t.minutes} min</span>`:''}</div>
+  <div class="row">${t.status!='feito'?`<button class="btn" data-act="start">▶ Começar tarefa</button><button class="btn" data-act="startp">🍅 Começar com pomodoro</button><button class="btn pri" data-act="done">✓ Concluir tarefa</button>`:''}
+  <button class="btn" data-act="cycle">⇄ Mudar estado</button><button class="btn sm" data-act="deltask" aria-label="Excluir">🗑</button></div></div>`).join('')||'<p class="mu">Nenhuma tarefa nesta visão. Adicione uma acima.</p>'}
+
+/* ---------- hábitos ---------- */
+function heat(h){const e=new Date(),s=new Date();s.setDate(s.getDate()-364-e.getDay());let c='';
+  for(let d=new Date(s);d<=e;d.setDate(d.getDate()+1)){const k=iso(d),v=val(h,k),r=v/h.goal,l=!v?0:r<.34?1:r<.67?2:r<1?3:4;
+    c+=`<i title="${k}: ${v} ${esc(h.unit)}" ${l?`style="background:color-mix(in srgb,var(--c) ${[0,30,55,80,100][l]}%,var(--cell))"`:''}></i>`}
+  return `<div class="heatw"><div class="heat">${c}</div></div>`}
+function rHabits(){$('#hlist').innerHTML=S.habits.map(h=>{const v=val(h,today());
+  return `<div class="card" data-id="${h.id}" style="--c:${h.color}"><div class="hh"><div><b style="font:700 18px Georgia,serif">${esc(h.name)}</b><div class="mu">${v}/${h.goal} ${esc(h.unit)} hoje · sequência: ${streak(h)} dias</div></div>
+  <div class="row"><input type="color" value="${h.color}" data-col title="Mudar cor do painel" aria-label="Cor do painel"><button class="btn sm" data-act="delhab" aria-label="Excluir">🗑</button></div></div>
+  <div class="bar"><i style="width:${Math.min(100,v/h.goal*100)}%"></i></div>
+  <div class="row">${h.type=='count'?`<button class="btn" data-act="hminus">−1</button><button class="btn pri" data-act="hplus">+1 ${esc(h.unit)}</button>`:`<input type="number" min="1" value="25" class="amt" aria-label="Minutos"><button class="btn pri" data-act="hadd">+ minutos</button>`}</div>
+  ${heat(h)}</div>`}).join('')||'<p class="mu">Nenhum hábito ainda. Crie o primeiro acima.</p>';
+  $$('.heatw').forEach(x=>x.scrollLeft=x.scrollWidth)}
+
+/* ---------- dashboard ---------- */
+function rDash(){summ();const r=S.stats.resumo,D=S.stats.days,td=D[today()]||{};
+  const L=[...Array(14)].map((_,i)=>{const d=new Date();d.setDate(d.getDate()-13+i);return iso(d)});
+  const C=[['Pomodoros hoje',td.pomos||0],['Pomodoros no total',r.pomodoros],['Horas de foco',(r.minutosFoco/60).toFixed(1)],['Tarefas feitas',r.tarefasFeitas],['Tarefas abertas',r.tarefasAbertas],['Notas no diário',r.notasDiario],['Melhor sequência',Math.max(0,...S.habits.map(best))+' dias']];
+  const bars=k=>{const m=Math.max(1,...L.map(x=>(D[x]||{})[k]||0));return `<div class="bars">${L.map(d=>{const v=(D[d]||{})[k]||0;return `<div class="b"><em>${v||''}</em><i style="height:${v/m*110}px"></i><span>${d.slice(8)}</span></div>`}).join('')}</div>`};
+  const hr=S.habits.map(h=>{let n=0;for(let i=0;i<30;i++){const d=new Date();d.setDate(d.getDate()-i);if(val(h,iso(d))>=h.goal)n++}
+    return `<div class="row2"><span>${esc(h.name)}</span><div class="bar" style="--c:${h.color}"><i style="width:${n/30*100}%"></i></div><span class="mu">${n}/30</span></div>`}).join('');
+  $('#dash').innerHTML=`<div class="grid">${C.map(c=>`<div class="card stat"><b>${c[1]}</b>${c[0]}</div>`).join('')}</div>
+  <h2>Minutos de foco, últimos 14 dias</h2><div class="card">${bars('focusMin')}</div>
+  <h2>Tarefas concluídas, últimos 14 dias</h2><div class="card">${bars('tasksDone')}</div>
+  <h2>Hábitos: dias com meta batida (30 dias)</h2><div class="card">${hr||'<span class="mu">Sem hábitos.</span>'}</div>`}
+
+/* ---------- diário ---------- */
+function rDiary(){const q=$('#dq').value.toLowerCase(),A=S.diary,w=new Date();w.setDate(w.getDate()-6);
+  const avg=A.length?(A.reduce((s,x)=>s+x.mood,0)/A.length).toFixed(1):'–';
+  $('#dsum').innerHTML=`<div class="card stat"><b>${A.length}</b>notas</div><div class="card stat"><b>${A.filter(x=>x.date>=iso(w)).length}</b>nos últimos 7 dias</div><div class="card stat"><b>${avg}</b>humor médio (1–5)</div>
+  <div class="card stat"><b style="font-size:20px">${Object.entries(MOODS).reverse().map(([k,e])=>e+' '+A.filter(x=>x.mood==k).length).join('<br>')}</b></div>`;
+  const L=[...A].sort((a,b)=>b.date.localeCompare(a.date)||b.ts-a.ts).filter(x=>!q||x.text.toLowerCase().includes(q)||x.date.includes(q));
+  $('#dlist').innerHTML=L.map(x=>`<div class="card entry" data-id="${x.id}"><div class="hh"><span class="mu">${MOODS[x.mood]} ${new Date(x.date+'T00:00').toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</span><button class="btn sm" data-act="deldiary" aria-label="Excluir">🗑</button></div><p>${esc(x.text)}</p></div>`).join('')||'<p class="mu">Nenhuma nota encontrada.</p>'}
+
+/* ---------- núcleo ---------- */
+function render(){({pomodoro:rPomo,dashboard:rDash,tarefas:rTasks,habitos:rHabits,diario:rDiary})[tab]()}
+function go(t){tab=t;$$('.view').forEach(v=>v.classList.toggle('on',v.id=='v-'+t));$$('nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab==t));render()}
+function tema(){const d=S.settings.theme=='dark';document.documentElement.dataset.theme=d?'dark':'light';$('#theme').textContent=d?'☀ Tema claro':'🌙 Tema escuro'}
+function defaults(){$('#fd [name=date]').value=today()}
+function act(a,id,b){const t=S.tasks.find(x=>x.id==id),h=S.habits.find(x=>x.id==id);
+  if(a=='toggle')toggle();else if(a=='reset')setMode(P.mode);
+  else if(a=='skip'){if(P.mode=='focus')next();else setMode('focus')}
+  else if(a=='unlink')P.task=null;
+  else if(a=='start')setSt(t,'andamento');
+  else if(a=='startp'){setSt(t,'andamento');P.task=t.id;setMode('focus');toggle();go('pomodoro')}
+  else if(a=='done')setSt(t,'feito');else if(a=='cycle')setSt(t,NEXT[t.status]);
+  else if(a=='deltask'){if(!confirm('Excluir esta tarefa?'))return;S.tasks=S.tasks.filter(x=>x!=t);if(P.task==id)P.task=null}
+  else if(a=='hplus')h.log[today()]=val(h,today())+1;
+  else if(a=='hminus')h.log[today()]=Math.max(0,val(h,today())-1);
+  else if(a=='hadd')h.log[today()]=val(h,today())+(+b.parentNode.querySelector('.amt').value||0);
+  else if(a=='delhab'){if(!confirm('Excluir este hábito e todo o histórico dele?'))return;S.habits=S.habits.filter(x=>x!=h)}
+  else if(a=='deldiary')S.diary=S.diary.filter(x=>x.id!=id);
+  else if(a=='theme'){S.settings.theme=S.settings.theme=='dark'?'light':'dark';tema()}
+  save();render()}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(b)return act(b.dataset.act,b.closest('[data-id]')?.dataset.id,b);
+  const n=e.target.closest('[data-tab]');if(n)return go(n.dataset.tab);const m=e.target.closest('[data-m]');if(m)setMode(m.dataset.m)});
+document.addEventListener('submit',e=>{e.preventDefault();const f=e.target,v=Object.fromEntries(new FormData(f));
+  if(f.id=='ft')S.tasks.unshift({id:uid(),title:v.title.trim(),status:'pendente',created:today(),pomos:0,minutes:0});
+  else if(f.id=='fh')S.habits.push({id:uid(),name:v.name.trim(),type:v.type,goal:+v.goal||1,unit:v.unit.trim()||(v.type=='time'?'min':'vezes'),color:v.color,log:{}});
+  else if(f.id=='fd')S.diary.push({id:uid(),ts:Date.now(),date:v.date,mood:+v.mood,text:v.text.trim()});
+  f.reset();defaults();save();render()});
+document.addEventListener('input',e=>{const x=e.target;
+  if(x.matches('[data-col]')){const c=x.closest('[data-id]');S.habits.find(k=>k.id==c.dataset.id).color=x.value;c.style.setProperty('--c',x.value);save()}
+  else if(x.id=='tf')rTasks();else if(x.id=='dq')rDiary()});
+document.addEventListener('change',e=>{const x=e.target;if(x.dataset.set){S.settings[x.dataset.set]=Math.max(1,+x.value||1);if(!P.run)P.left=dur(P.mode);save();pv()}});
+
+(async()=>{await load();P.left=dur('focus');tema();defaults();go('pomodoro');save()})();
+</script></body></html>
