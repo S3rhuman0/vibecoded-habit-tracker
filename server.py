@@ -7,9 +7,18 @@ ARQ = os.path.join(DIR, "data", "dados.json")
 PORTA = 8000
 
 
+class Srv(http.server.ThreadingHTTPServer):
+    # No Windows, reuse_address deixa dois servidores dividirem a mesma porta
+    allow_reuse_address = os.name != "nt"
+
+
 class H(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *a, **k):
         super().__init__(*a, directory=DIR, **k)
+
+    def end_headers(self):
+        self.send_header("Cache-Control", "no-store")  # nunca mostrar versão antiga
+        super().end_headers()
 
     def do_GET(self):
         if self.path.split("?")[0] == "/api/data":
@@ -43,7 +52,13 @@ class H(http.server.SimpleHTTPRequestHandler):
 
 
 if __name__ == "__main__":
-    srv = http.server.ThreadingHTTPServer(("127.0.0.1", PORTA), H)
+    try:
+        srv = Srv(("127.0.0.1", PORTA), H)
+    except OSError:
+        print(f"A porta {PORTA} já está em uso, provavelmente por outro server.py aberto.")
+        print("Feche o outro servidor ou mude PORTA no topo deste arquivo.")
+        raise SystemExit(1)
+    print(f"Servindo a pasta: {DIR}")
     print(f"Rotina rodando em http://localhost:{PORTA}  (Ctrl+C para parar)")
     threading.Timer(0.8, lambda: webbrowser.open(f"http://localhost:{PORTA}")).start()
     try:
