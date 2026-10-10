@@ -3,18 +3,17 @@
 <title>Rotina</title>
 <style>
 :root{--bg:#e3ebe3;--p:#f4f8f3;--p2:#e8f0e9;--tx:#17281f;--mu:#5d7066;--ac:#d9432b;--ln:#c4d2c8;--cell:#cfdcd2;--inp:#fff;color-scheme:light}
-:root[data-theme=dark]{--bg:#0f1913;--p:#17241d;--p2:#203128;--tx:#e4efe7;--mu:#8fa699;--ac:#ff6a4d;--ln:#2c3f34;--cell:#263a2f;--inp:#203128;color-scheme:dark}
+:root[data-theme=dark]{color-scheme:dark}
 [data-theme=dark] .chip.pendente{background:#2a3a31;color:#b7cbbd}[data-theme=dark] .chip.andamento{background:#4a3a14;color:#f5c04a}[data-theme=dark] .chip.feito{background:#174a33;color:#6fe0a8}
-[data-theme=dark] .btn.pri,[data-theme=dark] #modes button.on{color:#0f1913}
+[data-theme=dark] .btn.pri{color:#0d0d0d}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 system-ui,sans-serif}
+body{margin:0;background:var(--bg);color:var(--tx);font:var(--fs,15px)/1.5 system-ui,sans-serif}
 header{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;padding:12px 22px;border-bottom:2px solid var(--tx);position:sticky;top:0;background:var(--bg);z-index:5}
 h1{font:italic 700 28px Georgia,serif;margin:0}
 h2{font:700 20px Georgia,serif;margin:22px 0 10px}
 nav{display:flex;gap:2px;flex-wrap:wrap;flex:1}
 nav button{background:none;border:0;border-bottom:3px solid transparent;padding:6px 12px;font:inherit;color:var(--mu);cursor:pointer}
 nav button.on{color:var(--tx);border-color:var(--ac);font-weight:700}
-.br{display:flex;gap:6px;align-items:center;color:var(--mu)}
 #sv{font-size:12px;color:var(--mu);width:100%;text-align:right}
 .view{display:none;padding:22px;max-width:1000px;margin:auto}.view.on{display:block}
 .card{background:var(--p);border:1px solid var(--ln);border-radius:12px;padding:16px;margin-bottom:12px}
@@ -24,11 +23,12 @@ nav button.on{color:var(--tx);border-color:var(--ac);font-weight:700}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .btn{background:var(--p);color:var(--tx);border:1.5px solid var(--tx);border-radius:8px;padding:7px 14px;cursor:pointer;font:inherit;transition:transform .12s,background .12s}
 .btn:hover{background:var(--p2);transform:translateY(-1px)}
-.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,nav button:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,nav button:focus-visible,.sw:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
 .btn.pri{background:var(--ac);border-color:var(--ac);color:#fff;font-weight:600}
 .btn.sm{padding:3px 9px;border-color:var(--ln)}
 input,select,textarea{background:var(--inp);color:var(--tx);border:1px solid var(--ln);border-radius:8px;padding:7px 10px;font:inherit}
 input[type=color]{padding:0;width:38px;height:32px;cursor:pointer}
+input[type=checkbox]{width:20px;height:20px;accent-color:var(--ac)}
 input[type=number]{width:90px}textarea{width:100%;min-height:90px}
 form.row input[type=text]{flex:1;min-width:180px}
 #pomo{display:grid;grid-template-columns:auto 1fr;gap:30px;align-items:center}
@@ -37,7 +37,7 @@ form.row input[type=text]{flex:1;min-width:180px}
 .ring>div{width:258px;height:258px;border-radius:50%;background:var(--p);display:grid;place-items:center;align-content:center}
 #clock{font:700 62px Georgia,serif;font-variant-numeric:tabular-nums}
 #modes{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
-#modes button{border:1.5px solid var(--ln);background:none;border-radius:99px;padding:5px 14px;cursor:pointer;font:inherit}
+#modes button{border:1.5px solid var(--ln);background:none;color:var(--tx);border-radius:99px;padding:5px 14px;cursor:pointer;font:inherit}
 #modes button.on{background:var(--tx);color:var(--bg);border-color:var(--tx)}
 .set{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px}.set label{display:grid;gap:3px;font-size:13px;color:var(--mu)}
 .task{border-left:6px solid var(--ln)}.task.andamento{border-left-color:#e0a21a}.task.feito{border-left-color:#2f9e6b;opacity:.75}
@@ -46,20 +46,34 @@ form.row input[type=text]{flex:1;min-width:180px}
 .chip.pendente{background:#dde5df;color:#4b5d52}.chip.andamento{background:#fbe8b5;color:#7a5200}.chip.feito{background:#c9ecd9;color:#14633f}
 .bar{height:9px;background:var(--cell);border-radius:9px;overflow:hidden;margin:10px 0}.bar i{display:block;height:100%;background:var(--c,var(--ac))}
 .hh{display:flex;justify-content:space-between;gap:10px}
-.heatw{overflow-x:auto;padding:12px 0 2px}
-.heat{display:grid;grid-template-rows:repeat(7,12px);grid-auto-flow:column;grid-auto-columns:12px;gap:3px;width:max-content}
-.heat i{background:var(--cell);border-radius:3px}
+.hmw{display:flex;gap:6px;padding-top:10px}
+.wd,.heat{display:grid;grid-template-rows:14px repeat(7,var(--cs));gap:3px}
+.wd{flex:none;font-size:10px;color:var(--mu);line-height:var(--cs)}
+.heatw{overflow-x:auto;padding-bottom:4px}
+.heat{grid-auto-flow:column;grid-auto-columns:var(--cs);width:max-content}
+.heat i{display:block;background:var(--cell);border-radius:3px}
+.heat i.e{background:none}.heat i.td{outline:2px solid var(--tx);outline-offset:-1px}.heat i.ed{cursor:pointer}.heat i.ed:hover{outline:2px solid var(--ac);outline-offset:-1px}
+.ml{font:600 10px/14px system-ui;color:var(--mu);white-space:nowrap}
+.hl{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--mu);margin-top:6px}
+.lg{display:flex;align-items:center;gap:3px}.lg i{width:12px;height:12px;border-radius:3px;display:inline-block;background:var(--cell)}
 .bars{display:flex;align-items:flex-end;gap:5px;height:160px}
 .b{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;font-size:11px;color:var(--mu)}
 .b i{width:100%;background:var(--ac);border-radius:4px 4px 0 0;min-height:2px}.b em{font-style:normal}
-.row2{display:grid;grid-template-columns:130px 1fr 50px;gap:12px;align-items:center}.row2 .bar{margin:4px 0}
 .entry .mu{font-size:13px}.entry p{white-space:pre-wrap;margin:6px 0 0}
 .dsum{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:12px}
+.sws{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:8px}
+.swc{display:flex;gap:4px;align-items:flex-start}
+.sw{flex:1;display:flex;flex-direction:column;gap:6px;align-items:flex-start;background:var(--p);color:var(--tx);border:1.5px solid var(--ln);border-radius:10px;padding:8px;cursor:pointer;font:inherit;text-align:left}
+.sw.on{border-color:var(--ac);outline:2px solid var(--ac)}
+.sp{display:flex;width:100%;height:26px;border-radius:6px;overflow:hidden;border:1px solid var(--ln)}.sp i{flex:1}
+.crow{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--ln)}.crow:last-child{border:0}
+.cl{display:grid;gap:3px;font-size:12px;color:var(--mu);justify-items:start}
+.pv{display:flex;align-items:center;gap:10px;padding:14px;border-radius:10px;margin:12px 0}.pvc{flex:1;padding:10px;border-radius:8px}.pv em{width:60px;height:26px;border-radius:6px}
 </style></head><body>
 <header>
   <h1>Rotina</h1>
   <nav id="nav">
-    <button data-tab="pomodoro">Pomodoro</button><button data-tab="dashboard">Dashboard</button><button data-tab="tarefas">Tarefas</button><button data-tab="habitos">Hábitos</button><button data-tab="diario">Diário</button>
+    <button data-tab="pomodoro">Pomodoro</button><button data-tab="dashboard">Dashboard</button><button data-tab="tarefas">Tarefas</button><button data-tab="habitos">Hábitos</button><button data-tab="diario">Diário</button><button data-tab="config">⚙ Configurações</button>
   </nav>
   <button class="btn" id="theme" data-act="theme"></button>
   <div id="sv"></div>
@@ -117,47 +131,88 @@ form.row input[type=text]{flex:1;min-width:180px}
   <div id="dlist"></div>
 </section>
 
+<section class="view" id="v-config"><div id="cfg"></div></section>
+
 <script>
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const iso=d=>d.toLocaleDateString('sv'),today=()=>iso(new Date()),uid=()=>Math.random().toString(36).slice(2,9);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const sum=(a,k)=>a.reduce((s,x)=>s+(x[k]||0),0);
-const ST={pendente:'Pendente',andamento:'Em andamento',feito:'Feito'},NEXT={pendente:'andamento',andamento:'feito',feito:'pendente'};
-const MOODS={1:'😢',2:'😕',3:'😐',4:'🙂',5:'😄'};
+
+/* ---------- idiomas: o texto-base é português; EN traduz ---------- */
+let LANG='pt',LOC='pt-BR';
+const EN={"Tarefas":"Tasks","Hábitos":"Habits","Diário":"Journal","⚙ Configurações":"⚙ Settings","Foco":"Focus","Pausa curta":"Short break","Pausa longa":"Long break","Iniciar":"Start","Pausar":"Pause","Reiniciar":"Reset","Pular":"Skip","Configurações":"Settings",
+"Foco (min)":"Focus (min)","Pausa curta (min)":"Short break (min)","Pausa longa (min)":"Long break (min)","Focos até a pausa longa":"Focuses before long break","Hábito vinculado":"Linked habit","Não somar a nenhum hábito":"Don't add to any habit","Somar foco em:":"Add focus time to:",
+"Tarefa:":"Task:","Desvincular":"Unlink","Nenhuma tarefa vinculada (inicie uma pela aba Tarefas)":"No linked task (start one from the Tasks tab)","hoje":"today","ciclo":"cycle",
+"Nova tarefa":"New task","Adicionar tarefa":"Add task","Mostrar:":"Show:","Abertas":"Open","Pendentes":"Pending","Em andamento":"In progress","Feitas":"Done","Todas":"All","Pendente":"Pending","Feito":"Done",
+"▶ Começar tarefa":"▶ Start task","🍅 Começar com pomodoro":"🍅 Start with pomodoro","✓ Concluir tarefa":"✓ Complete task","⇄ Mudar estado":"⇄ Change status","Nenhuma tarefa nesta visão. Adicione uma acima.":"No tasks in this view. Add one above.","Excluir":"Delete","Excluir esta tarefa?":"Delete this task?",
+"Novo hábito (ex.: Ler)":"New habit (e.g. Read)","Por repetição":"By count","Por tempo":"By time","Meta diária":"Daily goal","unidade (copos, min…)":"unit (cups, min…)","Cor do painel":"Panel color","Mudar cor do painel":"Change panel color","Adicionar hábito":"Add habit",
+"sequência:":"streak:","dias":"days","+ minutos":"+ minutes","Minutos":"Minutes","Nenhum hábito ainda. Crie o primeiro acima.":"No habits yet. Create the first one above.","Excluir este hábito e todo o histórico dele?":"Delete this habit and all its history?","vezes":"times",
+"dias com meta batida":"days goal met","melhor sequência":"best streak","total":"total","Menos":"Less","Mais":"More","Clique em um dia para editar":"Click a day to edit",
+"Pomodoros hoje":"Pomodoros today","Pomodoros no total":"Total pomodoros","Horas de foco":"Focus hours","Tarefas feitas":"Tasks done","Tarefas abertas":"Open tasks","Notas no diário":"Journal entries","Melhor sequência":"Best streak",
+"Minutos de foco, últimos 14 dias":"Focus minutes, last 14 days","Tarefas concluídas, últimos 14 dias":"Tasks completed, last 14 days","Hábitos: histórico":"Habits: history","Sem hábitos.":"No habits.",
+"😄 Ótimo":"😄 Great","🙂 Bem":"🙂 Good","😐 Normal":"😐 Okay","😕 Ruim":"😕 Bad","😢 Péssimo":"😢 Awful","Como foi o seu dia?":"How was your day?","Salvar nota":"Save entry","Buscar nas notas":"Search entries","notas":"entries","nos últimos 7 dias":"in the last 7 days","humor médio (1–5)":"average mood (1–5)","Nenhuma nota encontrada.":"No entries found.",
+"✓ Salvo em data/dados.json":"✓ Saved to data/dados.json","⚠ Servidor off: salvo só neste navegador. Rode python server.py":"⚠ Server off: saved in this browser only. Run python server.py","🌙 Tema escuro":"🌙 Dark theme","☀ Tema claro":"☀ Light theme",
+"Sálvia":"Sage","Areia":"Sand","Céu":"Sky","Lavanda":"Lavender","Rosé":"Rosé","Floresta":"Forest","Meia-noite":"Midnight","Grafite":"Graphite","Ameixa":"Plum","Oceano":"Ocean",
+"Idioma":"Language","Aparência":"Appearance","Temas claros":"Light themes","Temas escuros":"Dark themes","Escolher um tema muda para o modo claro ou escuro dele. O botão no topo alterna entre o seu tema claro e o seu tema escuro.":"Picking a theme switches to its light or dark mode. The button at the top toggles between your light theme and your dark theme.",
+"Criar tema personalizado":"Create custom theme","Nome do tema":"Theme name","Claro":"Light","Escuro":"Dark","Fundo":"Background","Cartões":"Cards","Texto":"Text","Destaque":"Accent","Bordas":"Borders","Exemplo de cartão":"Sample card","Criar tema":"Create theme","Remover tema":"Remove theme",
+"Visualização":"Display","Tamanho da fonte":"Font size","Aba inicial":"Start tab","Período do mapa de hábitos":"Habit map period","3 meses":"3 months","6 meses":"6 months","12 meses":"12 months","Semana começa em":"Week starts on","Tamanho das células":"Cell size","Mostrar rótulos de meses e dias":"Show month and day labels","Tocar um bip quando o timer terminar":"Play a beep when the timer ends",
+"Pequena":"Small","Grande":"Large","Pequeno":"Small","Médio":"Medium","Domingo":"Sunday","Segunda-feira":"Monday"};
+const _=s=>LANG=='en'?(EN[s]??s):s;
+function trDom(){const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;
+  while(n=w.nextNode()){if(n.parentNode.closest('script,style'))continue;if(n.__o===undefined)n.__o=n.nodeValue;const k=n.__o.trim();if(k)n.nodeValue=n.__o.replace(k,()=>_(k))}
+  $$('[placeholder],[title],[aria-label]').forEach(el=>['placeholder','title','aria-label'].forEach(a=>{if(!el.hasAttribute(a))return;el.__a??={};el.__a[a]??=el.getAttribute(a);el.setAttribute(a,_(el.__a[a]))}))}
+
+/* ---------- temas: [fundo, cartões, texto, destaque, bordas] ---------- */
+const PRE={salvia:{n:'Sálvia',m:'light',c:['#e3ebe3','#f4f8f3','#17281f','#d9432b','#c4d2c8']},areia:{n:'Areia',m:'light',c:['#efe7da','#faf6ee','#2e2416','#c2571a','#d8ccb8']},
+ ceu:{n:'Céu',m:'light',c:['#e2edf7','#f5f9fd','#14263a','#2a6fdb','#bfd3e6']},lavanda:{n:'Lavanda',m:'light',c:['#ebe6f4','#f8f6fc','#251a3a','#7b3fd1','#d3c9e6']},rose:{n:'Rosé',m:'light',c:['#f6e6e9','#fdf6f7','#3a1a22','#d03a68','#e6c9d0']},
+ floresta:{n:'Floresta',m:'dark',c:['#0f1913','#17241d','#e4efe7','#ff6a4d','#2c3f34']},meianoite:{n:'Meia-noite',m:'dark',c:['#0e1220','#161c30','#e3e8f7','#5b8cff','#29314f']},grafite:{n:'Grafite',m:'dark',c:['#161616','#202020','#ededed','#f5b942','#333333']},
+ ameixa:{n:'Ameixa',m:'dark',c:['#1c1224','#261a31','#f0e6f7','#e86bd0','#3d2c4b']},oceano:{n:'Oceano',m:'dark',c:['#0b1a1f','#11262d','#dff2f2','#2ed3b7','#1f3b44']}};
+const allThemes=()=>({...PRE,...Object.fromEntries((S.themes||[]).map(x=>[x.id,{...x,custom:1}]))});
+function tema(){const s=S.settings,m=s.theme=='dark'?'dark':'light',A=allThemes(),th=A[s[m=='dark'?'td':'tl']]||A[m=='dark'?'floresta':'salvia'],r=document.documentElement,v=(k,x)=>r.style.setProperty('--'+k,x);
+  ['bg','p','tx','ac','ln'].forEach((k,i)=>v(k,th.c[i]));
+  v('mu','color-mix(in srgb,var(--tx) 62%,var(--bg))');v('p2','color-mix(in srgb,var(--p) 90%,var(--tx))');v('cell','color-mix(in srgb,var(--bg) 84%,var(--tx))');
+  v('inp',m=='dark'?'color-mix(in srgb,var(--p) 85%,var(--bg))':'color-mix(in srgb,var(--p) 50%,#fff)');
+  r.dataset.theme=m;$('#theme').textContent=m=='dark'?_('☀ Tema claro'):_('🌙 Tema escuro')}
+function aplicar(){const s=S.settings;LANG=s.lang=='en'?'en':'pt';LOC=LANG=='en'?'en-US':'pt-BR';document.documentElement.lang=LANG=='en'?'en':'pt-BR';
+  document.documentElement.style.setProperty('--fs',s.fs+'px');tema()}
+
+/* ---------- dados ---------- */
 let S,tab='pomodoro',P={mode:'focus',left:0,run:false,end:0,cycle:0,task:null};
-const DEF=()=>({settings:{focus:25,short:5,long:15,cycles:4,theme:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'},tasks:[],diary:[],stats:{days:{}},
+const stl=k=>_({pendente:'Pendente',andamento:'Em andamento',feito:'Feito'}[k]),NEXT={pendente:'andamento',andamento:'feito',feito:'pendente'};
+const MOODS={1:'😢',2:'😕',3:'😐',4:'🙂',5:'😄'};
+const DEF=()=>({settings:{focus:25,short:5,long:15,cycles:4,theme:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light',tl:'salvia',td:'floresta',lang:'pt',fs:15,tab0:'pomodoro',hm:12,ws:0,cs:12,lbl:true,snd:true},
+  tasks:[],diary:[],themes:[],stats:{days:{}},
   habits:[{id:uid(),name:'Estudar',type:'time',goal:120,unit:'min',color:'#3b82c4',log:{}},{id:uid(),name:'Beber água',type:'count',goal:8,unit:'copos',color:'#2f9e6b',log:{}}]});
 const day=(d=today())=>S.stats.days[d]??={pomos:0,focusMin:0,tasksDone:0};
 const val=(h,d)=>h.log[d]||0;
 const dur=m=>S.settings[m]*60;
-
-/* ---------- armazenamento ---------- */
 async function load(){
   let d=null;
   try{const r=await fetch('/api/data');if(!r.ok)throw 0;d=await r.json();if(!Object.keys(d).length)d=null}
   catch(e){try{d=JSON.parse(localStorage.getItem('rotina'))}catch(e){}}
-  const f=DEF();S=Object.assign(f,d||{});S.settings=Object.assign(f.settings,S.settings);
+  S=Object.assign(DEF(),d||{});S.settings=Object.assign(DEF().settings,d?.settings);S.themes||=[];
 }
 function streak(h){let d=new Date(),n=0;if(val(h,iso(d))<h.goal)d.setDate(d.getDate()-1);while(val(h,iso(d))>=h.goal){n++;d.setDate(d.getDate()-1)}return n}
 function best(h){let b=0,c=0,p=null;for(const d of Object.keys(h.log).filter(k=>h.log[k]>=h.goal).sort()){c=p&&new Date(d)-new Date(p)==864e5?c+1:1;b=Math.max(b,c);p=d}return b}
 function summ(){const D=Object.values(S.stats.days);S.stats.resumo={atualizadoEm:new Date().toISOString(),pomodoros:sum(D,'pomos'),minutosFoco:sum(D,'focusMin'),
-  tarefasFeitas:S.tasks.filter(t=>t.status=='feito').length,tarefasAbertas:S.tasks.filter(t=>t.status!='feito').length,notasDiario:S.diary.length,
+  tarefasFeitas:S.tasks.filter(k=>k.status=='feito').length,tarefasAbertas:S.tasks.filter(k=>k.status!='feito').length,notasDiario:S.diary.length,
   habitos:Object.fromEntries(S.habits.map(h=>[h.name,{tipo:h.type,meta:h.goal,total:Object.values(h.log).reduce((a,b)=>a+b,0),diasMetaBatida:Object.values(h.log).filter(v=>v>=h.goal).length,sequenciaAtual:streak(h),melhorSequencia:best(h)}]))}}
 let tm;
 function save(){summ();localStorage.setItem('rotina',JSON.stringify(S));clearTimeout(tm);
-  tm=setTimeout(async()=>{try{const r=await fetch('/api/data',{method:'POST',body:JSON.stringify(S)});if(!r.ok)throw 0;$('#sv').textContent='✓ Salvo em data/dados.json'}
-  catch(e){$('#sv').textContent='⚠ Servidor off: salvo só neste navegador. Rode python server.py'}},300)}
+  tm=setTimeout(async()=>{try{const r=await fetch('/api/data',{method:'POST',body:JSON.stringify(S)});if(!r.ok)throw 0;$('#sv').textContent=_('✓ Salvo em data/dados.json')}
+  catch(e){$('#sv').textContent=_('⚠ Servidor off: salvo só neste navegador. Rode python server.py')}},300)}
 
 /* ---------- pomodoro ---------- */
 function beep(){try{const c=new AudioContext(),o=c.createOscillator();o.connect(c.destination);o.frequency.value=880;o.start();o.stop(c.currentTime+.6)}catch(e){}}
-function pv(){const m=Math.floor(P.left/60),s=P.left%60,t=String(m).padStart(2,0)+':'+String(s).padStart(2,0);
-  $('#clock').textContent=t;document.title=P.run?t+' · Rotina':'Rotina';$('#go').textContent=P.run?'Pausar':'Iniciar';
+function pv(){const m=Math.floor(P.left/60),s=P.left%60,x=String(m).padStart(2,0)+':'+String(s).padStart(2,0);
+  $('#clock').textContent=x;document.title=P.run?x+' · Rotina':'Rotina';$('#go').textContent=P.run?_('Pausar'):_('Iniciar');
   $$('#modes button').forEach(b=>b.classList.toggle('on',b.dataset.m==P.mode));$('#ring').style.setProperty('--pg',(1-P.left/dur(P.mode))*360+'deg')}
-function ptask(){const k=S.tasks.find(x=>x.id==P.task);$('#ptask').innerHTML=k?`<span>Tarefa: <b>${esc(k.title)}</b></span><button class="btn sm" data-act="unlink">Desvincular</button>`:'<span class="mu">Nenhuma tarefa vinculada (inicie uma pela aba Tarefas)</span>'}
+function ptask(){const k=S.tasks.find(x=>x.id==P.task);$('#ptask').innerHTML=k?`<span>${_('Tarefa:')} <b>${esc(k.title)}</b></span><button class="btn sm" data-act="unlink">${_('Desvincular')}</button>`:`<span class="mu">${_('Nenhuma tarefa vinculada (inicie uma pela aba Tarefas)')}</span>`}
 function setMode(m){P.mode=m;P.run=false;P.left=dur(m);pv()}
 function toggle(){if(P.run){P.left=Math.max(0,Math.ceil((P.end-Date.now())/1000));P.run=false}else{P.run=true;P.end=Date.now()+P.left*1000}pv()}
 function next(){P.cycle++;setMode(P.cycle%S.settings.cycles?'short':'long')}
-function fin(){P.run=false;beep();
+function fin(){P.run=false;if(S.settings.snd)beep();
   if(P.mode=='focus'){const m=S.settings.focus,d=day();d.pomos++;d.focusMin+=m;
     const k=S.tasks.find(x=>x.id==P.task);if(k){k.pomos=(k.pomos||0)+1;k.minutes=(k.minutes||0)+m}
     const h=S.habits.find(x=>x.id==$('#phab').value);if(h)h.log[today()]=val(h,today())+m;
@@ -165,82 +220,125 @@ function fin(){P.run=false;beep();
   save();render()}
 setInterval(()=>{if(!P.run)return;P.left=Math.max(0,Math.ceil((P.end-Date.now())/1000));pv();if(!P.left)fin()},250);
 function rPomo(){$$('[data-set]').forEach(i=>i.value=S.settings[i.dataset.set]);
-  const s=$('#phab'),c=s.value;s.innerHTML='<option value="">Não somar a nenhum hábito</option>'+S.habits.filter(h=>h.type=='time').map(h=>`<option value="${h.id}">Somar foco em: ${esc(h.name)}</option>`).join('');s.value=c;
-  ptask();$('#pcount').textContent=`🍅 ${(S.stats.days[today()]||{}).pomos||0} hoje · ciclo ${P.cycle%S.settings.cycles}/${S.settings.cycles}`;pv()}
+  const s=$('#phab'),c=s.value;s.innerHTML=`<option value="">${_('Não somar a nenhum hábito')}</option>`+S.habits.filter(h=>h.type=='time').map(h=>`<option value="${h.id}">${_('Somar foco em:')} ${esc(h.name)}</option>`).join('');s.value=c;
+  ptask();$('#pcount').textContent=`🍅 ${(S.stats.days[today()]||{}).pomos||0} ${_('hoje')} · ${_('ciclo')} ${P.cycle%S.settings.cycles}/${S.settings.cycles}`;pv()}
 
 /* ---------- tarefas ---------- */
-function setSt(t,s){if(!t||t.status==s)return;
-  if(s=='feito'){t.done=today();day().tasksDone++}else if(t.status=='feito'){const d=S.stats.days[t.done];if(d&&d.tasksDone)d.tasksDone--;t.done=null}
-  t.status=s}
-function rTasks(){const f=$('#tf').value,L=S.tasks.filter(t=>f=='todas'||(f=='abertas'?t.status!='feito':t.status==f));
-  $('#tlist').innerHTML=L.map(t=>`<div class="card task ${t.status}" data-id="${t.id}"><div class="tt"><b>${esc(t.title)}</b><span class="chip ${t.status}">${ST[t.status]}</span>${t.pomos?`<span class="mu">🍅 ${t.pomos} · ${t.minutes} min</span>`:''}</div>
-  <div class="row">${t.status!='feito'?`<button class="btn" data-act="start">▶ Começar tarefa</button><button class="btn" data-act="startp">🍅 Começar com pomodoro</button><button class="btn pri" data-act="done">✓ Concluir tarefa</button>`:''}
-  <button class="btn" data-act="cycle">⇄ Mudar estado</button><button class="btn sm" data-act="deltask" aria-label="Excluir">🗑</button></div></div>`).join('')||'<p class="mu">Nenhuma tarefa nesta visão. Adicione uma acima.</p>'}
+function setSt(k,s){if(!k||k.status==s)return;
+  if(s=='feito'){k.done=today();day().tasksDone++}else if(k.status=='feito'){const d=S.stats.days[k.done];if(d&&d.tasksDone)d.tasksDone--;k.done=null}
+  k.status=s}
+function rTasks(){const f=$('#tf').value,L=S.tasks.filter(k=>f=='todas'||(f=='abertas'?k.status!='feito':k.status==f));
+  $('#tlist').innerHTML=L.map(k=>`<div class="card task ${k.status}" data-id="${k.id}"><div class="tt"><b>${esc(k.title)}</b><span class="chip ${k.status}">${stl(k.status)}</span>${k.pomos?`<span class="mu">🍅 ${k.pomos} · ${k.minutes} min</span>`:''}</div>
+  <div class="row">${k.status!='feito'?`<button class="btn" data-act="start">${_('▶ Começar tarefa')}</button><button class="btn" data-act="startp">${_('🍅 Começar com pomodoro')}</button><button class="btn pri" data-act="done">${_('✓ Concluir tarefa')}</button>`:''}
+  <button class="btn" data-act="cycle">${_('⇄ Mudar estado')}</button><button class="btn sm" data-act="deltask" aria-label="${_('Excluir')}">🗑</button></div></div>`).join('')||`<p class="mu">${_('Nenhuma tarefa nesta visão. Adicione uma acima.')}</p>`}
+
+/* ---------- mapa de calor dos hábitos ---------- */
+const lv=(h,v)=>{const r=v/h.goal;return !v?0:r<.34?1:r<.67?2:r<1?3:4};
+const LS=l=>l?`background:color-mix(in srgb,var(--c) ${[0,30,55,80,100][l]}%,var(--cell))`:'';
+function heat(h,ed){const st=S.settings,e=new Date(),tk=today(),ws=st.ws,
+    wn=i=>new Date(2024,0,7+(ws+i)%7).toLocaleDateString(LOC,{weekday:'short'}).replace('.',''),
+    mn=d=>d.toLocaleDateString(LOC,{month:'short'}).replace('.','');
+  const s=new Date(e);s.setMonth(s.getMonth()-st.hm);s.setDate(s.getDate()+1);s.setDate(s.getDate()-(s.getDay()-ws+7)%7);
+  let c='',n=0,tot=0;
+  for(const d=new Date(s);d<=e;){c+=`<b class="ml">${st.lbl&&d.getDate()<=7?mn(d):''}</b>`;
+    for(let i=0;i<7;i++,d.setDate(d.getDate()+1)){if(d>e){c+='<i class="e"></i>';continue}
+      const k=iso(d),v=val(h,k),cl=((ed?'ed ':'')+(k==tk?'td':'')).trim();if(v>=h.goal)n++;tot+=v;
+      c+=`<i ${ed?'data-act="hday" ':''}${cl?`class="${cl}" `:''}data-d="${k}" title="${k}: ${v} ${esc(h.unit)}" style="${LS(lv(h,v))}"></i>`}}
+  const wd='<span></span>'+[0,1,2,3,4,5,6].map(i=>`<span>${st.lbl&&i%2?wn(i):''}</span>`).join('');
+  return `<div class="hmw" style="--cs:${st.cs}px">${st.lbl?`<div class="wd">${wd}</div>`:''}<div class="heatw"><div class="heat">${c}</div></div></div>
+  <div class="hl"><span>${n} ${_('dias com meta batida')} · ${_('melhor sequência')}: ${best(h)} · ${_('total')}: ${tot} ${esc(h.unit)}${ed?' · '+_('Clique em um dia para editar'):''}</span>
+  <span class="lg">${_('Menos')} ${[0,1,2,3,4].map(l=>`<i style="${LS(l)}"></i>`).join('')} ${_('Mais')}</span></div>`}
 
 /* ---------- hábitos ---------- */
-function heat(h){const e=new Date(),s=new Date();s.setDate(s.getDate()-364-e.getDay());let c='';
-  for(let d=new Date(s);d<=e;d.setDate(d.getDate()+1)){const k=iso(d),v=val(h,k),r=v/h.goal,l=!v?0:r<.34?1:r<.67?2:r<1?3:4;
-    c+=`<i title="${k}: ${v} ${esc(h.unit)}" ${l?`style="background:color-mix(in srgb,var(--c) ${[0,30,55,80,100][l]}%,var(--cell))"`:''}></i>`}
-  return `<div class="heatw"><div class="heat">${c}</div></div>`}
 function rHabits(){$('#hlist').innerHTML=S.habits.map(h=>{const v=val(h,today());
-  return `<div class="card" data-id="${h.id}" style="--c:${h.color}"><div class="hh"><div><b style="font:700 18px Georgia,serif">${esc(h.name)}</b><div class="mu">${v}/${h.goal} ${esc(h.unit)} hoje · sequência: ${streak(h)} dias</div></div>
-  <div class="row"><input type="color" value="${h.color}" data-col title="Mudar cor do painel" aria-label="Cor do painel"><button class="btn sm" data-act="delhab" aria-label="Excluir">🗑</button></div></div>
+  return `<div class="card" data-id="${h.id}" style="--c:${h.color}"><div class="hh"><div><b style="font:700 18px Georgia,serif">${esc(h.name)}</b><div class="mu">${v}/${h.goal} ${esc(h.unit)} ${_('hoje')} · ${_('sequência:')} ${streak(h)} ${_('dias')}</div></div>
+  <div class="row"><input type="color" value="${h.color}" data-col title="${_('Mudar cor do painel')}" aria-label="${_('Cor do painel')}"><button class="btn sm" data-act="delhab" aria-label="${_('Excluir')}">🗑</button></div></div>
   <div class="bar"><i style="width:${Math.min(100,v/h.goal*100)}%"></i></div>
-  <div class="row">${h.type=='count'?`<button class="btn" data-act="hminus">−1</button><button class="btn pri" data-act="hplus">+1 ${esc(h.unit)}</button>`:`<input type="number" min="1" value="25" class="amt" aria-label="Minutos"><button class="btn pri" data-act="hadd">+ minutos</button>`}</div>
-  ${heat(h)}</div>`}).join('')||'<p class="mu">Nenhum hábito ainda. Crie o primeiro acima.</p>';
-  $$('.heatw').forEach(x=>x.scrollLeft=x.scrollWidth)}
+  <div class="row">${h.type=='count'?`<button class="btn" data-act="hminus">−1</button><button class="btn pri" data-act="hplus">+1 ${esc(h.unit)}</button>`:`<input type="number" min="1" value="25" class="amt" aria-label="${_('Minutos')}"><button class="btn pri" data-act="hadd">${_('+ minutos')}</button>`}</div>
+  ${heat(h,true)}</div>`}).join('')||`<p class="mu">${_('Nenhum hábito ainda. Crie o primeiro acima.')}</p>`}
 
 /* ---------- dashboard ---------- */
 function rDash(){summ();const r=S.stats.resumo,D=S.stats.days,td=D[today()]||{};
-  const L=[...Array(14)].map((_,i)=>{const d=new Date();d.setDate(d.getDate()-13+i);return iso(d)});
-  const C=[['Pomodoros hoje',td.pomos||0],['Pomodoros no total',r.pomodoros],['Horas de foco',(r.minutosFoco/60).toFixed(1)],['Tarefas feitas',r.tarefasFeitas],['Tarefas abertas',r.tarefasAbertas],['Notas no diário',r.notasDiario],['Melhor sequência',Math.max(0,...S.habits.map(best))+' dias']];
+  const L=[...Array(14)].map((x,i)=>{const d=new Date();d.setDate(d.getDate()-13+i);return iso(d)});
+  const C=[['Pomodoros hoje',td.pomos||0],['Pomodoros no total',r.pomodoros],['Horas de foco',(r.minutosFoco/60).toFixed(1)],['Tarefas feitas',r.tarefasFeitas],['Tarefas abertas',r.tarefasAbertas],['Notas no diário',r.notasDiario],['Melhor sequência',Math.max(0,...S.habits.map(best))+' '+_('dias')]];
   const bars=k=>{const m=Math.max(1,...L.map(x=>(D[x]||{})[k]||0));return `<div class="bars">${L.map(d=>{const v=(D[d]||{})[k]||0;return `<div class="b"><em>${v||''}</em><i style="height:${v/m*110}px"></i><span>${d.slice(8)}</span></div>`}).join('')}</div>`};
-  const hr=S.habits.map(h=>{let n=0;for(let i=0;i<30;i++){const d=new Date();d.setDate(d.getDate()-i);if(val(h,iso(d))>=h.goal)n++}
-    return `<div class="row2"><span>${esc(h.name)}</span><div class="bar" style="--c:${h.color}"><i style="width:${n/30*100}%"></i></div><span class="mu">${n}/30</span></div>`}).join('');
-  $('#dash').innerHTML=`<div class="grid">${C.map(c=>`<div class="card stat"><b>${c[1]}</b>${c[0]}</div>`).join('')}</div>
-  <h2>Minutos de foco, últimos 14 dias</h2><div class="card">${bars('focusMin')}</div>
-  <h2>Tarefas concluídas, últimos 14 dias</h2><div class="card">${bars('tasksDone')}</div>
-  <h2>Hábitos: dias com meta batida (30 dias)</h2><div class="card">${hr||'<span class="mu">Sem hábitos.</span>'}</div>`}
+  const hm=S.habits.map(h=>`<div class="card" style="--c:${h.color}"><b style="font:700 17px Georgia,serif">${esc(h.name)}</b>${heat(h,false)}</div>`).join('')||`<div class="card mu">${_('Sem hábitos.')}</div>`;
+  $('#dash').innerHTML=`<div class="grid">${C.map(c=>`<div class="card stat"><b>${c[1]}</b>${_(c[0])}</div>`).join('')}</div>
+  <h2>${_('Minutos de foco, últimos 14 dias')}</h2><div class="card">${bars('focusMin')}</div>
+  <h2>${_('Tarefas concluídas, últimos 14 dias')}</h2><div class="card">${bars('tasksDone')}</div>
+  <h2>${_('Hábitos: histórico')}</h2>${hm}`}
 
 /* ---------- diário ---------- */
 function rDiary(){const q=$('#dq').value.toLowerCase(),A=S.diary,w=new Date();w.setDate(w.getDate()-6);
   const avg=A.length?(A.reduce((s,x)=>s+x.mood,0)/A.length).toFixed(1):'–';
-  $('#dsum').innerHTML=`<div class="card stat"><b>${A.length}</b>notas</div><div class="card stat"><b>${A.filter(x=>x.date>=iso(w)).length}</b>nos últimos 7 dias</div><div class="card stat"><b>${avg}</b>humor médio (1–5)</div>
+  $('#dsum').innerHTML=`<div class="card stat"><b>${A.length}</b>${_('notas')}</div><div class="card stat"><b>${A.filter(x=>x.date>=iso(w)).length}</b>${_('nos últimos 7 dias')}</div><div class="card stat"><b>${avg}</b>${_('humor médio (1–5)')}</div>
   <div class="card stat"><b style="font-size:20px">${Object.entries(MOODS).reverse().map(([k,e])=>e+' '+A.filter(x=>x.mood==k).length).join('<br>')}</b></div>`;
   const L=[...A].sort((a,b)=>b.date.localeCompare(a.date)||b.ts-a.ts).filter(x=>!q||x.text.toLowerCase().includes(q)||x.date.includes(q));
-  $('#dlist').innerHTML=L.map(x=>`<div class="card entry" data-id="${x.id}"><div class="hh"><span class="mu">${MOODS[x.mood]} ${new Date(x.date+'T00:00').toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</span><button class="btn sm" data-act="deldiary" aria-label="Excluir">🗑</button></div><p>${esc(x.text)}</p></div>`).join('')||'<p class="mu">Nenhuma nota encontrada.</p>'}
+  $('#dlist').innerHTML=L.map(x=>`<div class="card entry" data-id="${x.id}"><div class="hh"><span class="mu">${MOODS[x.mood]} ${new Date(x.date+'T00:00').toLocaleDateString(LOC,{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</span><button class="btn sm" data-act="deldiary" aria-label="${_('Excluir')}">🗑</button></div><p>${esc(x.text)}</p></div>`).join('')||`<p class="mu">${_('Nenhuma nota encontrada.')}</p>`}
+
+/* ---------- configurações ---------- */
+function rCfg(){const s=S.settings,A=allThemes(),cur=A[s[s.theme=='dark'?'td':'tl']]||PRE.salvia;
+  const sel=(k,o,num)=>`<select data-st="${k}"${num?' data-num="1"':''}>${o.map(([v,l])=>`<option value="${v}"${String(s[k])==String(v)?' selected':''}>${l}</option>`).join('')}</select>`;
+  const chk=(k,l)=>`<input type="checkbox" data-st="${k}"${s[k]?' checked':''} aria-label="${l}">`,row=(l,c)=>`<div class="crow"><span>${l}</span>${c}</div>`;
+  const sw=m=>`<div class="sws">${Object.entries(A).filter(([,x])=>x.m==m).map(([id,x])=>`<div class="swc"><button class="sw${s.theme==m&&s[m=='dark'?'td':'tl']==id?' on':''}" data-act="settheme" data-th="${id}"><span class="sp">${[0,1,3,2].map(i=>`<i style="background:${x.c[i]}"></i>`).join('')}</span>${esc(x.custom?x.n:_(x.n))}</button>${x.custom?`<button class="btn sm" data-act="delth" data-th="${id}" aria-label="${_('Remover tema')}">✕</button>`:''}</div>`).join('')}</div>`;
+  const pk=[['bg','Fundo'],['p','Cartões'],['tx','Texto'],['ac','Destaque'],['ln','Bordas']];
+  $('#cfg').innerHTML=`<h2>${_('Idioma')}</h2><div class="card">${row(_('Idioma'),sel('lang',[['pt','Português'],['en','English']]))}</div>
+  <h2>${_('Aparência')}</h2><div class="card"><p class="mu" style="margin-top:0">${_('Escolher um tema muda para o modo claro ou escuro dele. O botão no topo alterna entre o seu tema claro e o seu tema escuro.')}</p>
+    <b>${_('Temas claros')}</b>${sw('light')}<b style="display:block;margin-top:16px">${_('Temas escuros')}</b>${sw('dark')}</div>
+  <h2>${_('Criar tema personalizado')}</h2>
+  <form class="card" id="fth"><div class="row" style="margin-bottom:12px"><input type="text" name="name" placeholder="${_('Nome do tema')}" required><select name="m"><option value="light">${_('Claro')}</option><option value="dark">${_('Escuro')}</option></select></div>
+    <div class="row" style="gap:18px">${pk.map(([k,l],i)=>`<label class="cl">${_(l)}<input type="color" name="${k}" data-cp value="${cur.c[i]}"></label>`).join('')}</div>
+    <div class="pv" id="thpv"><div class="pvc">${_('Exemplo de cartão')} · Aa</div><em></em></div><button class="btn pri">${_('Criar tema')}</button></form>
+  <h2>${_('Visualização')}</h2><div class="card">
+    ${row(_('Tamanho da fonte'),sel('fs',[[14,_('Pequena')],[15,'Normal'],[17,_('Grande')]],1))}
+    ${row(_('Aba inicial'),sel('tab0',[['pomodoro','Pomodoro'],['dashboard','Dashboard'],['tarefas',_('Tarefas')],['habitos',_('Hábitos')],['diario',_('Diário')]]))}
+    ${row(_('Período do mapa de hábitos'),sel('hm',[[3,_('3 meses')],[6,_('6 meses')],[12,_('12 meses')]],1))}
+    ${row(_('Semana começa em'),sel('ws',[[0,_('Domingo')],[1,_('Segunda-feira')]],1))}
+    ${row(_('Tamanho das células'),sel('cs',[[10,_('Pequeno')],[12,_('Médio')],[15,_('Grande')]],1))}
+    ${row(_('Mostrar rótulos de meses e dias'),chk('lbl',_('Mostrar rótulos de meses e dias')))}
+    ${row(_('Tocar um bip quando o timer terminar'),chk('snd',_('Tocar um bip quando o timer terminar')))}</div>`;
+  pvUpd()}
+function pvUpd(){const f=$('#fth');if(!f)return;const g=n=>f.elements[n].value,p=$('#thpv');
+  p.style.cssText=`background:${g('bg')};color:${g('tx')};border:1px solid ${g('ln')}`;p.firstElementChild.style.cssText=`background:${g('p')};border:1px solid ${g('ln')}`;p.lastElementChild.style.background=g('ac')}
 
 /* ---------- núcleo ---------- */
-function render(){({pomodoro:rPomo,dashboard:rDash,tarefas:rTasks,habitos:rHabits,diario:rDiary})[tab]()}
-function go(t){tab=t;$$('.view').forEach(v=>v.classList.toggle('on',v.id=='v-'+t));$$('nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab==t));render()}
-function tema(){const d=S.settings.theme=='dark';document.documentElement.dataset.theme=d?'dark':'light';$('#theme').textContent=d?'☀ Tema claro':'🌙 Tema escuro'}
+function render(){({pomodoro:rPomo,dashboard:rDash,tarefas:rTasks,habitos:rHabits,diario:rDiary,config:rCfg})[tab]();
+  $$('.heatw').forEach(x=>x.scrollLeft=x.scrollWidth);trDom()}
+function go(n){tab=n;$$('.view').forEach(v=>v.classList.toggle('on',v.id=='v-'+n));$$('nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab==n));render()}
 function defaults(){$('#fd [name=date]').value=today()}
-function act(a,id,b){const t=S.tasks.find(x=>x.id==id),h=S.habits.find(x=>x.id==id);
+function act(a,id,b){const tk=S.tasks.find(x=>x.id==id),h=S.habits.find(x=>x.id==id);
   if(a=='toggle')toggle();else if(a=='reset')setMode(P.mode);
   else if(a=='skip'){if(P.mode=='focus')next();else setMode('focus')}
   else if(a=='unlink')P.task=null;
-  else if(a=='start')setSt(t,'andamento');
-  else if(a=='startp'){setSt(t,'andamento');P.task=t.id;setMode('focus');toggle();go('pomodoro')}
-  else if(a=='done')setSt(t,'feito');else if(a=='cycle')setSt(t,NEXT[t.status]);
-  else if(a=='deltask'){if(!confirm('Excluir esta tarefa?'))return;S.tasks=S.tasks.filter(x=>x!=t);if(P.task==id)P.task=null}
+  else if(a=='start')setSt(tk,'andamento');
+  else if(a=='startp'){setSt(tk,'andamento');P.task=tk.id;setMode('focus');toggle();go('pomodoro')}
+  else if(a=='done')setSt(tk,'feito');else if(a=='cycle')setSt(tk,NEXT[tk.status]);
+  else if(a=='deltask'){if(!confirm(_('Excluir esta tarefa?')))return;S.tasks=S.tasks.filter(x=>x!=tk);if(P.task==id)P.task=null}
   else if(a=='hplus')h.log[today()]=val(h,today())+1;
   else if(a=='hminus')h.log[today()]=Math.max(0,val(h,today())-1);
   else if(a=='hadd')h.log[today()]=val(h,today())+(+b.parentNode.querySelector('.amt').value||0);
-  else if(a=='delhab'){if(!confirm('Excluir este hábito e todo o histórico dele?'))return;S.habits=S.habits.filter(x=>x!=h)}
+  else if(a=='hday'){const d=b.dataset.d,v=prompt(`${d} · ${h.name} (${h.unit})`,val(h,d));if(v===null)return;const n=Math.max(0,+v.replace(',','.')||0);if(n)h.log[d]=n;else delete h.log[d]}
+  else if(a=='delhab'){if(!confirm(_('Excluir este hábito e todo o histórico dele?')))return;S.habits=S.habits.filter(x=>x!=h)}
   else if(a=='deldiary')S.diary=S.diary.filter(x=>x.id!=id);
   else if(a=='theme'){S.settings.theme=S.settings.theme=='dark'?'light':'dark';tema()}
+  else if(a=='settheme'){const x=allThemes()[b.dataset.th];S.settings.theme=x.m;S.settings[x.m=='dark'?'td':'tl']=b.dataset.th;tema()}
+  else if(a=='delth'){const i=b.dataset.th;S.themes=S.themes.filter(x=>x.id!=i);if(S.settings.tl==i)S.settings.tl='salvia';if(S.settings.td==i)S.settings.td='floresta';tema()}
   save();render()}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(b)return act(b.dataset.act,b.closest('[data-id]')?.dataset.id,b);
   const n=e.target.closest('[data-tab]');if(n)return go(n.dataset.tab);const m=e.target.closest('[data-m]');if(m)setMode(m.dataset.m)});
 document.addEventListener('submit',e=>{e.preventDefault();const f=e.target,v=Object.fromEntries(new FormData(f));
   if(f.id=='ft')S.tasks.unshift({id:uid(),title:v.title.trim(),status:'pendente',created:today(),pomos:0,minutes:0});
-  else if(f.id=='fh')S.habits.push({id:uid(),name:v.name.trim(),type:v.type,goal:+v.goal||1,unit:v.unit.trim()||(v.type=='time'?'min':'vezes'),color:v.color,log:{}});
+  else if(f.id=='fh')S.habits.push({id:uid(),name:v.name.trim(),type:v.type,goal:+v.goal||1,unit:v.unit.trim()||(v.type=='time'?'min':_('vezes')),color:v.color,log:{}});
   else if(f.id=='fd')S.diary.push({id:uid(),ts:Date.now(),date:v.date,mood:+v.mood,text:v.text.trim()});
+  else if(f.id=='fth'){const id='c'+uid();S.themes.push({id,n:v.name.trim(),m:v.m,c:[v.bg,v.p,v.tx,v.ac,v.ln]});S.settings.theme=v.m;S.settings[v.m=='dark'?'td':'tl']=id;tema()}
   f.reset();defaults();save();render()});
 document.addEventListener('input',e=>{const x=e.target;
   if(x.matches('[data-col]')){const c=x.closest('[data-id]');S.habits.find(k=>k.id==c.dataset.id).color=x.value;c.style.setProperty('--c',x.value);save()}
+  else if(x.matches('[data-cp]'))pvUpd();
   else if(x.id=='tf')rTasks();else if(x.id=='dq')rDiary()});
-document.addEventListener('change',e=>{const x=e.target;if(x.dataset.set){S.settings[x.dataset.set]=Math.max(1,+x.value||1);if(!P.run)P.left=dur(P.mode);save();pv()}});
+document.addEventListener('change',e=>{const x=e.target;
+  if(x.dataset.set){S.settings[x.dataset.set]=Math.max(1,+x.value||1);if(!P.run)P.left=dur(P.mode);save();pv()}
+  else if(x.dataset.st){S.settings[x.dataset.st]=x.type=='checkbox'?x.checked:x.dataset.num?+x.value:x.value;aplicar();save();render()}});
 
-(async()=>{await load();P.left=dur('focus');tema();defaults();go('pomodoro');save()})();
+(async()=>{await load();aplicar();P.left=dur('focus');defaults();go(S.settings.tab0);save()})();
 </script></body></html>
