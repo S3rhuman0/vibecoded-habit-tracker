@@ -78,11 +78,39 @@ form.row input[type=text]{flex:1;min-width:180px}
 @media(min-width:1150px){.pgrid{grid-template-columns:minmax(0,1fr) 340px}.pside{position:sticky;top:110px;max-width:none;margin:0}}
 .bsug{margin-top:12px;padding:10px 12px;background:var(--p2);border-radius:10px}
 #blist{margin-top:10px;max-height:60vh;overflow-y:auto}.bi{display:flex;gap:10px;align-items:center;padding:6px 2px;border-bottom:1px solid var(--ln)}.bi:last-child{border:0}.bi span:first-child{flex:1}.bi .mu{font-size:12px}
+.sub{display:flex;gap:4px;margin-bottom:18px;border-bottom:1px solid var(--ln)}
+.sub button{background:none;border:0;border-bottom:3px solid transparent;padding:6px 14px;font:inherit;color:var(--mu);cursor:pointer}.sub button.on{color:var(--tx);font-weight:700;border-color:var(--ac)}
+.seg{display:flex;border:1.5px solid var(--tx);border-radius:8px;overflow:hidden}.seg button{background:none;border:0;color:var(--tx);padding:7px 14px;font:inherit;cursor:pointer}.seg button.on{background:var(--tx);color:var(--bg)}
+.case{background:var(--p);border:1px solid var(--ln);border-radius:12px;padding:14px 24px 0;margin-bottom:16px}
+.shelf{display:flex;align-items:flex-end;gap:6px;padding:30px 18px 0;border-bottom:12px solid var(--tx);margin-bottom:22px;overflow-x:auto}
+.spine{position:relative;display:flex;align-items:center;justify-content:center;border:0;border-radius:3px 3px 0 0;flex:none;cursor:pointer;padding:0;transition:transform .15s}
+.spine span{writing-mode:vertical-rl;transform:rotate(180deg);font:700 14px Georgia,serif;white-space:nowrap;max-height:calc(100% - 24px);overflow:hidden;text-overflow:ellipsis}
+.spine i{position:absolute;left:0;bottom:0;height:5px;background:currentColor;opacity:.9}
+.spine:hover{transform:translateY(-6px)}.spine.on{transform:translateY(-16px);outline:3px solid var(--ac);outline-offset:2px}
+.spine.addsp{width:46px;height:200px;background:none;border:2px dashed var(--mu);border-bottom:0;color:var(--mu)}
+.det{display:flex;gap:18px;align-items:center}.det.big{flex-direction:column;text-align:center;position:sticky;top:110px}.det.big .row{justify-content:center}
+.mini{width:34px;height:48px;border-radius:2px 5px 5px 2px;flex:none}
+.cov{width:150px;height:210px;border-radius:4px 10px 10px 4px;padding:18px 14px 14px 22px;display:flex;align-items:flex-end;text-align:left;font:700 22px/1.15 Georgia,serif;box-shadow:inset 8px 0 0 rgba(0,0,0,.22),0 6px 14px rgba(0,0,0,.2);overflow:hidden}
+.dinfo{flex:1;min-width:0;display:grid;gap:6px;width:100%}.dt{font:700 20px Georgia,serif}.bar.big{height:8px;margin:2px 0}
+.lgrid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;align-items:start}
+@media(max-width:820px){.lgrid{grid-template-columns:1fr}.det.big{position:static}}
+.rowb{display:flex;align-items:center;gap:14px;width:100%;padding:8px 12px;border-radius:10px;border:1.5px solid transparent;background:none;color:var(--tx);font:inherit;text-align:left;cursor:pointer}
+.rowb:hover{background:var(--p2)}.rowb.on{background:var(--p);border-color:var(--ac)}
+.rowb .m{width:36px;height:50px;border-radius:2px 5px 5px 2px;flex:none}.rt1{flex:1;min-width:0}.rt1 b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rt1 small{color:var(--mu)}
+.rowb .bar{width:110px;margin:0;flex:none}.rowb .chip{width:86px;text-align:center;background:var(--p2);color:var(--tx);flex:none}
+.tb{width:100%;border-collapse:collapse}.tb th,.tb td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--ln)}.tb th{color:var(--mu);font-weight:600;font-size:13px}
+#reader{position:fixed;inset:0;z-index:30;background:var(--bg);display:flex;flex-direction:column}
+.rbar{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;padding:8px 14px;border-bottom:2px solid var(--tx)}
+.rt{max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:700 16px Georgia,serif}
+.rn{display:flex;gap:6px;align-items:center}.rn input{width:70px}.rn b{font:700 18px Georgia,serif;font-variant-numeric:tabular-nums}
+#rview{flex:1;min-height:0;overflow:auto;padding:16px;background:var(--cell)}
+.pdfp{display:block;margin:0 auto;background:#fff;box-shadow:0 4px 18px rgba(0,0,0,.25)}
+#rview iframe{width:100%;height:100%;border:0;display:block;background:#fff}
 </style></head><body>
 <header>
   <h1>Rotina</h1>
   <nav id="nav">
-    <button data-tab="pomodoro">Pomodoro</button><button data-tab="dashboard">Dashboard</button><button data-tab="tarefas">Tarefas</button><button data-tab="habitos">Hábitos</button><button data-tab="diario">Diário</button><button data-tab="config">⚙ Configurações</button>
+    <button data-tab="pomodoro">Pomodoro</button><button data-tab="dashboard">Dashboard</button><button data-tab="tarefas">Tarefas</button><button data-tab="habitos">Hábitos</button><button data-tab="biblioteca">Biblioteca</button><button data-tab="diario">Diário</button><button data-tab="config">⚙ Configurações</button>
   </nav>
   <button class="btn" id="theme" data-act="theme"></button>
   <div id="sv"></div>
@@ -151,6 +179,18 @@ form.row input[type=text]{flex:1;min-width:180px}
 </section>
 
 <section class="view" id="v-config"><div id="cfg"></div></section>
+<section class="view" id="v-biblioteca"><div id="lib"></div></section>
+
+<div id="reader" hidden>
+  <div class="rbar">
+    <button class="btn sm" data-act="rd-close">← Biblioteca</button><b class="rt" id="rtitle"></b>
+    <span class="rn"><button class="btn sm" data-act="rd-prev" aria-label="Página anterior">◀</button><input type="number" id="rpg" min="1" aria-label="Página"><span class="mu" id="rtot"></span><button class="btn sm" data-act="rd-next" aria-label="Próxima página">▶</button></span>
+    <span class="rn"><button class="btn sm" data-act="rd-zm" aria-label="Diminuir zoom">−</button><button class="btn sm" data-act="rd-zf">Ajustar</button><button class="btn sm" data-act="rd-zp" aria-label="Aumentar zoom">+</button></span>
+    <span class="rn"><span class="mu">Leitura</span><b id="rtime">00:00</b><button class="btn sm" id="rdpause" data-act="rd-pause">Pausar</button></span>
+    <span class="rn"><span class="mu" id="rmode"></span><b id="rclock">25:00</b><button class="btn sm" id="rgo" data-act="toggle">Iniciar</button><button class="btn sm" data-act="skip">Pular</button></span>
+  </div>
+  <div id="rview"></div>
+</div>
 
 <script>
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
@@ -178,7 +218,14 @@ const EN={"Tarefas":"Tasks","Hábitos":"Habits","Diário":"Journal","⚙ Configu
 "Visualização":"Display","Tamanho da fonte":"Font size","Aba inicial":"Start tab","Período do mapa de hábitos":"Habit map period","3 meses":"3 months","6 meses":"6 months","12 meses":"12 months","Semana começa em":"Week starts on","Tamanho das células":"Cell size","Mostrar rótulos de meses e dias":"Show month and day labels","Tocar um bip quando o timer terminar":"Play a beep when the timer ends",
 "Pequena":"Small","Grande":"Large","Pequeno":"Small","Médio":"Medium","Domingo":"Sunday","Segunda-feira":"Monday",
 "Ideias para a pausa":"Break ideas","Ideia para a pausa:":"Break idea:","Outra sugestão":"Another idea","Adicione ideias na lista “Ideias para a pausa”.":"Add ideas to the “Break ideas” list.","Nova ideia (ex.: Alongar)":"New idea (e.g. Stretch)","Qualquer pausa":"Any break","Adicionar":"Add","Remover":"Remove","Nenhuma ideia ainda. Adicione a primeira acima.":"No ideas yet. Add the first one above.",
-"Beber um copo de água":"Drink a glass of water","Alongar pescoço, ombros e costas":"Stretch your neck, shoulders and back","Olhar para longe por 20 segundos (descansar os olhos)":"Look into the distance for 20 seconds (rest your eyes)","Respirar fundo 5 vezes":"Take 5 deep breaths","Levantar e andar um pouco":"Stand up and walk around","Organizar a mesa de trabalho":"Tidy up your desk","Fazer um lanche leve":"Have a light snack","Dar uma volta lá fora":"Take a walk outside","Alongar punhos e mãos":"Stretch your wrists and hands","Pegar um pouco de luz natural na janela":"Get some natural light by the window","Ouvir uma música de que você gosta":"Listen to a song you like","Anotar algo bom que aconteceu hoje":"Write down something good that happened today","Restaurar recomendadas":"Restore recommended"};
+"Beber um copo de água":"Drink a glass of water","Alongar pescoço, ombros e costas":"Stretch your neck, shoulders and back","Olhar para longe por 20 segundos (descansar os olhos)":"Look into the distance for 20 seconds (rest your eyes)","Respirar fundo 5 vezes":"Take 5 deep breaths","Levantar e andar um pouco":"Stand up and walk around","Organizar a mesa de trabalho":"Tidy up your desk","Fazer um lanche leve":"Have a light snack","Dar uma volta lá fora":"Take a walk outside","Alongar punhos e mãos":"Stretch your wrists and hands","Pegar um pouco de luz natural na janela":"Get some natural light by the window","Ouvir uma música de que você gosta":"Listen to a song you like","Anotar algo bom que aconteceu hoje":"Write down something good that happened today","Restaurar recomendadas":"Restore recommended",
+"Biblioteca":"Library","← Biblioteca":"← Library","Estante":"Shelf","Estatísticas":"Statistics","Lombadas":"Spines","Lista":"List","Adicionar PDF":"Add PDF","livros":"books","em leitura":"reading",
+"Sua estante está vazia. Adicione um PDF para começar.":"Your shelf is empty. Add a PDF to get started.","página":"page","de":"of","lidos":"read","Continuar leitura":"Continue reading","Ler com pomodoro":"Read with pomodoro","Editar":"Edit","Reabrir":"Reopen","Marcar como lido":"Mark as read",
+"Lendo":"Reading","Lido":"Read","Quero ler":"Want to read","Buscar na estante":"Search the shelf","Nenhum livro encontrado.":"No books found.","Tempo de leitura":"Reading time","Lido hoje":"Read today","Páginas lidas":"Pages read","Páginas por hora":"Pages per hour",
+"Livros na estante":"Books on the shelf","Em leitura":"In progress","Livros lidos":"Books read","Tempo de leitura, últimos 14 dias (min)":"Reading time, last 14 days (min)","Páginas lidas, últimos 14 dias":"Pages read, last 14 days","Por livro":"By book","Livro":"Book","Tempo":"Time","Progresso":"Progress",
+"Título:":"Title:","Autor (opcional):":"Author (optional):","Total de páginas (0 = automático):":"Total pages (0 = automatic):","Remover este livro? O PDF também será apagado da pasta livros/.":"Remove this book? The PDF will also be deleted from the livros/ folder.",
+"Não foi possível enviar o PDF. Rode python server.py e abra o site por http://localhost:8000.":"Could not upload the PDF. Run python server.py and open the site at http://localhost:8000.",
+"Página anterior":"Previous page","Próxima página":"Next page","Página":"Page","Diminuir zoom":"Zoom out","Aumentar zoom":"Zoom in","Ajustar":"Fit","Leitura":"Reading","Retomar":"Resume"};
 const _=s=>LANG=='en'?(EN[s]??s):s;
 function trDom(){const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;
   while(n=w.nextNode()){if(n.parentNode.closest('script,style'))continue;if(n.__o===undefined)n.__o=n.nodeValue;const k=n.__o.trim();if(k)n.nodeValue=n.__o.replace(k,()=>_(k))}
@@ -202,11 +249,11 @@ function aplicar(){const s=S.settings;LANG=s.lang=='en'?'en':'pt';LOC=LANG=='en'
 let S,tab='pomodoro',P={mode:'focus',left:0,run:false,end:0,cycle:0,task:null,sug:null};
 const stl=k=>_({pendente:'Pendente',andamento:'Em andamento',feito:'Feito'}[k]),NEXT={pendente:'andamento',andamento:'feito',feito:'pendente'};
 const MOODS={1:'😢',2:'😕',3:'😐',4:'🙂',5:'😄'};
-const DEF=()=>({settings:{focus:25,short:5,long:15,cycles:4,theme:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light',tl:'salvia',td:'floresta',lang:'pt',fs:15,tab0:'pomodoro',hm:12,ws:0,cs:12,lbl:true,snd:true},
-  tasks:[],diary:[],themes:[],stats:{days:{}},
+const DEF=()=>({settings:{focus:25,short:5,long:15,cycles:4,theme:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light',tl:'salvia',td:'floresta',lang:'pt',fs:15,tab0:'pomodoro',shelf:'a',hm:12,ws:0,cs:12,lbl:true,snd:true},
+  tasks:[],diary:[],themes:[],books:[],stats:{days:{}},
   breaksV:2,breaks:[['Beber um copo de água','any'],['Alongar pescoço, ombros e costas','any'],['Olhar para longe por 20 segundos (descansar os olhos)','short'],['Respirar fundo 5 vezes','short'],['Levantar e andar um pouco','any'],['Organizar a mesa de trabalho','short'],['Fazer um lanche leve','long'],['Dar uma volta lá fora','long'],['Alongar punhos e mãos','short'],['Pegar um pouco de luz natural na janela','any'],['Ouvir uma música de que você gosta','long'],['Anotar algo bom que aconteceu hoje','long']].map(([text,kind],i)=>({id:'b'+i,text,kind})),
   habits:[{id:uid(),name:'Estudar',type:'time',goal:120,unit:'min',color:'#3b82c4',log:{}},{id:uid(),name:'Beber água',type:'count',goal:8,unit:'copos',color:'#2f9e6b',log:{}}]});
-const day=(d=today())=>S.stats.days[d]??={pomos:0,focusMin:0,tasksDone:0};
+const day=(d=today())=>S.stats.days[d]??={pomos:0,focusMin:0,tasksDone:0,readSec:0,readPages:0};
 const val=(h,d)=>h.log[d]||0;
 const dur=m=>S.settings[m]*60;
 async function load(){
@@ -219,7 +266,7 @@ async function load(){
 function streak(h){let d=new Date(),n=0;if(val(h,iso(d))<h.goal)d.setDate(d.getDate()-1);while(val(h,iso(d))>=h.goal){n++;d.setDate(d.getDate()-1)}return n}
 function best(h){let b=0,c=0,p=null;for(const d of Object.keys(h.log).filter(k=>h.log[k]>=h.goal).sort()){c=p&&new Date(d)-new Date(p)==864e5?c+1:1;b=Math.max(b,c);p=d}return b}
 function summ(){const D=Object.values(S.stats.days);S.stats.resumo={atualizadoEm:new Date().toISOString(),pomodoros:sum(D,'pomos'),minutosFoco:sum(D,'focusMin'),
-  tarefasFeitas:S.tasks.filter(k=>k.status=='feito').length,tarefasAbertas:S.tasks.filter(k=>k.status!='feito').length,notasDiario:S.diary.length,
+  tarefasFeitas:S.tasks.filter(k=>k.status=='feito').length,tarefasAbertas:S.tasks.filter(k=>k.status!='feito').length,notasDiario:S.diary.length,biblioteca:(()=>{const B=S.books||[];return{livros:B.length,lendo:B.filter(b=>bst(b)=='lendo').length,lidos:B.filter(b=>b.done).length,segundosLeitura:sum(D,'readSec'),paginasLidas:sum(D,'readPages')}})(),
   habitos:Object.fromEntries(S.habits.map(h=>[h.name,{tipo:h.type,meta:h.goal,total:Object.values(h.log).reduce((a,b)=>a+b,0),diasMetaBatida:Object.values(h.log).filter(v=>v>=h.goal).length,sequenciaAtual:streak(h),melhorSequencia:best(h)}]))}}
 let tm;
 function save(){summ();localStorage.setItem('rotina',JSON.stringify(S));clearTimeout(tm);
@@ -230,6 +277,7 @@ function save(){summ();localStorage.setItem('rotina',JSON.stringify(S));clearTim
 function beep(){try{const c=new AudioContext(),o=c.createOscillator();o.connect(c.destination);o.frequency.value=880;o.start();o.stop(c.currentTime+.6)}catch(e){}}
 function pv(){const m=Math.floor(P.left/60),s=P.left%60,x=String(m).padStart(2,0)+':'+String(s).padStart(2,0);
   $('#clock').textContent=x;document.title=P.run?x+' · Rotina':'Rotina';$('#go').textContent=P.run?_('Pausar'):_('Iniciar');
+  $('#rgo').textContent=P.run?_('Pausar'):_('Iniciar');$('#rclock').textContent=x;$('#rmode').textContent=_({focus:'Foco',short:'Pausa curta',long:'Pausa longa'}[P.mode]);
   $$('#modes button').forEach(b=>b.classList.toggle('on',b.dataset.m==P.mode));$('#ring').style.setProperty('--pg',(1-P.left/dur(P.mode))*360+'deg')}
 function ptask(){const k=S.tasks.find(x=>x.id==P.task);$('#ptask').innerHTML=k?`<span>${_('Tarefa:')} <b>${esc(k.title)}</b></span><button class="btn sm" data-act="unlink">${_('Desvincular')}</button>`:`<span class="mu">${_('Nenhuma tarefa vinculada (inicie uma pela aba Tarefas)')}</span>`}
 function setMode(m){P.mode=m;P.run=false;P.left=dur(m);if(m!='focus')pickBreak();pv();rBreak()}
@@ -292,7 +340,7 @@ function rHabits(){$('#hlist').innerHTML=S.habits.map(h=>{const v=val(h,today())
 /* ---------- dashboard ---------- */
 function rDash(){summ();const r=S.stats.resumo,D=S.stats.days,td=D[today()]||{};
   const L=[...Array(14)].map((x,i)=>{const d=new Date();d.setDate(d.getDate()-13+i);return iso(d)});
-  const C=[['Pomodoros hoje',td.pomos||0],['Pomodoros no total',r.pomodoros],['Horas de foco',(r.minutosFoco/60).toFixed(1)],['Tarefas feitas',r.tarefasFeitas],['Tarefas abertas',r.tarefasAbertas],['Notas no diário',r.notasDiario],['Melhor sequência',Math.max(0,...S.habits.map(best))+' '+_('dias')]];
+  const C=[['Pomodoros hoje',td.pomos||0],['Pomodoros no total',r.pomodoros],['Horas de foco',(r.minutosFoco/60).toFixed(1)],['Tarefas feitas',r.tarefasFeitas],['Tarefas abertas',r.tarefasAbertas],['Notas no diário',r.notasDiario],['Tempo de leitura',fmtT(r.biblioteca.segundosLeitura)],['Páginas lidas',r.biblioteca.paginasLidas],['Melhor sequência',Math.max(0,...S.habits.map(best))+' '+_('dias')]];
   const bars=k=>{const m=Math.max(1,...L.map(x=>(D[x]||{})[k]||0));return `<div class="bars">${L.map(d=>{const v=(D[d]||{})[k]||0;return `<div class="b"><em>${v||''}</em><i style="height:${v/m*110}px"></i><span>${d.slice(8)}</span></div>`}).join('')}</div>`};
   const hm=S.habits.map(h=>`<div class="card" style="--c:${h.color}"><b style="font:700 17px Georgia,serif">${esc(h.name)}</b>${heat(h,false)}</div>`).join('')||`<div class="card mu">${_('Sem hábitos.')}</div>`;
   $('#dash').innerHTML=`<div class="grid">${C.map(c=>`<div class="card stat"><b>${c[1]}</b>${_(c[0])}</div>`).join('')}</div>
@@ -307,6 +355,93 @@ function rDiary(){const q=$('#dq').value.toLowerCase(),A=S.diary,w=new Date();w.
   <div class="card stat"><b style="font-size:20px">${Object.entries(MOODS).reverse().map(([k,e])=>e+' '+A.filter(x=>x.mood==k).length).join('<br>')}</b></div>`;
   const L=[...A].sort((a,b)=>b.date.localeCompare(a.date)||b.ts-a.ts).filter(x=>!q||x.text.toLowerCase().includes(q)||x.date.includes(q));
   $('#dlist').innerHTML=L.map(x=>`<div class="card entry" data-id="${x.id}"><div class="hh"><span class="mu">${MOODS[x.mood]} ${new Date(x.date+'T00:00').toLocaleDateString(LOC,{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</span><button class="btn sm" data-act="deldiary" aria-label="${_('Excluir')}">🗑</button></div><p>${esc(x.text)}</p></div>`).join('')||`<p class="mu">${_('Nenhuma nota encontrada.')}</p>`}
+
+/* ---------- biblioteca ---------- */
+const BC=[['#2a62a0','#fff'],['#1f7a52','#fff'],['#c23a22','#fff'],['#6a35b8','#fff'],['#e0a21a','#17281f'],['#3d4a63','#fff'],['#1d6f77','#fff'],['#8a4b14','#fff']];
+const PLUS='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true" style="vertical-align:-3px"><path d="M12 5v14M5 12h14"/></svg>';
+let LB={sel:null,sub:'estante'},R=null,PJ;
+const hash=s=>[...s].reduce((a,c)=>a+c.charCodeAt(0),0);
+const pct=b=>b.done?100:b.pages?Math.round(Math.min(100,b.page/b.pages*100)):0;
+const bst=b=>b.done?'lido':(b.readSec>0||b.page>1)?'lendo':'quero';
+const bstl=b=>_({lido:'Lido',lendo:'Lendo',quero:'Quero ler'}[bst(b)]);
+const fmtT=s=>s>=3600?`${Math.floor(s/3600)}h ${Math.floor(s%3600/60)}min`:`${Math.floor(s/60)} min`;
+const fmtC=s=>{const h=Math.floor(s/3600),m=Math.floor(s%3600/60);return(h?h+':'+String(m).padStart(2,0):m)+':'+String(s%60).padStart(2,0)};
+const lastN=n=>[...Array(n)].map((x,i)=>{const d=new Date();d.setDate(d.getDate()-(n-1)+i);return iso(d)});
+function barsOf(k,f=x=>x){const D=S.stats.days,L=lastN(14),m=Math.max(1,...L.map(x=>f((D[x]||{})[k]||0)));
+  return `<div class="bars">${L.map(d=>{const v=f((D[d]||{})[k]||0);return `<div class="b"><em>${v||''}</em><i style="height:${v/m*110}px"></i><span>${d.slice(8)}</span></div>`}).join('')}</div>`}
+const selBook=()=>S.books.find(b=>b.id==LB.sel)||[...S.books].sort((a,b)=>(b.last||0)-(a.last||0))[0];
+
+function rLib(){const n=S.books.length,m=S.books.filter(b=>bst(b)=='lendo').length,sh=S.settings.shelf=='c'?'c':'a',sub=LB.sub;
+  const tabs=[['estante','Estante'],['stats','Estatísticas']].map(([k,l])=>`<button class="${sub==k?'on':''}" data-act="lsub" data-v="${k}">${_(l)}</button>`).join('');
+  const mode=sub=='estante'?`<div class="seg" role="group">${[['a','Lombadas'],['c','Lista']].map(([k,l])=>`<button class="${sh==k?'on':''}" data-act="shelfmode" data-v="${k}">${_(l)}</button>`).join('')}</div>`:'';
+  $('#lib').innerHTML=`<div class="hh" style="align-items:flex-end;flex-wrap:wrap;margin-bottom:14px"><div><h2 style="margin:0">${_('Biblioteca')}</h2><div class="mu">${n} ${_('livros')} · ${m} ${_('em leitura')}</div></div>
+  <div class="row">${mode}<label class="btn pri">${PLUS} ${_('Adicionar PDF')}<input type="file" accept="application/pdf" multiple hidden data-pdf></label></div></div>
+  <div class="sub">${tabs}</div>`+(sub=='estante'?(sh=='a'?shelfA():shelfC()):rLibStats())}
+
+function spine(b){const c=BC[b.color%BC.length],w=Math.max(36,Math.min(58,30+Math.round((b.pages||150)/14))),h=170+hash(b.id)%61;
+  return `<button class="spine${LB.sel==b.id?' on':''}" data-act="bsel" data-id="${b.id}" style="width:${w}px;height:${h}px;background:${c[0]};color:${c[1]}" title="${esc(b.title)}"><span>${esc(b.title)}</span><i style="width:${pct(b)}%"></i></button>`}
+function shelfA(){const sb=selBook();if(sb)LB.sel=sb.id;
+  const it=[...S.books.map(spine),`<label class="spine addsp" title="${_('Adicionar PDF')}">${PLUS}<input type="file" accept="application/pdf" multiple hidden data-pdf></label>`],rows=[];
+  for(let i=0;i<it.length;i+=14)rows.push(it.slice(i,i+14));
+  return `<div class="case">${rows.map(r=>`<div class="shelf">${r.join('')}</div>`).join('')}</div>${sb?bDetail(sb,false):`<p class="mu">${_('Sua estante está vazia. Adicione um PDF para começar.')}</p>`}`}
+function bDetail(b,big){const c=BC[b.color%BC.length],p=pct(b);
+  return `<div class="card det${big?' big':''}" data-id="${b.id}"><div class="${big?'cov':'mini'}" style="background:${c[0]};color:${c[1]}">${big?esc(b.title):''}</div>
+  <div class="dinfo"><div class="dt">${esc(b.title)}</div><div class="mu">${esc(b.author||'')}</div>
+  <div class="mu">${b.pages?`${_('página')} ${b.page} ${_('de')} ${b.pages} · ${p}%`:`${_('página')} ${b.page}`} · ${fmtT(b.readSec||0)} ${_('lidos')} · ${bstl(b)}</div>
+  ${b.pages?`<div class="bar big" style="--c:${c[0]}"><i style="width:${p}%"></i></div>`:''}
+  <div class="row"><button class="btn pri" data-act="bopen">${_('Continuar leitura')}</button><button class="btn" data-act="bpomo">${_('Ler com pomodoro')}</button><button class="btn sm" data-act="bedit">${_('Editar')}</button><button class="btn sm" data-act="bdone">${b.done?_('Reabrir'):_('Marcar como lido')}</button><button class="btn sm" data-act="bdel" aria-label="${_('Excluir')}">🗑</button></div></div></div>`}
+function bRows(){const q=($('#bq')?.value||'').toLowerCase();
+  return S.books.filter(b=>!q||(b.title+' '+(b.author||'')).toLowerCase().includes(q)).map(b=>{const c=BC[b.color%BC.length];
+    return `<button class="rowb${LB.sel==b.id?' on':''}" data-act="bsel" data-id="${b.id}"><span class="m" style="background:${c[0]}"></span><span class="rt1"><b>${esc(b.title)}</b><small>${esc(b.author||'')}</small></span><span class="bar" style="--c:${c[0]}"><i style="width:${pct(b)}%"></i></span><span class="chip">${bstl(b)}</span></button>`}).join('')||`<p class="mu">${_('Nenhum livro encontrado.')}</p>`}
+function shelfC(){const sb=selBook();if(sb)LB.sel=sb.id;
+  return `<div class="lgrid"><div><input id="bq" type="text" placeholder="${_('Buscar na estante')}" aria-label="${_('Buscar na estante')}" style="width:100%;margin-bottom:8px"><div id="brows">${bRows()}</div></div>${sb?bDetail(sb,true):`<p class="mu">${_('Sua estante está vazia. Adicione um PDF para começar.')}</p>`}</div>`}
+function rLibStats(){const D=S.stats.days,V=Object.values(D),tot=sum(V,'readSec'),pg=sum(V,'readPages'),B=S.books;
+  const C=[['Tempo de leitura',fmtT(tot)],['Lido hoje',fmtT((D[today()]||{}).readSec||0)],['Páginas lidas',pg],['Páginas por hora',tot>600?(pg/(tot/3600)).toFixed(1):'–'],['Livros na estante',B.length],['Em leitura',B.filter(b=>bst(b)=='lendo').length],['Livros lidos',B.filter(b=>b.done).length]];
+  return `<div class="grid">${C.map(c=>`<div class="card stat"><b>${c[1]}</b>${_(c[0])}</div>`).join('')}</div>
+  <h2>${_('Tempo de leitura, últimos 14 dias (min)')}</h2><div class="card">${barsOf('readSec',x=>Math.round(x/60))}</div>
+  <h2>${_('Páginas lidas, últimos 14 dias')}</h2><div class="card">${barsOf('readPages')}</div>
+  <h2>${_('Por livro')}</h2><div class="card" style="overflow-x:auto"><table class="tb"><thead><tr><th>${_('Livro')}</th><th>${_('Tempo')}</th><th>${_('Páginas lidas')}</th><th>${_('Progresso')}</th></tr></thead>
+  <tbody>${B.map(b=>`<tr><td>${esc(b.title)}</td><td>${fmtT(b.readSec||0)}</td><td>${b.pagesRead||0}</td><td>${pct(b)}%</td></tr>`).join('')}</tbody></table></div>`}
+
+/* ---------- PDFs e leitor ---------- */
+async function pdfjs(){if(PJ!==undefined)return PJ;
+  try{PJ=await import('/libs/pdfjs/pdf.min.mjs');PJ.GlobalWorkerOptions.workerSrc='/libs/pdfjs/pdf.worker.min.mjs'}catch(e){PJ=null}return PJ}
+const pdfUrl=b=>'/livros/'+encodeURIComponent(b.file);
+async function addPdfs(files){let ok=0;
+  for(const f of files){if(!/\.pdf$/i.test(f.name))continue;let nm;
+    try{const r=await fetch('/api/livros?name='+encodeURIComponent(f.name),{method:'POST',body:f});if(!r.ok)throw 0;nm=(await r.json()).name}
+    catch(e){alert(_('Não foi possível enviar o PDF. Rode python server.py e abra o site por http://localhost:8000.'));break}
+    const b={id:uid(),title:f.name.replace(/\.pdf$/i,''),author:'',file:nm,pages:0,page:1,maxPage:1,pagesRead:0,readSec:0,color:S.books.length%BC.length,added:today(),last:0,done:false};
+    try{const pj=await pdfjs();if(pj){const d=await pj.getDocument(pdfUrl(b)).promise;b.pages=d.numPages;d.destroy()}}catch(e){}
+    S.books.push(b);LB.sel=b.id;ok++}
+  if(ok){save();render()}}
+async function openReader(id){const b=S.books.find(x=>x.id==id);if(!b)return;
+  R={b,doc:null,sec:0,paused:false,tick:0,z:1,rt:0};b.last=Date.now();
+  $('#reader').hidden=false;document.body.style.overflow='hidden';$('#rtitle').textContent=b.title;$('#rtime').textContent='00:00';$('#rdpause').textContent=_('Pausar');$('#rview').innerHTML='';
+  const pj=await pdfjs();
+  if(pj){try{R.doc=await pj.getDocument(pdfUrl(b)).promise;b.pages=R.doc.numPages}catch(e){R.doc=null}}
+  if(R&&R.b==b)await showPage(b.page)}
+async function showPage(n){if(!R)return;const b=R.b,my=++R.rt;n=Math.max(1,Math.min(+n||1,b.pages||+n||1));const box=$('#rview');
+  if(!R.doc){box.innerHTML=`<iframe src="${pdfUrl(b)}#page=${n}" title="PDF"></iframe>`;setPage(n);return}
+  const pg=await R.doc.getPage(n);if(!R||my!=R.rt)return;const v0=pg.getViewport({scale:1}),sc=(box.clientWidth-32)/v0.width*R.z,dpr=window.devicePixelRatio||1,vp=pg.getViewport({scale:sc*dpr}),cv=document.createElement('canvas');
+  cv.width=vp.width;cv.height=vp.height;cv.style.width=vp.width/dpr+'px';cv.style.height=vp.height/dpr+'px';cv.className='pdfp';
+  await pg.render({canvasContext:cv.getContext('2d'),canvas:cv,viewport:vp}).promise;
+  if(!R||my!=R.rt)return;box.replaceChildren(cv);box.scrollTop=0;setPage(n)}
+function setPage(n){const b=R.b;b.page=n;
+  if(n>b.maxPage){const d=n-b.maxPage;if(d<=3){b.pagesRead=(b.pagesRead||0)+d;const dd=day();dd.readPages=(dd.readPages||0)+d}b.maxPage=n}
+  if(b.pages&&n>=b.pages)b.done=true;
+  $('#rpg').value=n;$('#rtot').textContent='/ '+(b.pages||'?');save()}
+function readerAct(a){if(!R)return;const b=R.b;
+  if(a=='rd-close')return closeReader();
+  if(a=='rd-prev')showPage(b.page-1);else if(a=='rd-next')showPage(b.page+1);
+  else if(a=='rd-zp'){R.z=Math.min(4,R.z+.2);showPage(b.page)}else if(a=='rd-zm'){R.z=Math.max(.4,R.z-.2);showPage(b.page)}else if(a=='rd-zf'){R.z=1;showPage(b.page)}
+  else if(a=='rd-pause'){R.paused=!R.paused;$('#rdpause').textContent=R.paused?_('Retomar'):_('Pausar')}}
+function closeReader(){if(!R)return;R=null;$('#reader').hidden=true;document.body.style.overflow='';$('#rview').innerHTML='';save();render()}
+setInterval(()=>{if(!R||R.paused||document.hidden)return;R.sec++;R.b.readSec=(R.b.readSec||0)+1;const d=day();d.readSec=(d.readSec||0)+1;$('#rtime').textContent=fmtC(R.sec);if(++R.tick%15==0)save()},1000);
+document.addEventListener('keydown',e=>{if(!R||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;
+  if(e.key=='ArrowRight'||e.key=='PageDown')readerAct('rd-next');else if(e.key=='ArrowLeft'||e.key=='PageUp')readerAct('rd-prev');else if(e.key=='Escape')closeReader()});
+addEventListener('resize',()=>{if(R&&R.doc){clearTimeout(R.rz);R.rz=setTimeout(()=>R&&showPage(R.b.page),200)}});
+addEventListener('pagehide',()=>{if(!S)return;summ();localStorage.setItem('rotina',JSON.stringify(S));navigator.sendBeacon&&navigator.sendBeacon('/api/data',JSON.stringify(S))});
 
 /* ---------- configurações ---------- */
 function rCfg(){const s=S.settings,A=allThemes(),cur=A[s[s.theme=='dark'?'td':'tl']]||PRE.salvia;
@@ -323,7 +458,7 @@ function rCfg(){const s=S.settings,A=allThemes(),cur=A[s[s.theme=='dark'?'td':'t
     <div class="pv" id="thpv"><div class="pvc">${_('Exemplo de cartão')} · Aa</div><em></em></div><button class="btn pri">${_('Criar tema')}</button></form>
   <h2>${_('Visualização')}</h2><div class="card">
     ${row(_('Tamanho da fonte'),sel('fs',[[14,_('Pequena')],[15,'Normal'],[17,_('Grande')]],1))}
-    ${row(_('Aba inicial'),sel('tab0',[['pomodoro','Pomodoro'],['dashboard','Dashboard'],['tarefas',_('Tarefas')],['habitos',_('Hábitos')],['diario',_('Diário')]]))}
+    ${row(_('Aba inicial'),sel('tab0',[['pomodoro','Pomodoro'],['dashboard','Dashboard'],['tarefas',_('Tarefas')],['habitos',_('Hábitos')],['biblioteca',_('Biblioteca')],['diario',_('Diário')]]))}
     ${row(_('Período do mapa de hábitos'),sel('hm',[[3,_('3 meses')],[6,_('6 meses')],[12,_('12 meses')]],1))}
     ${row(_('Semana começa em'),sel('ws',[[0,_('Domingo')],[1,_('Segunda-feira')]],1))}
     ${row(_('Tamanho das células'),sel('cs',[[10,_('Pequeno')],[12,_('Médio')],[15,_('Grande')]],1))}
@@ -334,11 +469,12 @@ function pvUpd(){const f=$('#fth');if(!f)return;const g=n=>f.elements[n].value,p
   p.style.cssText=`background:${g('bg')};color:${g('tx')};border:1px solid ${g('ln')}`;p.firstElementChild.style.cssText=`background:${g('p')};border:1px solid ${g('ln')}`;p.lastElementChild.style.background=g('ac')}
 
 /* ---------- núcleo ---------- */
-function render(){({pomodoro:rPomo,dashboard:rDash,tarefas:rTasks,habitos:rHabits,diario:rDiary,config:rCfg})[tab]();
+function render(){({pomodoro:rPomo,dashboard:rDash,tarefas:rTasks,habitos:rHabits,diario:rDiary,config:rCfg,biblioteca:rLib})[tab]();
   $$('.heatw').forEach(x=>x.scrollLeft=x.scrollWidth);trDom()}
 function go(n){tab=n;$$('.view').forEach(v=>v.classList.toggle('on',v.id=='v-'+n));$$('nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab==n));render()}
 function defaults(){$('#fd [name=date]').value=today()}
-function act(a,id,b){const tk=S.tasks.find(x=>x.id==id),h=S.habits.find(x=>x.id==id);
+function act(a,id,b){const tk=S.tasks.find(x=>x.id==id),h=S.habits.find(x=>x.id==id),bk=S.books.find(x=>x.id==id);
+  if(a.startsWith('rd-'))return readerAct(a);
   if(a=='toggle')toggle();else if(a=='reset')setMode(P.mode);
   else if(a=='skip'){if(P.mode=='focus')next();else setMode('focus')}
   else if(a=='unlink')P.task=null;
@@ -358,6 +494,17 @@ function act(a,id,b){const tk=S.tasks.find(x=>x.id==id),h=S.habits.find(x=>x.id=
   else if(a=='theme'){S.settings.theme=S.settings.theme=='dark'?'light':'dark';tema()}
   else if(a=='settheme'){const x=allThemes()[b.dataset.th];S.settings.theme=x.m;S.settings[x.m=='dark'?'td':'tl']=b.dataset.th;tema()}
   else if(a=='delth'){const i=b.dataset.th;S.themes=S.themes.filter(x=>x.id!=i);if(S.settings.tl==i)S.settings.tl='salvia';if(S.settings.td==i)S.settings.td='floresta';tema()}
+  else if(a=='lsub')LB.sub=b.dataset.v;
+  else if(a=='shelfmode')S.settings.shelf=b.dataset.v;
+  else if(a=='bsel')LB.sel=id;
+  else if(a=='bopen'){LB.sel=id;openReader(id)}
+  else if(a=='bpomo'){LB.sel=id;openReader(id);setMode('focus');toggle()}
+  else if(a=='bedit'){const t=prompt(_('Título:'),bk.title);if(t===null)return;bk.title=t.trim()||bk.title;
+    const au=prompt(_('Autor (opcional):'),bk.author||'');if(au!==null)bk.author=au.trim();
+    const pg=prompt(_('Total de páginas (0 = automático):'),bk.pages||0);if(pg!==null&&+pg>=0)bk.pages=Math.floor(+pg)}
+  else if(a=='bdone')bk.done=!bk.done;
+  else if(a=='bdel'){if(!confirm(_('Remover este livro? O PDF também será apagado da pasta livros/.')))return;
+    fetch('/api/livros?name='+encodeURIComponent(bk.file),{method:'DELETE'}).catch(()=>{});S.books=S.books.filter(x=>x!=bk);if(LB.sel==id)LB.sel=null}
   save();render()}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(b)return act(b.dataset.act,b.closest('[data-id]')?.dataset.id,b);
   const n=e.target.closest('[data-tab]');if(n)return go(n.dataset.tab);const m=e.target.closest('[data-m]');if(m)setMode(m.dataset.m)});
@@ -371,8 +518,10 @@ document.addEventListener('submit',e=>{e.preventDefault();const f=e.target,v=Obj
 document.addEventListener('input',e=>{const x=e.target;
   if(x.matches('[data-col]')){const c=x.closest('[data-id]');S.habits.find(k=>k.id==c.dataset.id).color=x.value;c.style.setProperty('--c',x.value);save()}
   else if(x.matches('[data-cp]'))pvUpd();
-  else if(x.id=='tf')rTasks();else if(x.id=='dq')rDiary()});
+  else if(x.id=='tf')rTasks();else if(x.id=='dq')rDiary();else if(x.id=='bq')$('#brows').innerHTML=bRows()});
 document.addEventListener('change',e=>{const x=e.target;
+  if(x.dataset.pdf!==undefined){const f=[...x.files];x.value='';addPdfs(f);return}
+  if(x.id=='rpg'){showPage(+x.value||1);return}
   if(x.dataset.set){S.settings[x.dataset.set]=Math.max(1,+x.value||1);if(!P.run)P.left=dur(P.mode);save();pv()}
   else if(x.dataset.st){S.settings[x.dataset.st]=x.type=='checkbox'?x.checked:x.dataset.num?+x.value:x.value;aplicar();save();render()}});
 
