@@ -106,6 +106,10 @@ form.row input[type=text]{flex:1;min-width:180px}
 #rview{flex:1;min-height:0;overflow:auto;padding:16px;background:var(--cell)}
 .pdfp{display:block;margin:0 auto;background:#fff;box-shadow:0 4px 18px rgba(0,0,0,.25)}
 #rview iframe{width:100%;height:100%;border:0;display:block;background:#fff}
+/* modo noite do leitor: inverte as cores da página (fundo escuro suave, texto claro, como no Kindle) e escurece a barra */
+#reader.rdark{color-scheme:dark;color:var(--tx);--bg:#0c0c0c;--p:#171717;--p2:#222;--tx:#e6e6e6;--mu:#9a9a9a;--ln:#333;--cell:#000;--inp:#171717}
+#reader.rdark .pdfp,#reader.rdark #rview iframe{filter:invert(.92) hue-rotate(180deg);box-shadow:none}
+#rdark.on{background:var(--tx);color:var(--bg)}
 #hadet summary{cursor:pointer;font:700 20px Georgia,serif;margin:22px 0 10px}.arq{opacity:.85}
 .hlk{margin-top:8px}.hsel{max-width:100%}
 /* celular: cabeçalho compacto (título + tema na 1ª linha, menu rolável na 2ª) */
@@ -200,6 +204,7 @@ nav button{flex:none;white-space:nowrap;padding:5px 10px;font-size:14px}
     <button class="btn sm" data-act="rd-close">← Biblioteca</button><b class="rt" id="rtitle"></b>
     <span class="rn"><button class="btn sm" data-act="rd-prev" aria-label="Página anterior">◀</button><input type="number" id="rpg" min="1" aria-label="Página"><span class="mu" id="rtot"></span><button class="btn sm" data-act="rd-next" aria-label="Próxima página">▶</button></span>
     <span class="rn"><button class="btn sm" data-act="rd-zm" aria-label="Diminuir zoom">−</button><button class="btn sm" data-act="rd-zf">Ajustar</button><button class="btn sm" data-act="rd-zp" aria-label="Aumentar zoom">+</button></span>
+    <button class="btn sm" id="rdark" data-act="rd-dark" aria-pressed="false" title="Inverter as cores da página (atalho: D)">☾ Modo noite</button>
     <span class="rn"><span class="mu">Leitura</span><b id="rtime">00:00</b><button class="btn sm" id="rdpause" data-act="rd-pause">Pausar</button></span>
     <span class="rn"><span class="mu" id="rmode"></span><b id="rclock">25:00</b><button class="btn sm" id="rgo" data-act="toggle">Iniciar</button><button class="btn sm" data-act="skip">Pular</button></span>
   </div>
@@ -239,7 +244,7 @@ const EN={"Tarefas":"Tasks","Hábitos":"Habits","Diário":"Journal","⚙ Configu
 "Livros na estante":"Books on the shelf","Em leitura":"In progress","Livros lidos":"Books read","Tempo de leitura, últimos 14 dias (min)":"Reading time, last 14 days (min)","Páginas lidas, últimos 14 dias":"Pages read, last 14 days","Por livro":"By book","Livro":"Book","Tempo":"Time","Progresso":"Progress",
 "Título:":"Title:","Autor (opcional):":"Author (optional):","Total de páginas (0 = automático):":"Total pages (0 = automatic):","Remover este livro? O PDF também será apagado da pasta livros/.":"Remove this book? The PDF will also be deleted from the livros/ folder.",
 "Não foi possível enviar o PDF. Rode python server.py e abra o site por http://localhost:8000.":"Could not upload the PDF. Run python server.py and open the site at http://localhost:8000.",
-"Página anterior":"Previous page","Próxima página":"Next page","Página":"Page","Diminuir zoom":"Zoom out","Aumentar zoom":"Zoom in","Ajustar":"Fit","Leitura":"Reading","Retomar":"Resume"};
+"Página anterior":"Previous page","Próxima página":"Next page","Página":"Page","Diminuir zoom":"Zoom out","Aumentar zoom":"Zoom in","Ajustar":"Fit","Leitura":"Reading","Retomar":"Resume","☾ Modo noite":"☾ Night mode","Inverter as cores da página (atalho: D)":"Invert page colors (shortcut: D)"};
 Object.assign(EN,{"páginas":"pages","minutos":"minutes","horas":"hours","segundos":"seconds","copos":"cups","vezes":"times","repetições":"reps","Outra…":"Other…",
 "Unidade de medida":"Unit of measure","Nome da unidade (ex.: km)":"Unit name (e.g. km)","Vincular à leitura":"Link to reading",
 "Não vincular à leitura":"Don't link to reading","Vincular a qualquer leitura":"Link to any reading","Vincular ao livro:":"Link to book:",
@@ -269,7 +274,7 @@ function aplicar(){const s=S.settings;LANG=s.lang=='en'?'en':'pt';LOC=LANG=='en'
 let S,tab='pomodoro',P={mode:'focus',left:0,run:false,end:0,cycle:0,task:null,sug:null};
 const stl=k=>_({pendente:'Pendente',andamento:'Em andamento',feito:'Feito'}[k]),NEXT={pendente:'andamento',andamento:'feito',feito:'pendente'};
 const MOODS={1:'😢',2:'😕',3:'😐',4:'🙂',5:'😄'};
-const DEF=()=>({settings:{focus:25,short:5,long:15,cycles:4,theme:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light',tl:'salvia',td:'floresta',lang:'pt',fs:15,tab0:'pomodoro',shelf:'a',hm:12,ws:0,cs:12,lbl:true,snd:true},
+const DEF=()=>({settings:{focus:25,short:5,long:15,cycles:4,theme:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light',tl:'salvia',td:'floresta',lang:'pt',fs:15,tab0:'pomodoro',shelf:'a',hm:12,ws:0,cs:12,lbl:true,snd:true,rdark:false},
   tasks:[],diary:[],themes:[],books:[],stats:{days:{}},
   breaksV:2,breaks:[['Beber um copo de água','any'],['Alongar pescoço, ombros e costas','any'],['Olhar para longe por 20 segundos (descansar os olhos)','short'],['Respirar fundo 5 vezes','short'],['Levantar e andar um pouco','any'],['Organizar a mesa de trabalho','short'],['Fazer um lanche leve','long'],['Dar uma volta lá fora','long'],['Alongar punhos e mãos','short'],['Pegar um pouco de luz natural na janela','any'],['Ouvir uma música de que você gosta','long'],['Anotar algo bom que aconteceu hoje','long']].map(([text,kind],i)=>({id:'b'+i,text,kind})),
   habits:[{id:uid(),name:'Estudar',type:'time',goal:120,unit:'min',color:'#3b82c4',log:{}},{id:uid(),name:'Beber água',type:'count',goal:8,unit:'copos',color:'#2f9e6b',log:{}}]});
@@ -464,7 +469,7 @@ async function addPdfs(files){let ok=0;
   if(ok){save();render()}}
 async function openReader(id){const b=S.books.find(x=>x.id==id);if(!b)return;
   R={b,doc:null,sec:0,paused:false,tick:0,z:1,rt:0};b.last=Date.now();
-  $('#reader').hidden=false;document.body.style.overflow='hidden';$('#rtitle').textContent=b.title;$('#rtime').textContent='00:00';$('#rdpause').textContent=_('Pausar');$('#rview').innerHTML='';
+  $('#reader').hidden=false;applyRd();document.body.style.overflow='hidden';$('#rtitle').textContent=b.title;$('#rtime').textContent='00:00';$('#rdpause').textContent=_('Pausar');$('#rview').innerHTML='';
   const pj=await pdfjs();
   if(pj){try{R.doc=await pj.getDocument(pdfUrl(b)).promise;b.pages=R.doc.numPages}catch(e){R.doc=null}}
   if(R&&R.b==b)await showPage(b.page)}
@@ -482,11 +487,13 @@ function readerAct(a){if(!R)return;const b=R.b;
   if(a=='rd-close')return closeReader();
   if(a=='rd-prev')showPage(b.page-1);else if(a=='rd-next')showPage(b.page+1);
   else if(a=='rd-zp'){R.z=Math.min(4,R.z+.2);showPage(b.page)}else if(a=='rd-zm'){R.z=Math.max(.4,R.z-.2);showPage(b.page)}else if(a=='rd-zf'){R.z=1;showPage(b.page)}
-  else if(a=='rd-pause'){R.paused=!R.paused;$('#rdpause').textContent=R.paused?_('Retomar'):_('Pausar')}}
+  else if(a=='rd-pause'){R.paused=!R.paused;$('#rdpause').textContent=R.paused?_('Retomar'):_('Pausar')}
+  else if(a=='rd-dark'){S.settings.rdark=!S.settings.rdark;applyRd();save()}}
+function applyRd(){const on=!!S.settings.rdark;$('#reader').classList.toggle('rdark',on);$('#rdark').classList.toggle('on',on);$('#rdark').setAttribute('aria-pressed',on)}
 function closeReader(){if(!R)return;R=null;$('#reader').hidden=true;document.body.style.overflow='';$('#rview').innerHTML='';save();render()}
 setInterval(()=>{if(!R||R.paused||document.hidden)return;R.sec++;R.b.readSec=(R.b.readSec||0)+1;const d=day();d.readSec=(d.readSec||0)+1;linkHab(R.b,'time',1);$('#rtime').textContent=fmtC(R.sec);if(++R.tick%15==0)save()},1000);
 document.addEventListener('keydown',e=>{if(!R||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;
-  if(e.key=='ArrowRight'||e.key=='PageDown')readerAct('rd-next');else if(e.key=='ArrowLeft'||e.key=='PageUp')readerAct('rd-prev');else if(e.key=='Escape')closeReader()});
+  if(e.key=='ArrowRight'||e.key=='PageDown')readerAct('rd-next');else if(e.key=='ArrowLeft'||e.key=='PageUp')readerAct('rd-prev');else if(e.key=='Escape')closeReader();else if((e.key=='d'||e.key=='D')&&!e.ctrlKey&&!e.metaKey&&!e.altKey)readerAct('rd-dark')});
 addEventListener('resize',()=>{if(R&&R.doc){clearTimeout(R.rz);R.rz=setTimeout(()=>R&&showPage(R.b.page),200)}});
 addEventListener('pagehide',()=>{if(!S)return;summ();localStorage.setItem('rotina',JSON.stringify(S));navigator.sendBeacon&&navigator.sendBeacon('/api/data',JSON.stringify(S))});
 
