@@ -1,10 +1,9 @@
 <!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Rotina</title>
+<title>Biblioteca</title>
 <style>
 :root{--bg:#e3ebe3;--p:#f4f8f3;--p2:#e8f0e9;--tx:#17281f;--mu:#5d7066;--ac:#d9432b;--ln:#c4d2c8;--cell:#cfdcd2;--inp:#fff;color-scheme:light}
 :root[data-theme=dark]{color-scheme:dark}
-[data-theme=dark] .chip.pendente{background:#2a3a31;color:#b7cbbd}[data-theme=dark] .chip.andamento{background:#4a3a14;color:#f5c04a}[data-theme=dark] .chip.feito{background:#174a33;color:#6fe0a8}
 [data-theme=dark] .btn.pri{color:#0d0d0d}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--tx);font:var(--fs,15px)/1.5 system-ui,sans-serif}
@@ -23,44 +22,18 @@ nav button.on{color:var(--tx);border-color:var(--ac);font-weight:700}
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .btn{background:var(--p);color:var(--tx);border:1.5px solid var(--tx);border-radius:8px;padding:7px 14px;cursor:pointer;font:inherit;transition:transform .12s,background .12s}
 .btn:hover{background:var(--p2);transform:translateY(-1px)}
-.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,nav button:focus-visible,.sw:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+.btn:focus-visible,input:focus-visible,select:focus-visible,nav button:focus-visible,.sw:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
 .btn.pri{background:var(--ac);border-color:var(--ac);color:#fff;font-weight:600}
 .btn.sm{padding:3px 9px;border-color:var(--ln)}
-input,select,textarea{background:var(--inp);color:var(--tx);border:1px solid var(--ln);border-radius:8px;padding:7px 10px;font:inherit}
+input,select{background:var(--inp);color:var(--tx);border:1px solid var(--ln);border-radius:8px;padding:7px 10px;font:inherit}
 input[type=color]{padding:0;width:38px;height:32px;cursor:pointer}
-input[type=checkbox]{width:20px;height:20px;accent-color:var(--ac)}
-input[type=number]{width:90px}textarea{width:100%;min-height:90px}
-form.row input[type=text]{flex:1;min-width:180px}
-#pomo{display:grid;grid-template-columns:auto 1fr;gap:30px;align-items:center}
-@media(max-width:720px){#pomo{grid-template-columns:1fr;justify-items:center}}
-.ring{width:290px;height:290px;border-radius:50%;background:conic-gradient(var(--ac) var(--pg,0deg),var(--cell) 0);display:grid;place-items:center}
-.ring>div{width:258px;height:258px;border-radius:50%;background:var(--p);display:grid;place-items:center;align-content:center}
-#clock{font:700 62px Georgia,serif;font-variant-numeric:tabular-nums}
-#modes{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
-#modes button{border:1.5px solid var(--ln);background:none;color:var(--tx);border-radius:99px;padding:5px 14px;cursor:pointer;font:inherit}
-#modes button.on{background:var(--tx);color:var(--bg);border-color:var(--tx)}
-.set{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px}.set label{display:grid;gap:3px;font-size:13px;color:var(--mu)}
-.task{border-left:6px solid var(--ln)}.task.andamento{border-left-color:#e0a21a}.task.feito{border-left-color:#2f9e6b;opacity:.75}
-.tt{display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+input[type=number]{width:90px}
 .chip{padding:1px 10px;border-radius:99px;font-size:12px;font-weight:700}
-.chip.pendente{background:#dde5df;color:#4b5d52}.chip.andamento{background:#fbe8b5;color:#7a5200}.chip.feito{background:#c9ecd9;color:#14633f}
 .bar{height:9px;background:var(--cell);border-radius:9px;overflow:hidden;margin:10px 0}.bar i{display:block;height:100%;background:var(--c,var(--ac))}
 .hh{display:flex;justify-content:space-between;gap:10px}
-.hmw{display:flex;gap:6px;padding-top:10px}
-.wd,.heat{display:grid;grid-template-rows:14px repeat(7,var(--cs));gap:3px}
-.wd{flex:none;font-size:10px;color:var(--mu);line-height:var(--cs)}
-.heatw{overflow-x:auto;padding-bottom:4px}
-.heat{grid-auto-flow:column;grid-auto-columns:var(--cs);width:max-content}
-.heat i{display:block;background:var(--cell);border-radius:3px}
-.heat i.e{background:none}.heat i.td{outline:2px solid var(--tx);outline-offset:-1px}.heat i.ed{cursor:pointer}.heat i.ed:hover{outline:2px solid var(--ac);outline-offset:-1px}
-.ml{font:600 10px/14px system-ui;color:var(--mu);white-space:nowrap}
-.hl{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--mu);margin-top:6px}
-.lg{display:flex;align-items:center;gap:3px}.lg i{width:12px;height:12px;border-radius:3px;display:inline-block;background:var(--cell)}
 .bars{display:flex;align-items:flex-end;gap:5px;height:160px}
 .b{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;font-size:11px;color:var(--mu)}
 .b i{width:100%;background:var(--ac);border-radius:4px 4px 0 0;min-height:2px}.b em{font-style:normal}
-.entry .mu{font-size:13px}.entry p{white-space:pre-wrap;margin:6px 0 0}
-.dsum{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-bottom:12px}
 .sws{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:8px}
 .swc{display:flex;gap:4px;align-items:flex-start}
 .sw{flex:1;display:flex;flex-direction:column;gap:6px;align-items:flex-start;background:var(--p);color:var(--tx);border:1.5px solid var(--ln);border-radius:10px;padding:8px;cursor:pointer;font:inherit;text-align:left}
@@ -70,14 +43,6 @@ form.row input[type=text]{flex:1;min-width:180px}
 .cl{display:grid;gap:3px;font-size:12px;color:var(--mu);justify-items:start}
 .pv{display:flex;align-items:center;gap:10px;padding:14px;border-radius:10px;margin:12px 0}.pvc{flex:1;padding:10px;border-radius:8px}.pv em{width:60px;height:26px;border-radius:6px}
 [hidden]{display:none!important}
-#v-pomodoro{max-width:none}
-.pgrid{display:grid;grid-template-columns:minmax(0,1fr);gap:0 24px;align-items:start}
-.pmain,.pside{width:100%;max-width:1000px;margin:0 auto}
-.sh{display:block;font:700 18px Georgia,serif;margin-bottom:10px}
-.pside form.row{display:grid;gap:8px}.pside form.row input[type=text]{min-width:0}
-@media(min-width:1150px){.pgrid{grid-template-columns:minmax(0,1fr) 340px}.pside{position:sticky;top:110px;max-width:none;margin:0}}
-.bsug{margin-top:12px;padding:10px 12px;background:var(--p2);border-radius:10px}
-#blist{margin-top:10px;max-height:60vh;overflow-y:auto}.bi{display:flex;gap:10px;align-items:center;padding:6px 2px;border-bottom:1px solid var(--ln)}.bi:last-child{border:0}.bi span:first-child{flex:1}.bi .mu{font-size:12px}
 .sub{display:flex;gap:4px;margin-bottom:18px;border-bottom:1px solid var(--ln)}
 .sub button{background:none;border:0;border-bottom:3px solid transparent;padding:6px 14px;font:inherit;color:var(--mu);cursor:pointer}.sub button.on{color:var(--tx);font-weight:700;border-color:var(--ac)}
 .seg{display:flex;border:1.5px solid var(--tx);border-radius:8px;overflow:hidden}.seg button{background:none;border:0;color:var(--tx);padding:7px 14px;font:inherit;cursor:pointer}.seg button.on{background:var(--tx);color:var(--bg)}
@@ -110,8 +75,9 @@ form.row input[type=text]{flex:1;min-width:180px}
 #reader.rdark{color-scheme:dark;color:var(--tx);--bg:#0c0c0c;--p:#171717;--p2:#222;--tx:#e6e6e6;--mu:#9a9a9a;--ln:#333;--cell:#000;--inp:#171717}
 #reader.rdark .pdfp,#reader.rdark #rview iframe{filter:invert(.92) hue-rotate(180deg);box-shadow:none}
 #rdark.on{background:var(--tx);color:var(--bg)}
-#hadet summary{cursor:pointer;font:700 20px Georgia,serif;margin:22px 0 10px}.arq{opacity:.85}
-.hlk{margin-top:8px}.hsel{max-width:100%}
+/* meta diária de leitura */
+.gstrip{display:flex;gap:4px;margin-top:10px}.gstrip i{flex:1;max-width:28px;height:14px;border-radius:3px;background:var(--cell)}.gstrip i.td{outline:2px solid var(--tx);outline-offset:-1px}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:10px 18px;border-radius:99px;font-weight:600;z-index:40;box-shadow:0 6px 18px rgba(0,0,0,.3);max-width:90vw;text-align:center}
 /* celular: cabeçalho compacto (título + tema na 1ª linha, menu rolável na 2ª) */
 @media(max-width:720px){
 header{padding:6px 12px;gap:2px 10px}
@@ -124,80 +90,16 @@ nav button{flex:none;white-space:nowrap;padding:5px 10px;font-size:14px}
 }
 </style></head><body>
 <header>
-  <h1>Rotina</h1>
+  <h1>Biblioteca</h1>
   <nav id="nav">
-    <button data-tab="pomodoro">Pomodoro</button><button data-tab="dashboard">Dashboard</button><button data-tab="tarefas">Tarefas</button><button data-tab="habitos">Hábitos</button><button data-tab="biblioteca">Biblioteca</button><button data-tab="diario">Diário</button><button data-tab="config">⚙ Configurações</button>
+    <button data-tab="biblioteca">Livros</button><button data-tab="config">⚙ Configurações</button>
   </nav>
   <button class="btn" id="theme" data-act="theme"></button>
   <div id="sv"></div>
 </header>
 
-<section class="view" id="v-pomodoro"><div class="pgrid"><div class="pmain">
-  <div class="card" id="pomo">
-    <div class="ring" id="ring"><div><span id="clock">25:00</span><span class="mu" id="pcount"></span></div></div>
-    <div>
-      <div id="modes"><button data-m="focus">Foco</button><button data-m="short">Pausa curta</button><button data-m="long">Pausa longa</button></div>
-      <div class="row" style="margin-bottom:14px"><button class="btn pri" id="go" data-act="toggle">Iniciar</button><button class="btn" data-act="reset">Reiniciar</button><button class="btn" data-act="skip">Pular</button></div>
-      <div id="ptask" class="row" style="margin-bottom:10px"></div>
-      <select id="phab" aria-label="Hábito vinculado"></select>
-      <div id="bsug" class="row bsug" hidden></div>
-    </div>
-  </div>
-  <h2>Configurações</h2>
-  <div class="card set">
-    <label>Foco (min)<input type="number" min="1" data-set="focus"></label>
-    <label>Pausa curta (min)<input type="number" min="1" data-set="short"></label>
-    <label>Pausa longa (min)<input type="number" min="1" data-set="long"></label>
-    <label>Focos até a pausa longa<input type="number" min="1" data-set="cycles"></label>
-  </div>
-</div>
-  <aside class="pside"><div class="card">
-    <b class="sh">Ideias para a pausa</b>
-    <form class="row" id="fb"><input type="text" name="text" placeholder="Nova ideia (ex.: Alongar)" required>
-      <select name="kind"><option value="any">Qualquer pausa</option><option value="short">Pausa curta</option><option value="long">Pausa longa</option></select>
-      <button class="btn pri">Adicionar</button></form>
-    <div id="blist"></div>
-    <button class="btn sm" data-act="brestore" style="margin-top:10px">Restaurar recomendadas</button>
-  </div></aside></div>
-</section>
-
-<section class="view" id="v-dashboard"><div id="dash"></div></section>
-
-<section class="view" id="v-tarefas">
-  <form class="card row" id="ft"><input type="text" name="title" placeholder="Nova tarefa" required><button class="btn pri">Adicionar tarefa</button></form>
-  <div class="row" style="margin-bottom:12px"><span class="mu">Mostrar:</span>
-    <select id="tf"><option value="abertas">Abertas</option><option value="pendente">Pendentes</option><option value="andamento">Em andamento</option><option value="feito">Feitas</option><option value="todas">Todas</option></select></div>
-  <div id="tlist"></div>
-</section>
-
-<section class="view" id="v-habitos">
-  <form class="card row" id="fh">
-    <input type="text" name="name" placeholder="Novo hábito (ex.: Ler)" required>
-    <input type="number" name="goal" min="0.01" step="any" value="1" title="Meta diária" aria-label="Meta diária">
-    <select name="unit" id="hunit" title="Unidade de medida" aria-label="Unidade de medida"></select>
-    <input type="text" name="unitc" id="hunitc" placeholder="Nome da unidade (ex.: km)" style="flex:0 1 190px;min-width:140px" hidden>
-    <select name="link" id="hlinkf" class="hsel" title="Vincular à leitura" aria-label="Vincular à leitura"></select>
-    <input type="color" name="color" value="#2f9e6b" title="Cor do painel">
-    <button class="btn pri">Adicionar hábito</button>
-  </form>
-  <div id="hlist"></div>
-  <div id="harch"></div>
-</section>
-
-<section class="view" id="v-diario">
-  <form class="card" id="fd">
-    <div class="row" style="margin-bottom:10px"><input type="date" name="date" required>
-      <select name="mood"><option value="5">😄 Ótimo</option><option value="4" selected>🙂 Bem</option><option value="3">😐 Normal</option><option value="2">😕 Ruim</option><option value="1">😢 Péssimo</option></select></div>
-    <textarea name="text" placeholder="Como foi o seu dia?" required></textarea>
-    <div style="margin-top:10px"><button class="btn pri">Salvar nota</button></div>
-  </form>
-  <div class="dsum" id="dsum"></div>
-  <input type="text" id="dq" placeholder="Buscar nas notas" style="width:100%;margin-bottom:12px">
-  <div id="dlist"></div>
-</section>
-
-<section class="view" id="v-config"><div id="cfg"></div></section>
 <section class="view" id="v-biblioteca"><div id="lib"></div></section>
+<section class="view" id="v-config"><div id="cfg"></div></section>
 
 <div id="reader" hidden>
   <div class="rbar">
@@ -206,7 +108,7 @@ nav button{flex:none;white-space:nowrap;padding:5px 10px;font-size:14px}
     <span class="rn"><button class="btn sm" data-act="rd-zm" aria-label="Diminuir zoom">−</button><button class="btn sm" data-act="rd-zf">Ajustar</button><button class="btn sm" data-act="rd-zp" aria-label="Aumentar zoom">+</button></span>
     <button class="btn sm" id="rdark" data-act="rd-dark" aria-pressed="false" title="Inverter as cores da página (atalho: D)">☾ Modo noite</button>
     <span class="rn"><span class="mu">Leitura</span><b id="rtime">00:00</b><button class="btn sm" id="rdpause" data-act="rd-pause">Pausar</button></span>
-    <span class="rn"><span class="mu" id="rmode"></span><b id="rclock">25:00</b><button class="btn sm" id="rgo" data-act="toggle">Iniciar</button><button class="btn sm" data-act="skip">Pular</button></span>
+    <span class="rn" id="rgoalw" hidden><span class="mu">Meta</span><b id="rgoal"></b></span>
   </div>
   <div id="rview"></div>
 </div>
@@ -216,41 +118,25 @@ const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const iso=d=>d.toLocaleDateString('sv'),today=()=>iso(new Date()),uid=()=>Math.random().toString(36).slice(2,9);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const sum=(a,k)=>a.reduce((s,x)=>s+(x[k]||0),0);
+const fv=v=>+(+v).toFixed(1);  // números sem lixo decimal
 
 /* ---------- idiomas: o texto-base é português; EN traduz ---------- */
 let LANG='pt',LOC='pt-BR';
-const EN={"Tarefas":"Tasks","Hábitos":"Habits","Diário":"Journal","⚙ Configurações":"⚙ Settings","Foco":"Focus","Pausa curta":"Short break","Pausa longa":"Long break","Iniciar":"Start","Pausar":"Pause","Reiniciar":"Reset","Pular":"Skip","Configurações":"Settings",
-"Foco (min)":"Focus (min)","Pausa curta (min)":"Short break (min)","Pausa longa (min)":"Long break (min)","Focos até a pausa longa":"Focuses before long break","Hábito vinculado":"Linked habit","Não somar a nenhum hábito":"Don't add to any habit","Somar foco em:":"Add focus time to:",
-"Tarefa:":"Task:","Desvincular":"Unlink","Nenhuma tarefa vinculada (inicie uma pela aba Tarefas)":"No linked task (start one from the Tasks tab)","hoje":"today","ciclo":"cycle",
-"Nova tarefa":"New task","Adicionar tarefa":"Add task","Mostrar:":"Show:","Abertas":"Open","Pendentes":"Pending","Em andamento":"In progress","Feitas":"Done","Todas":"All","Pendente":"Pending","Feito":"Done",
-"▶ Começar tarefa":"▶ Start task","🍅 Começar com pomodoro":"🍅 Start with pomodoro","✓ Concluir tarefa":"✓ Complete task","⇄ Mudar estado":"⇄ Change status","Nenhuma tarefa nesta visão. Adicione uma acima.":"No tasks in this view. Add one above.","Excluir":"Delete","Excluir esta tarefa?":"Delete this task?",
-"Novo hábito (ex.: Ler)":"New habit (e.g. Read)","Por repetição":"By count","Por tempo":"By time","Meta diária":"Daily goal","unidade (copos, min…)":"unit (cups, min…)","Cor do painel":"Panel color","Mudar cor do painel":"Change panel color","Adicionar hábito":"Add habit",
-"sequência:":"streak:","dias":"days","+ minutos":"+ minutes","Minutos":"Minutes","Nenhum hábito ainda. Crie o primeiro acima.":"No habits yet. Create the first one above.","Excluir este hábito e todo o histórico dele?":"Delete this habit and all its history?","vezes":"times",
-"dias com meta batida":"days goal met","melhor sequência":"best streak","total":"total","Menos":"Less","Mais":"More","Clique em um dia para editar":"Click a day to edit",
-"Pomodoros hoje":"Pomodoros today","Pomodoros no total":"Total pomodoros","Horas de foco":"Focus hours","Tarefas feitas":"Tasks done","Tarefas abertas":"Open tasks","Notas no diário":"Journal entries","Melhor sequência":"Best streak",
-"Minutos de foco, últimos 14 dias":"Focus minutes, last 14 days","Tarefas concluídas, últimos 14 dias":"Tasks completed, last 14 days","Hábitos: histórico":"Habits: history","Sem hábitos.":"No habits.",
-"😄 Ótimo":"😄 Great","🙂 Bem":"🙂 Good","😐 Normal":"😐 Okay","😕 Ruim":"😕 Bad","😢 Péssimo":"😢 Awful","Como foi o seu dia?":"How was your day?","Salvar nota":"Save entry","Buscar nas notas":"Search entries","notas":"entries","nos últimos 7 dias":"in the last 7 days","humor médio (1–5)":"average mood (1–5)","Nenhuma nota encontrada.":"No entries found.",
+const EN={"Livros":"Books","Biblioteca":"Library","⚙ Configurações":"⚙ Settings","Configurações":"Settings",
 "✓ Salvo em data/dados.json":"✓ Saved to data/dados.json","⚠ Servidor off: salvo só neste navegador. Rode python server.py":"⚠ Server off: saved in this browser only. Run python server.py","🌙 Tema escuro":"🌙 Dark theme","☀ Tema claro":"☀ Light theme",
 "Sálvia":"Sage","Areia":"Sand","Céu":"Sky","Lavanda":"Lavender","Rosé":"Rosé","Floresta":"Forest","Meia-noite":"Midnight","Grafite":"Graphite","Ameixa":"Plum","Oceano":"Ocean",
 "Idioma":"Language","Aparência":"Appearance","Temas claros":"Light themes","Temas escuros":"Dark themes","Escolher um tema muda para o modo claro ou escuro dele. O botão no topo alterna entre o seu tema claro e o seu tema escuro.":"Picking a theme switches to its light or dark mode. The button at the top toggles between your light theme and your dark theme.",
 "Criar tema personalizado":"Create custom theme","Nome do tema":"Theme name","Claro":"Light","Escuro":"Dark","Fundo":"Background","Cartões":"Cards","Texto":"Text","Destaque":"Accent","Bordas":"Borders","Exemplo de cartão":"Sample card","Criar tema":"Create theme","Remover tema":"Remove theme",
-"Visualização":"Display","Tamanho da fonte":"Font size","Aba inicial":"Start tab","Período do mapa de hábitos":"Habit map period","3 meses":"3 months","6 meses":"6 months","12 meses":"12 months","Semana começa em":"Week starts on","Tamanho das células":"Cell size","Mostrar rótulos de meses e dias":"Show month and day labels","Tocar um bip quando o timer terminar":"Play a beep when the timer ends",
-"Pequena":"Small","Grande":"Large","Pequeno":"Small","Médio":"Medium","Domingo":"Sunday","Segunda-feira":"Monday",
-"Ideias para a pausa":"Break ideas","Ideia para a pausa:":"Break idea:","Outra sugestão":"Another idea","Adicione ideias na lista “Ideias para a pausa”.":"Add ideas to the “Break ideas” list.","Nova ideia (ex.: Alongar)":"New idea (e.g. Stretch)","Qualquer pausa":"Any break","Adicionar":"Add","Remover":"Remove","Nenhuma ideia ainda. Adicione a primeira acima.":"No ideas yet. Add the first one above.",
-"Beber um copo de água":"Drink a glass of water","Alongar pescoço, ombros e costas":"Stretch your neck, shoulders and back","Olhar para longe por 20 segundos (descansar os olhos)":"Look into the distance for 20 seconds (rest your eyes)","Respirar fundo 5 vezes":"Take 5 deep breaths","Levantar e andar um pouco":"Stand up and walk around","Organizar a mesa de trabalho":"Tidy up your desk","Fazer um lanche leve":"Have a light snack","Dar uma volta lá fora":"Take a walk outside","Alongar punhos e mãos":"Stretch your wrists and hands","Pegar um pouco de luz natural na janela":"Get some natural light by the window","Ouvir uma música de que você gosta":"Listen to a song you like","Anotar algo bom que aconteceu hoje":"Write down something good that happened today","Restaurar recomendadas":"Restore recommended",
-"Biblioteca":"Library","← Biblioteca":"← Library","Estante":"Shelf","Estatísticas":"Statistics","Lombadas":"Spines","Lista":"List","Adicionar PDF":"Add PDF","livros":"books","em leitura":"reading",
-"Sua estante está vazia. Adicione um PDF para começar.":"Your shelf is empty. Add a PDF to get started.","página":"page","de":"of","lidos":"read","Continuar leitura":"Continue reading","Ler com pomodoro":"Read with pomodoro","Editar":"Edit","Reabrir":"Reopen","Marcar como lido":"Mark as read",
+"Visualização":"Display","Tamanho da fonte":"Font size","Pequena":"Small","Grande":"Large","Excluir":"Delete",
+"Minha biblioteca":"My library","← Biblioteca":"← Library","Estante":"Shelf","Estatísticas":"Statistics","Lombadas":"Spines","Lista":"List","Adicionar PDF":"Add PDF","livros":"books","em leitura":"reading",
+"Sua estante está vazia. Adicione um PDF para começar.":"Your shelf is empty. Add a PDF to get started.","página":"page","de":"of","lidos":"read","Continuar leitura":"Continue reading","Editar":"Edit","Reabrir":"Reopen","Marcar como lido":"Mark as read",
 "Lendo":"Reading","Lido":"Read","Quero ler":"Want to read","Buscar na estante":"Search the shelf","Nenhum livro encontrado.":"No books found.","Tempo de leitura":"Reading time","Lido hoje":"Read today","Páginas lidas":"Pages read","Páginas por hora":"Pages per hour",
 "Livros na estante":"Books on the shelf","Em leitura":"In progress","Livros lidos":"Books read","Tempo de leitura, últimos 14 dias (min)":"Reading time, last 14 days (min)","Páginas lidas, últimos 14 dias":"Pages read, last 14 days","Por livro":"By book","Livro":"Book","Tempo":"Time","Progresso":"Progress",
 "Título:":"Title:","Autor (opcional):":"Author (optional):","Total de páginas (0 = automático):":"Total pages (0 = automatic):","Remover este livro? O PDF também será apagado da pasta livros/.":"Remove this book? The PDF will also be deleted from the livros/ folder.",
 "Não foi possível enviar o PDF. Rode python server.py e abra o site por http://localhost:8000.":"Could not upload the PDF. Run python server.py and open the site at http://localhost:8000.",
-"Página anterior":"Previous page","Próxima página":"Next page","Página":"Page","Diminuir zoom":"Zoom out","Aumentar zoom":"Zoom in","Ajustar":"Fit","Leitura":"Reading","Retomar":"Resume","☾ Modo noite":"☾ Night mode","Inverter as cores da página (atalho: D)":"Invert page colors (shortcut: D)"};
-Object.assign(EN,{"páginas":"pages","minutos":"minutes","horas":"hours","segundos":"seconds","copos":"cups","vezes":"times","repetições":"reps","Outra…":"Other…",
-"Unidade de medida":"Unit of measure","Nome da unidade (ex.: km)":"Unit name (e.g. km)","Vincular à leitura":"Link to reading",
-"Não vincular à leitura":"Don't link to reading","Vincular a qualquer leitura":"Link to any reading","Vincular ao livro:":"Link to book:",
-"Para vincular à leitura, escolha a unidade \"páginas\" ou uma unidade de tempo (minutos, horas, segundos).":"To link to reading, pick the unit \"pages\" or a time unit (minutes, hours, seconds).",
-"qualquer leitura":"any reading","tempo lido":"reading time","páginas lidas":"pages read","Pausar / arquivar (dá para restaurar depois)":"Pause / archive (you can restore it later)",
-"Pausados e arquivados":"Paused and archived","arquivado em":"archived on","Restaurar":"Restore","Arquivar":"Archive"});
+"Página anterior":"Previous page","Próxima página":"Next page","Página":"Page","Diminuir zoom":"Zoom out","Aumentar zoom":"Zoom in","Ajustar":"Fit","Leitura":"Reading","Pausar":"Pause","Retomar":"Resume","☾ Modo noite":"☾ Night mode","Inverter as cores da página (atalho: D)":"Invert page colors (shortcut: D)",
+"páginas":"pages","dias":"days","sequência:":"streak:","Meta":"Goal","Meta de hoje":"Today's goal","Meta diária":"Daily goal","minutos":"minutes","✓ Meta de hoje batida!":"✓ Today's goal reached!","🎉 Meta de hoje batida!":"🎉 Today's goal reached!",
+"Sem meta definida. Coloque um valor ao lado para começar.":"No goal set. Enter a value next to it to start.","Últimos 14 dias":"Last 14 days","Dias com meta batida":"Days goal met","Sequência atual":"Current streak","Melhor sequência":"Best streak","Tipo da meta":"Goal type"};
 const _=s=>LANG=='en'?(EN[s]??s):s;
 function trDom(){const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;
   while(n=w.nextNode()){if(n.parentNode.closest('script,style'))continue;if(n.__o===undefined)n.__o=n.nodeValue;const k=n.__o.trim();if(k)n.nodeValue=n.__o.replace(k,()=>_(k))}
@@ -270,143 +156,49 @@ function tema(){const s=S.settings,m=s.theme=='dark'?'dark':'light',A=allThemes(
 function aplicar(){const s=S.settings;LANG=s.lang=='en'?'en':'pt';LOC=LANG=='en'?'en-US':'pt-BR';document.documentElement.lang=LANG=='en'?'en':'pt-BR';
   document.documentElement.style.setProperty('--fs',s.fs+'px');tema()}
 
-/* ---------- dados ---------- */
-let S,tab='pomodoro',P={mode:'focus',left:0,run:false,end:0,cycle:0,task:null,sug:null};
-const stl=k=>_({pendente:'Pendente',andamento:'Em andamento',feito:'Feito'}[k]),NEXT={pendente:'andamento',andamento:'feito',feito:'pendente'};
-const MOODS={1:'😢',2:'😕',3:'😐',4:'🙂',5:'😄'};
-const DEF=()=>({settings:{focus:25,short:5,long:15,cycles:4,theme:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light',tl:'salvia',td:'floresta',lang:'pt',fs:15,tab0:'pomodoro',shelf:'a',hm:12,ws:0,cs:12,lbl:true,snd:true,rdark:false},
-  tasks:[],diary:[],themes:[],books:[],stats:{days:{}},
-  breaksV:2,breaks:[['Beber um copo de água','any'],['Alongar pescoço, ombros e costas','any'],['Olhar para longe por 20 segundos (descansar os olhos)','short'],['Respirar fundo 5 vezes','short'],['Levantar e andar um pouco','any'],['Organizar a mesa de trabalho','short'],['Fazer um lanche leve','long'],['Dar uma volta lá fora','long'],['Alongar punhos e mãos','short'],['Pegar um pouco de luz natural na janela','any'],['Ouvir uma música de que você gosta','long'],['Anotar algo bom que aconteceu hoje','long']].map(([text,kind],i)=>({id:'b'+i,text,kind})),
-  habits:[{id:uid(),name:'Estudar',type:'time',goal:120,unit:'min',color:'#3b82c4',log:{}},{id:uid(),name:'Beber água',type:'count',goal:8,unit:'copos',color:'#2f9e6b',log:{}}]});
+/* ---------- dados ----------
+   O formato de data/dados.json é o mesmo da versão completa do site (branch main): chaves que esta versão não usa
+   (hábitos, tarefas, diário...) são mantidas como estão ao salvar, então dá para alternar entre as duas sem perder nada. */
+let S,tab='biblioteca';
+const DEF=()=>({settings:{theme:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light',tl:'salvia',td:'floresta',lang:'pt',fs:15,shelf:'a',rdark:false,goal:30,goalType:'min'},
+  themes:[],books:[],stats:{days:{}}});
+// mesmos campos da versão completa (pomodoro/tarefas), para a outra versão não receber NaN em dias criados aqui
 const day=(d=today())=>S.stats.days[d]??={pomos:0,focusMin:0,tasksDone:0,readSec:0,readPages:0};
-const val=(h,d)=>h.log[d]||0;
-/* unidades de medida: as pré-definidas ficam salvas em português e são traduzidas na tela */
-const UNITS=['páginas','minutos','horas','segundos','copos','vezes','repetições'];
-const TS={min:60,mins:60,minuto:60,minutos:60,h:3600,hr:3600,hora:3600,horas:3600,s:1,seg:1,segundo:1,segundos:1};
-const usec=u=>TS[String(u||'').trim().toLowerCase()]||0;            // segundos que 1 unidade de tempo vale (0 = não é unidade de tempo)
-const ispg=u=>/^(p[áa]ginas?|pgs?|pags?)$/i.test(String(u||'').trim());
-const tsec=h=>h.type=='time'?(usec(h.unit)||60):0;                    // hábitos antigos "por tempo" sem unidade reconhecida contam em minutos
-const metric=h=>ispg(h.unit)?'pages':h.type=='time'?'time':null;      // o que a leitura pode somar neste hábito
-const UL=u=>UNITS.includes(u)?_(u):u;
-const fv=v=>+(+v).toFixed(2);                                          // mostra números sem lixo decimal
-const addLog=(h,d,x)=>{h.log[d]=+(val(h,d)+x).toFixed(6)};
-const activeH=()=>S.habits.filter(h=>!h.archived);
-/* leitura -> hábitos vinculados: soma páginas novas ou segundos lidos no leitor */
-function linkHab(b,by,x){activeH().forEach(h=>{if(!h.read||metric(h)!=by||(h.read.book!='all'&&h.read.book!=b.id))return;addLog(h,today(),by=='time'?x/tsec(h):x)})}
-const dur=m=>S.settings[m]*60;
 async function load(){
   let d=null;
   try{const r=await fetch('/api/data');if(!r.ok)throw 0;d=await r.json();if(!Object.keys(d).length)d=null}
   catch(e){try{d=JSON.parse(localStorage.getItem('rotina'))}catch(e){}}
-  if(d&&d.breaks&&!d.breaksV)DEF().breaks.filter(b=>+b.id.slice(1)>=8&&!d.breaks.some(x=>x.id==b.id)).forEach(b=>d.breaks.push(b));
-  S=Object.assign(DEF(),d||{});S.settings=Object.assign(DEF().settings,d?.settings);S.themes||=[];
+  S=Object.assign(DEF(),d||{});S.settings=Object.assign(DEF().settings,d?.settings);S.themes||=[];S.books||=[];S.stats||={days:{}};S.stats.days||={};
 }
-function streak(h){let d=new Date(),n=0;if(val(h,iso(d))<h.goal)d.setDate(d.getDate()-1);while(val(h,iso(d))>=h.goal){n++;d.setDate(d.getDate()-1)}return n}
-function best(h){let b=0,c=0,p=null;for(const d of Object.keys(h.log).filter(k=>h.log[k]>=h.goal).sort()){c=p&&new Date(d)-new Date(p)==864e5?c+1:1;b=Math.max(b,c);p=d}return b}
-function summ(){const D=Object.values(S.stats.days);S.stats.resumo={atualizadoEm:new Date().toISOString(),pomodoros:sum(D,'pomos'),minutosFoco:sum(D,'focusMin'),
-  tarefasFeitas:S.tasks.filter(k=>k.status=='feito').length,tarefasAbertas:S.tasks.filter(k=>k.status!='feito').length,notasDiario:S.diary.length,biblioteca:(()=>{const B=S.books||[];return{livros:B.length,lendo:B.filter(b=>bst(b)=='lendo').length,lidos:B.filter(b=>b.done).length,segundosLeitura:sum(D,'readSec'),paginasLidas:sum(D,'readPages')}})(),
-  habitos:Object.fromEntries(activeH().map(h=>[h.name,{tipo:h.type,meta:h.goal,total:Object.values(h.log).reduce((a,b)=>a+b,0),diasMetaBatida:Object.values(h.log).filter(v=>v>=h.goal).length,sequenciaAtual:streak(h),melhorSequencia:best(h)}]))}}
+
+/* ---------- meta diária de leitura (em minutos ou em páginas) ---------- */
+const goalU=()=>S.settings.goalType=='pages'?_('páginas'):_('min');
+const gp=d=>{const x=S.stats.days[d]||{};return S.settings.goalType=='pages'?(x.readPages||0):(x.readSec||0)/60};   // progresso do dia
+const gmet=d=>S.settings.goal>0&&gp(d)>=S.settings.goal;
+function gstreak(){const d=new Date();if(!gmet(iso(d)))d.setDate(d.getDate()-1);let n=0;while(gmet(iso(d))){n++;d.setDate(d.getDate()-1)}return n}
+function gbest(){let b=0,c=0,p=null;for(const d of Object.keys(S.stats.days).filter(k=>gmet(k)).sort()){c=p&&new Date(d)-new Date(p)==864e5?c+1:1;b=Math.max(b,c);p=d}return b}
+const gdays=()=>Object.keys(S.stats.days).filter(k=>gmet(k)).length;
+let tt;function toast(m){let t=$('#toast');if(!t){t=document.createElement('div');t.id='toast';t.setAttribute('role','status');document.body.append(t)}
+  t.textContent=m;t.hidden=false;clearTimeout(tt);tt=setTimeout(()=>t.hidden=true,4000)}
+function gstrip(){const g=S.settings.goal,td=today();
+  return `<div class="gstrip">${lastN(14).map(d=>{const v=gp(d),r=g>0?v/g:0,l=!v?0:r<.5?1:r<1?2:3;
+    return `<i${d==td?' class="td"':''} title="${d}: ${fv(v)} ${goalU()}"${l?` style="background:${l==3?'#2f9e6b':`color-mix(in srgb,var(--ac) ${[0,35,65][l]}%,var(--cell))`}"`:''}></i>`}).join('')}</div>
+  <div class="mu" style="font-size:12px;margin-top:4px">${_('Últimos 14 dias')}</div>`}
+function goalCard(){const s=S.settings,g=s.goal,p=gp(today()),met=gmet(today());
+  return `<div class="card goal"><div class="hh" style="flex-wrap:wrap;align-items:center"><div><b class="dt">${_('Meta de hoje')}</b>
+    <div class="mu">${g>0?`${Math.floor(p)}/${fv(g)} ${goalU()} · ${_('sequência:')} ${gstreak()} ${_('dias')}${met?' · '+_('✓ Meta de hoje batida!'):''}`:_('Sem meta definida. Coloque um valor ao lado para começar.')}</div></div>
+    <div class="row"><label class="mu" for="gv">${_('Meta diária')}</label><input type="number" id="gv" min="0" step="any" value="${g}" style="width:80px">
+      <select id="gu" aria-label="${_('Tipo da meta')}"><option value="min"${s.goalType!='pages'?' selected':''}>${_('minutos')}</option><option value="pages"${s.goalType=='pages'?' selected':''}>${_('páginas')}</option></select></div></div>
+  ${g>0?`<div class="bar" style="--c:${met?'#2f9e6b':'var(--ac)'}"><i style="width:${Math.min(100,p/g*100)}%"></i></div>${gstrip()}`:''}</div>`}
+
+function summ(){const D=Object.values(S.stats.days),B=S.books;
+  S.stats.resumo={atualizadoEm:new Date().toISOString(),
+    biblioteca:{livros:B.length,lendo:B.filter(b=>bst(b)=='lendo').length,lidos:B.filter(b=>b.done).length,segundosLeitura:sum(D,'readSec'),paginasLidas:sum(D,'readPages')},
+    metaDiaria:{tipo:S.settings.goalType,meta:S.settings.goal,diasComMetaBatida:gdays(),sequenciaAtual:gstreak(),melhorSequencia:gbest()}}}
 let tm;
 function save(){summ();localStorage.setItem('rotina',JSON.stringify(S));clearTimeout(tm);
   tm=setTimeout(async()=>{try{const r=await fetch('/api/data',{method:'POST',body:JSON.stringify(S)});if(!r.ok)throw 0;$('#sv').textContent=_('✓ Salvo em data/dados.json')}
   catch(e){$('#sv').textContent=_('⚠ Servidor off: salvo só neste navegador. Rode python server.py')}},300)}
-
-/* ---------- pomodoro ---------- */
-function beep(){try{const c=new AudioContext(),o=c.createOscillator();o.connect(c.destination);o.frequency.value=880;o.start();o.stop(c.currentTime+.6)}catch(e){}}
-function pv(){const m=Math.floor(P.left/60),s=P.left%60,x=String(m).padStart(2,0)+':'+String(s).padStart(2,0);
-  $('#clock').textContent=x;document.title=P.run?x+' · Rotina':'Rotina';$('#go').textContent=P.run?_('Pausar'):_('Iniciar');
-  $('#rgo').textContent=P.run?_('Pausar'):_('Iniciar');$('#rclock').textContent=x;$('#rmode').textContent=_({focus:'Foco',short:'Pausa curta',long:'Pausa longa'}[P.mode]);
-  $$('#modes button').forEach(b=>b.classList.toggle('on',b.dataset.m==P.mode));$('#ring').style.setProperty('--pg',(1-P.left/dur(P.mode))*360+'deg')}
-function ptask(){const k=S.tasks.find(x=>x.id==P.task);$('#ptask').innerHTML=k?`<span>${_('Tarefa:')} <b>${esc(k.title)}</b></span><button class="btn sm" data-act="unlink">${_('Desvincular')}</button>`:`<span class="mu">${_('Nenhuma tarefa vinculada (inicie uma pela aba Tarefas)')}</span>`}
-function setMode(m){P.mode=m;P.run=false;P.left=dur(m);if(m!='focus')pickBreak();pv();rBreak()}
-function toggle(){if(P.run){P.left=Math.max(0,Math.ceil((P.end-Date.now())/1000));P.run=false}else{P.run=true;P.end=Date.now()+P.left*1000}pv()}
-function next(){P.cycle++;setMode(P.cycle%S.settings.cycles?'short':'long')}
-function fin(){P.run=false;if(S.settings.snd)beep();
-  if(P.mode=='focus'){const m=S.settings.focus,d=day();d.pomos++;d.focusMin+=m;
-    const k=S.tasks.find(x=>x.id==P.task);if(k){k.pomos=(k.pomos||0)+1;k.minutes=(k.minutes||0)+m}
-    const h=activeH().find(x=>x.id==$('#phab').value);if(h)addLog(h,today(),m*60/(tsec(h)||60));
-    next()}else setMode('focus');
-  save();render()}
-setInterval(()=>{if(!P.run)return;P.left=Math.max(0,Math.ceil((P.end-Date.now())/1000));pv();if(!P.left)fin()},250);
-function rPomo(){$$('[data-set]').forEach(i=>i.value=S.settings[i.dataset.set]);
-  const s=$('#phab'),c=s.value;s.innerHTML=`<option value="">${_('Não somar a nenhum hábito')}</option>`+activeH().filter(h=>h.type=='time'&&!h.read).map(h=>`<option value="${h.id}">${_('Somar foco em:')} ${esc(h.name)}</option>`).join('');s.value=c;
-  ptask();$('#pcount').textContent=`🍅 ${(S.stats.days[today()]||{}).pomos||0} ${_('hoje')} · ${_('ciclo')} ${P.cycle%S.settings.cycles}/${S.settings.cycles}`;pv();
-  rBreaks();if(P.mode!='focus'&&!S.breaks.some(b=>b.id==P.sug))pickBreak();rBreak()}
-
-/* ---------- ideias para a pausa ---------- */
-function pickBreak(){const L=S.breaks.filter(b=>b.kind=='any'||b.kind==(P.mode=='long'?'long':'short'));if(!L.length){P.sug=null;return}
-  const o=L.filter(b=>b.id!=P.sug),a=o.length?o:L;P.sug=a[Math.floor(Math.random()*a.length)].id}
-function rBreak(){const k=S.breaks.find(b=>b.id==P.sug),box=$('#bsug');box.hidden=P.mode=='focus';
-  box.innerHTML=k?`<span class="mu">${_('Ideia para a pausa:')}</span> <b>${esc(_(k.text))}</b><button class="btn sm" data-act="bnext">${_('Outra sugestão')}</button>`:`<span class="mu">${_('Adicione ideias na lista “Ideias para a pausa”.')}</span>`}
-function rBreaks(){const K={any:'Qualquer pausa',short:'Pausa curta',long:'Pausa longa'};
-  $('#blist').innerHTML=S.breaks.map(b=>`<div class="bi" data-id="${b.id}"><span>${esc(_(b.text))}</span><span class="mu">${_(K[b.kind])}</span><button class="btn sm" data-act="delbreak" aria-label="${_('Remover')}">🗑</button></div>`).join('')||`<p class="mu">${_('Nenhuma ideia ainda. Adicione a primeira acima.')}</p>`}
-
-/* ---------- tarefas ---------- */
-function setSt(k,s){if(!k||k.status==s)return;
-  if(s=='feito'){k.done=today();day().tasksDone++}else if(k.status=='feito'){const d=S.stats.days[k.done];if(d&&d.tasksDone)d.tasksDone--;k.done=null}
-  k.status=s}
-function rTasks(){const f=$('#tf').value,L=S.tasks.filter(k=>f=='todas'||(f=='abertas'?k.status!='feito':k.status==f));
-  $('#tlist').innerHTML=L.map(k=>`<div class="card task ${k.status}" data-id="${k.id}"><div class="tt"><b>${esc(k.title)}</b><span class="chip ${k.status}">${stl(k.status)}</span>${k.pomos?`<span class="mu">🍅 ${k.pomos} · ${k.minutes} min</span>`:''}</div>
-  <div class="row">${k.status!='feito'?`<button class="btn" data-act="start">${_('▶ Começar tarefa')}</button><button class="btn" data-act="startp">${_('🍅 Começar com pomodoro')}</button><button class="btn pri" data-act="done">${_('✓ Concluir tarefa')}</button>`:''}
-  <button class="btn" data-act="cycle">${_('⇄ Mudar estado')}</button><button class="btn sm" data-act="deltask" aria-label="${_('Excluir')}">🗑</button></div></div>`).join('')||`<p class="mu">${_('Nenhuma tarefa nesta visão. Adicione uma acima.')}</p>`}
-
-/* ---------- mapa de calor dos hábitos ---------- */
-const lv=(h,v)=>{const r=v/h.goal;return !v?0:r<.34?1:r<.67?2:r<1?3:4};
-const LS=l=>l?`background:color-mix(in srgb,var(--c) ${[0,30,55,80,100][l]}%,var(--cell))`:'';
-function heat(h,ed){const st=S.settings,e=new Date(),tk=today(),ws=st.ws,
-    wn=i=>new Date(2024,0,7+(ws+i)%7).toLocaleDateString(LOC,{weekday:'short'}).replace('.',''),
-    mn=d=>d.toLocaleDateString(LOC,{month:'short'}).replace('.','');
-  const s=new Date(e);s.setMonth(s.getMonth()-st.hm);s.setDate(s.getDate()+1);s.setDate(s.getDate()-(s.getDay()-ws+7)%7);
-  let c='',n=0,tot=0;
-  for(const d=new Date(s);d<=e;){c+=`<b class="ml">${st.lbl&&d.getDate()<=7?mn(d):''}</b>`;
-    for(let i=0;i<7;i++,d.setDate(d.getDate()+1)){if(d>e){c+='<i class="e"></i>';continue}
-      const k=iso(d),v=val(h,k),cl=((ed?'ed ':'')+(k==tk?'td':'')).trim();if(v>=h.goal)n++;tot+=v;
-      c+=`<i ${ed?'data-act="hday" ':''}${cl?`class="${cl}" `:''}data-d="${k}" title="${k}: ${fv(v)} ${esc(UL(h.unit))}" style="${LS(lv(h,v))}"></i>`}}
-  const wd='<span></span>'+[0,1,2,3,4,5,6].map(i=>`<span>${st.lbl&&i%2?wn(i):''}</span>`).join('');
-  return `<div class="hmw" style="--cs:${st.cs}px">${st.lbl?`<div class="wd">${wd}</div>`:''}<div class="heatw"><div class="heat">${c}</div></div></div>
-  <div class="hl"><span>${n} ${_('dias com meta batida')} · ${_('melhor sequência')}: ${best(h)} · ${_('total')}: ${fv(tot)} ${esc(UL(h.unit))}${ed?' · '+_('Clique em um dia para editar'):''}</span>
-  <span class="lg">${_('Menos')} ${[0,1,2,3,4].map(l=>`<i style="${LS(l)}"></i>`).join('')} ${_('Mais')}</span></div>`}
-
-/* ---------- hábitos ---------- */
-let HAO=false;  // a seção de arquivados está aberta?
-const linkOpts=cur=>`<option value="">${_('Não vincular à leitura')}</option><option value="all"${cur=='all'?' selected':''}>${_('Vincular a qualquer leitura')}</option>`+S.books.map(b=>`<option value="${b.id}"${cur==b.id?' selected':''}>${_('Vincular ao livro:')} ${esc(b.title)}</option>`).join('');
-const linkTxt=h=>{const b=h.read.book=='all'?null:S.books.find(x=>x.id==h.read.book);return `📖 ${_(metric(h)=='pages'?'páginas lidas':'tempo lido')}: ${b?esc(b.title):_('qualquer leitura')}`};
-function hform(){const u=$('#hunit'),cu=u.value,l=$('#hlinkf'),cl=l.value;  // monta os seletores do formulário sem perder o que a pessoa já escolheu
-  u.innerHTML=UNITS.map(x=>`<option value="${x}"${x=='vezes'?' selected':''}>${_(x)}</option>`).join('')+`<option value="__c">${_('Outra…')}</option>`;
-  l.innerHTML=linkOpts('');
-  if(cu&&[...u.options].some(o=>o.value==cu))u.value=cu;if(cl&&[...l.options].some(o=>o.value==cl))l.value=cl;
-  $('#hunitc').hidden=u.value!='__c'}
-function rHabits(){hform();
-  $('#hlist').innerHTML=activeH().map(h=>{const v=val(h,today()),ts=tsec(h),u=esc(UL(h.unit));
-  return `<div class="card" data-id="${h.id}" style="--c:${h.color}"><div class="hh"><div><b style="font:700 18px Georgia,serif">${esc(h.name)}</b><div class="mu">${fv(v)}/${fv(h.goal)} ${u} ${_('hoje')} · ${_('sequência:')} ${streak(h)} ${_('dias')}${h.read?' · '+linkTxt(h):''}</div></div>
-  <div class="row"><input type="color" value="${h.color}" data-col title="${_('Mudar cor do painel')}" aria-label="${_('Cor do painel')}"><button class="btn sm" data-act="harch" title="${_('Pausar / arquivar (dá para restaurar depois)')}" aria-label="${_('Pausar / arquivar (dá para restaurar depois)')}">${_('Arquivar')}</button><button class="btn sm" data-act="delhab" aria-label="${_('Excluir')}">🗑</button></div></div>
-  <div class="bar"><i style="width:${Math.min(100,v/h.goal*100)}%"></i></div>
-  <div class="row">${h.type=='count'?`<button class="btn" data-act="hminus">−1</button><button class="btn pri" data-act="hplus">+1 ${u}</button>`:`<input type="number" min="0" step="any" value="${ts==3600?1:ts==1?30:25}" class="amt" aria-label="${u}"><button class="btn pri" data-act="hadd">+ ${u}</button>`}</div>
-  ${metric(h)?`<div class="row hlk"><select class="hsel" data-hlink title="${_('Vincular à leitura')}" aria-label="${_('Vincular à leitura')}">${linkOpts(h.read?h.read.book:'')}</select></div>`:''}
-  ${heat(h,true)}</div>`}).join('')||`<p class="mu">${_('Nenhum hábito ainda. Crie o primeiro acima.')}</p>`;
-  rArch()}
-function rArch(){const A=S.habits.filter(h=>h.archived);
-  $('#harch').innerHTML=A.length?`<details id="hadet"${HAO?' open':''}><summary>${_('Pausados e arquivados')} (${A.length})</summary>${A.map(h=>`<div class="card arq" data-id="${h.id}" style="--c:${h.color}"><div class="hh"><div><b style="font:700 17px Georgia,serif">${esc(h.name)}</b><div class="mu">${_('arquivado em')} ${new Date(h.archived+'T12:00').toLocaleDateString(LOC)} · ${_('total')}: ${fv(Object.values(h.log).reduce((a,b)=>a+b,0))} ${esc(UL(h.unit))}</div></div>
-  <div class="row"><button class="btn pri sm" data-act="hunarch">${_('Restaurar')}</button><button class="btn sm" data-act="delhab" aria-label="${_('Excluir')}">🗑</button></div></div></div>`).join('')}</details>`:''}
-
-/* ---------- dashboard ---------- */
-function rDash(){summ();const r=S.stats.resumo,D=S.stats.days,td=D[today()]||{};
-  const L=[...Array(14)].map((x,i)=>{const d=new Date();d.setDate(d.getDate()-13+i);return iso(d)});
-  const C=[['Pomodoros hoje',td.pomos||0],['Pomodoros no total',r.pomodoros],['Horas de foco',(r.minutosFoco/60).toFixed(1)],['Tarefas feitas',r.tarefasFeitas],['Tarefas abertas',r.tarefasAbertas],['Notas no diário',r.notasDiario],['Tempo de leitura',fmtT(r.biblioteca.segundosLeitura)],['Páginas lidas',r.biblioteca.paginasLidas],['Melhor sequência',Math.max(0,...activeH().map(best))+' '+_('dias')]];
-  const bars=k=>{const m=Math.max(1,...L.map(x=>(D[x]||{})[k]||0));return `<div class="bars">${L.map(d=>{const v=(D[d]||{})[k]||0;return `<div class="b"><em>${v||''}</em><i style="height:${v/m*110}px"></i><span>${d.slice(8)}</span></div>`}).join('')}</div>`};
-  const hm=activeH().map(h=>`<div class="card" style="--c:${h.color}"><b style="font:700 17px Georgia,serif">${esc(h.name)}</b>${heat(h,false)}</div>`).join('')||`<div class="card mu">${_('Sem hábitos.')}</div>`;
-  $('#dash').innerHTML=`<div class="grid">${C.map(c=>`<div class="card stat"><b>${c[1]}</b>${_(c[0])}</div>`).join('')}</div>
-  <h2>${_('Minutos de foco, últimos 14 dias')}</h2><div class="card">${bars('focusMin')}</div>
-  <h2>${_('Tarefas concluídas, últimos 14 dias')}</h2><div class="card">${bars('tasksDone')}</div>
-  <h2>${_('Hábitos: histórico')}</h2>${hm}`}
-
-/* ---------- diário ---------- */
-function rDiary(){const q=$('#dq').value.toLowerCase(),A=S.diary,w=new Date();w.setDate(w.getDate()-6);
-  const avg=A.length?(A.reduce((s,x)=>s+x.mood,0)/A.length).toFixed(1):'–';
-  $('#dsum').innerHTML=`<div class="card stat"><b>${A.length}</b>${_('notas')}</div><div class="card stat"><b>${A.filter(x=>x.date>=iso(w)).length}</b>${_('nos últimos 7 dias')}</div><div class="card stat"><b>${avg}</b>${_('humor médio (1–5)')}</div>
-  <div class="card stat"><b style="font-size:20px">${Object.entries(MOODS).reverse().map(([k,e])=>e+' '+A.filter(x=>x.mood==k).length).join('<br>')}</b></div>`;
-  const L=[...A].sort((a,b)=>b.date.localeCompare(a.date)||b.ts-a.ts).filter(x=>!q||x.text.toLowerCase().includes(q)||x.date.includes(q));
-  $('#dlist').innerHTML=L.map(x=>`<div class="card entry" data-id="${x.id}"><div class="hh"><span class="mu">${MOODS[x.mood]} ${new Date(x.date+'T00:00').toLocaleDateString(LOC,{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</span><button class="btn sm" data-act="deldiary" aria-label="${_('Excluir')}">🗑</button></div><p>${esc(x.text)}</p></div>`).join('')||`<p class="mu">${_('Nenhuma nota encontrada.')}</p>`}
 
 /* ---------- biblioteca ---------- */
 const BC=[['#2a62a0','#fff'],['#1f7a52','#fff'],['#c23a22','#fff'],['#6a35b8','#fff'],['#e0a21a','#17281f'],['#3d4a63','#fff'],['#1d6f77','#fff'],['#8a4b14','#fff']];
@@ -426,7 +218,7 @@ const selBook=()=>S.books.find(b=>b.id==LB.sel)||[...S.books].sort((a,b)=>(b.las
 function rLib(){const n=S.books.length,m=S.books.filter(b=>bst(b)=='lendo').length,sh=S.settings.shelf=='c'?'c':'a',sub=LB.sub;
   const tabs=[['estante','Estante'],['stats','Estatísticas']].map(([k,l])=>`<button class="${sub==k?'on':''}" data-act="lsub" data-v="${k}">${_(l)}</button>`).join('');
   const mode=sub=='estante'?`<div class="seg" role="group">${[['a','Lombadas'],['c','Lista']].map(([k,l])=>`<button class="${sh==k?'on':''}" data-act="shelfmode" data-v="${k}">${_(l)}</button>`).join('')}</div>`:'';
-  $('#lib').innerHTML=`<div class="hh" style="align-items:flex-end;flex-wrap:wrap;margin-bottom:14px"><div><h2 style="margin:0">${_('Biblioteca')}</h2><div class="mu">${n} ${_('livros')} · ${m} ${_('em leitura')}</div></div>
+  $('#lib').innerHTML=goalCard()+`<div class="hh" style="align-items:flex-end;flex-wrap:wrap;margin-bottom:14px"><div><h2 style="margin:0">${_('Minha biblioteca')}</h2><div class="mu">${n} ${_('livros')} · ${m} ${_('em leitura')}</div></div>
   <div class="row">${mode}<label class="btn pri">${PLUS} ${_('Adicionar PDF')}<input type="file" accept="application/pdf" multiple hidden data-pdf></label></div></div>
   <div class="sub">${tabs}</div>`+(sub=='estante'?(sh=='a'?shelfA():shelfC()):rLibStats())}
 
@@ -441,14 +233,16 @@ function bDetail(b,big){const c=BC[b.color%BC.length],p=pct(b);
   <div class="dinfo"><div class="dt">${esc(b.title)}</div><div class="mu">${esc(b.author||'')}</div>
   <div class="mu">${b.pages?`${_('página')} ${b.page} ${_('de')} ${b.pages} · ${p}%`:`${_('página')} ${b.page}`} · ${fmtT(b.readSec||0)} ${_('lidos')} · ${bstl(b)}</div>
   ${b.pages?`<div class="bar big" style="--c:${c[0]}"><i style="width:${p}%"></i></div>`:''}
-  <div class="row"><button class="btn pri" data-act="bopen">${_('Continuar leitura')}</button><button class="btn" data-act="bpomo">${_('Ler com pomodoro')}</button><button class="btn sm" data-act="bedit">${_('Editar')}</button><button class="btn sm" data-act="bdone">${b.done?_('Reabrir'):_('Marcar como lido')}</button><button class="btn sm" data-act="bdel" aria-label="${_('Excluir')}">🗑</button></div></div></div>`}
+  <div class="row"><button class="btn pri" data-act="bopen">${_('Continuar leitura')}</button><button class="btn sm" data-act="bedit">${_('Editar')}</button><button class="btn sm" data-act="bdone">${b.done?_('Reabrir'):_('Marcar como lido')}</button><button class="btn sm" data-act="bdel" aria-label="${_('Excluir')}">🗑</button></div></div></div>`}
 function bRows(){const q=($('#bq')?.value||'').toLowerCase();
   return S.books.filter(b=>!q||(b.title+' '+(b.author||'')).toLowerCase().includes(q)).map(b=>{const c=BC[b.color%BC.length];
     return `<button class="rowb${LB.sel==b.id?' on':''}" data-act="bsel" data-id="${b.id}"><span class="m" style="background:${c[0]}"></span><span class="rt1"><b>${esc(b.title)}</b><small>${esc(b.author||'')}</small></span><span class="bar" style="--c:${c[0]}"><i style="width:${pct(b)}%"></i></span><span class="chip">${bstl(b)}</span></button>`}).join('')||`<p class="mu">${_('Nenhum livro encontrado.')}</p>`}
 function shelfC(){const sb=selBook();if(sb)LB.sel=sb.id;
   return `<div class="lgrid"><div><input id="bq" type="text" placeholder="${_('Buscar na estante')}" aria-label="${_('Buscar na estante')}" style="width:100%;margin-bottom:8px"><div id="brows">${bRows()}</div></div>${sb?bDetail(sb,true):`<p class="mu">${_('Sua estante está vazia. Adicione um PDF para começar.')}</p>`}</div>`}
 function rLibStats(){const D=S.stats.days,V=Object.values(D),tot=sum(V,'readSec'),pg=sum(V,'readPages'),B=S.books;
-  const C=[['Tempo de leitura',fmtT(tot)],['Lido hoje',fmtT((D[today()]||{}).readSec||0)],['Páginas lidas',pg],['Páginas por hora',tot>600?(pg/(tot/3600)).toFixed(1):'–'],['Livros na estante',B.length],['Em leitura',B.filter(b=>bst(b)=='lendo').length],['Livros lidos',B.filter(b=>b.done).length]];
+  const C=[['Tempo de leitura',fmtT(tot)],['Lido hoje',fmtT((D[today()]||{}).readSec||0)],['Páginas lidas',pg],['Páginas por hora',tot>600?(pg/(tot/3600)).toFixed(1):'–'],
+    ['Dias com meta batida',gdays()],['Sequência atual',gstreak()+' '+_('dias')],['Melhor sequência',gbest()+' '+_('dias')],
+    ['Livros na estante',B.length],['Em leitura',B.filter(b=>bst(b)=='lendo').length],['Livros lidos',B.filter(b=>b.done).length]];
   return `<div class="grid">${C.map(c=>`<div class="card stat"><b>${c[1]}</b>${_(c[0])}</div>`).join('')}</div>
   <h2>${_('Tempo de leitura, últimos 14 dias (min)')}</h2><div class="card">${barsOf('readSec',x=>Math.round(x/60))}</div>
   <h2>${_('Páginas lidas, últimos 14 dias')}</h2><div class="card">${barsOf('readPages')}</div>
@@ -468,8 +262,8 @@ async function addPdfs(files){let ok=0;
     S.books.push(b);LB.sel=b.id;ok++}
   if(ok){save();render()}}
 async function openReader(id){const b=S.books.find(x=>x.id==id);if(!b)return;
-  R={b,doc:null,sec:0,paused:false,tick:0,z:1,rt:0};b.last=Date.now();
-  $('#reader').hidden=false;applyRd();document.body.style.overflow='hidden';$('#rtitle').textContent=b.title;$('#rtime').textContent='00:00';$('#rdpause').textContent=_('Pausar');$('#rview').innerHTML='';
+  R={b,doc:null,sec:0,paused:false,tick:0,z:1,rt:0,gmet:gmet(today())};b.last=Date.now();
+  $('#reader').hidden=false;applyRd();rgoal();document.body.style.overflow='hidden';$('#rtitle').textContent=b.title;$('#rtime').textContent='00:00';$('#rdpause').textContent=_('Pausar');$('#rview').innerHTML='';
   const pj=await pdfjs();
   if(pj){try{R.doc=await pj.getDocument(pdfUrl(b)).promise;b.pages=R.doc.numPages}catch(e){R.doc=null}}
   if(R&&R.b==b)await showPage(b.page)}
@@ -480,9 +274,13 @@ async function showPage(n){if(!R)return;const b=R.b,my=++R.rt;n=Math.max(1,Math.
   await pg.render({canvasContext:cv.getContext('2d'),canvas:cv,viewport:vp}).promise;
   if(!R||my!=R.rt)return;box.replaceChildren(cv);box.scrollTop=0;setPage(n)}
 function setPage(n){const b=R.b;b.page=n;
-  if(n>b.maxPage){const d=n-b.maxPage;if(d<=3){b.pagesRead=(b.pagesRead||0)+d;const dd=day();dd.readPages=(dd.readPages||0)+d;linkHab(b,'pages',d)}b.maxPage=n}
+  if(n>b.maxPage){const d=n-b.maxPage;if(d<=3){b.pagesRead=(b.pagesRead||0)+d;const dd=day();dd.readPages=(dd.readPages||0)+d}b.maxPage=n}
   if(b.pages&&n>=b.pages)b.done=true;
-  $('#rpg').value=n;$('#rtot').textContent='/ '+(b.pages||'?');save()}
+  $('#rpg').value=n;$('#rtot').textContent='/ '+(b.pages||'?');rgoal();save()}
+/* meta na barra do leitor; avisa uma vez quando a meta do dia é batida */
+function rgoal(){if(!R)return;const g=S.settings.goal,w=$('#rgoalw');w.hidden=!(g>0);if(!(g>0))return;
+  const met=gmet(today());$('#rgoal').textContent=`${Math.floor(gp(today()))}/${fv(g)} ${goalU()}${met?' ✓':''}`;
+  if(met&&!R.gmet){R.gmet=true;toast(_('🎉 Meta de hoje batida!'))}}
 function readerAct(a){if(!R)return;const b=R.b;
   if(a=='rd-close')return closeReader();
   if(a=='rd-prev')showPage(b.page-1);else if(a=='rd-next')showPage(b.page+1);
@@ -491,7 +289,7 @@ function readerAct(a){if(!R)return;const b=R.b;
   else if(a=='rd-dark'){S.settings.rdark=!S.settings.rdark;applyRd();save()}}
 function applyRd(){const on=!!S.settings.rdark;$('#reader').classList.toggle('rdark',on);$('#rdark').classList.toggle('on',on);$('#rdark').setAttribute('aria-pressed',on)}
 function closeReader(){if(!R)return;R=null;$('#reader').hidden=true;document.body.style.overflow='';$('#rview').innerHTML='';save();render()}
-setInterval(()=>{if(!R||R.paused||document.hidden)return;R.sec++;R.b.readSec=(R.b.readSec||0)+1;const d=day();d.readSec=(d.readSec||0)+1;linkHab(R.b,'time',1);$('#rtime').textContent=fmtC(R.sec);if(++R.tick%15==0)save()},1000);
+setInterval(()=>{if(!R||R.paused||document.hidden)return;R.sec++;R.b.readSec=(R.b.readSec||0)+1;const d=day();d.readSec=(d.readSec||0)+1;$('#rtime').textContent=fmtC(R.sec);rgoal();if(++R.tick%15==0)save()},1000);
 document.addEventListener('keydown',e=>{if(!R||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;
   if(e.key=='ArrowRight'||e.key=='PageDown')readerAct('rd-next');else if(e.key=='ArrowLeft'||e.key=='PageUp')readerAct('rd-prev');else if(e.key=='Escape')closeReader();else if((e.key=='d'||e.key=='D')&&!e.ctrlKey&&!e.metaKey&&!e.altKey)readerAct('rd-dark')});
 addEventListener('resize',()=>{if(R&&R.doc){clearTimeout(R.rz);R.rz=setTimeout(()=>R&&showPage(R.b.page),200)}});
@@ -500,92 +298,58 @@ addEventListener('pagehide',()=>{if(!S)return;summ();localStorage.setItem('rotin
 /* ---------- configurações ---------- */
 function rCfg(){const s=S.settings,A=allThemes(),cur=A[s[s.theme=='dark'?'td':'tl']]||PRE.salvia;
   const sel=(k,o,num)=>`<select data-st="${k}"${num?' data-num="1"':''}>${o.map(([v,l])=>`<option value="${v}"${String(s[k])==String(v)?' selected':''}>${l}</option>`).join('')}</select>`;
-  const chk=(k,l)=>`<input type="checkbox" data-st="${k}"${s[k]?' checked':''} aria-label="${l}">`,row=(l,c)=>`<div class="crow"><span>${l}</span>${c}</div>`;
+  const row=(l,c)=>`<div class="crow"><span>${l}</span>${c}</div>`;
   const sw=m=>`<div class="sws">${Object.entries(A).filter(([,x])=>x.m==m).map(([id,x])=>`<div class="swc"><button class="sw${s.theme==m&&s[m=='dark'?'td':'tl']==id?' on':''}" data-act="settheme" data-th="${id}"><span class="sp">${[0,1,3,2].map(i=>`<i style="background:${x.c[i]}"></i>`).join('')}</span>${esc(x.custom?x.n:_(x.n))}</button>${x.custom?`<button class="btn sm" data-act="delth" data-th="${id}" aria-label="${_('Remover tema')}">✕</button>`:''}</div>`).join('')}</div>`;
   const pk=[['bg','Fundo'],['p','Cartões'],['tx','Texto'],['ac','Destaque'],['ln','Bordas']];
   $('#cfg').innerHTML=`<h2>${_('Idioma')}</h2><div class="card">${row(_('Idioma'),sel('lang',[['pt','Português'],['en','English']]))}</div>
   <h2>${_('Aparência')}</h2><div class="card"><p class="mu" style="margin-top:0">${_('Escolher um tema muda para o modo claro ou escuro dele. O botão no topo alterna entre o seu tema claro e o seu tema escuro.')}</p>
     <b>${_('Temas claros')}</b>${sw('light')}<b style="display:block;margin-top:16px">${_('Temas escuros')}</b>${sw('dark')}</div>
   <h2>${_('Criar tema personalizado')}</h2>
-  <form class="card" id="fth"><div class="row" style="margin-bottom:12px"><input type="text" name="name" placeholder="${_('Nome do tema')}" required><select name="m"><option value="light">${_('Claro')}</option><option value="dark">${_('Escuro')}</option></select></div>
+  <form class="card" id="fth"><div class="row" style="margin-bottom:12px"><input type="text" name="name" placeholder="${_('Nome do tema')}" required style="flex:1;min-width:180px"><select name="m"><option value="light">${_('Claro')}</option><option value="dark">${_('Escuro')}</option></select></div>
     <div class="row" style="gap:18px">${pk.map(([k,l],i)=>`<label class="cl">${_(l)}<input type="color" name="${k}" data-cp value="${cur.c[i]}"></label>`).join('')}</div>
     <div class="pv" id="thpv"><div class="pvc">${_('Exemplo de cartão')} · Aa</div><em></em></div><button class="btn pri">${_('Criar tema')}</button></form>
   <h2>${_('Visualização')}</h2><div class="card">
-    ${row(_('Tamanho da fonte'),sel('fs',[[14,_('Pequena')],[15,'Normal'],[17,_('Grande')]],1))}
-    ${row(_('Aba inicial'),sel('tab0',[['pomodoro','Pomodoro'],['dashboard','Dashboard'],['tarefas',_('Tarefas')],['habitos',_('Hábitos')],['biblioteca',_('Biblioteca')],['diario',_('Diário')]]))}
-    ${row(_('Período do mapa de hábitos'),sel('hm',[[3,_('3 meses')],[6,_('6 meses')],[12,_('12 meses')]],1))}
-    ${row(_('Semana começa em'),sel('ws',[[0,_('Domingo')],[1,_('Segunda-feira')]],1))}
-    ${row(_('Tamanho das células'),sel('cs',[[10,_('Pequeno')],[12,_('Médio')],[15,_('Grande')]],1))}
-    ${row(_('Mostrar rótulos de meses e dias'),chk('lbl',_('Mostrar rótulos de meses e dias')))}
-    ${row(_('Tocar um bip quando o timer terminar'),chk('snd',_('Tocar um bip quando o timer terminar')))}</div>`;
+    ${row(_('Tamanho da fonte'),sel('fs',[[14,_('Pequena')],[15,'Normal'],[17,_('Grande')]],1))}</div>`;
   pvUpd()}
 function pvUpd(){const f=$('#fth');if(!f)return;const g=n=>f.elements[n].value,p=$('#thpv');
   p.style.cssText=`background:${g('bg')};color:${g('tx')};border:1px solid ${g('ln')}`;p.firstElementChild.style.cssText=`background:${g('p')};border:1px solid ${g('ln')}`;p.lastElementChild.style.background=g('ac')}
 
 /* ---------- núcleo ---------- */
-function render(){({pomodoro:rPomo,dashboard:rDash,tarefas:rTasks,habitos:rHabits,diario:rDiary,config:rCfg,biblioteca:rLib})[tab]();
-  $$('.heatw').forEach(x=>x.scrollLeft=x.scrollWidth);trDom()}
-function go(n){tab=n;$$('.view').forEach(v=>v.classList.toggle('on',v.id=='v-'+n));$$('nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab==n));render();
+function render(){({config:rCfg,biblioteca:rLib})[tab]();trDom()}
+function go(n){n=n=='config'?'config':'biblioteca';tab=n;$$('.view').forEach(v=>v.classList.toggle('on',v.id=='v-'+n));$$('nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab==n));render();
   const a=$('#nav .on'),nv=$('#nav');if(a)nv.scrollLeft+=a.getBoundingClientRect().left-nv.getBoundingClientRect().left-(nv.clientWidth-a.offsetWidth)/2}  // no celular o menu rola: deixa a aba ativa no meio
-function defaults(){$('#fd [name=date]').value=today()}
-function act(a,id,b){const tk=S.tasks.find(x=>x.id==id),h=S.habits.find(x=>x.id==id),bk=S.books.find(x=>x.id==id);
+function act(a,id,b){const bk=S.books.find(x=>x.id==id);
   if(a.startsWith('rd-'))return readerAct(a);
-  if(a=='toggle')toggle();else if(a=='reset')setMode(P.mode);
-  else if(a=='skip'){if(P.mode=='focus')next();else setMode('focus')}
-  else if(a=='unlink')P.task=null;
-  else if(a=='start')setSt(tk,'andamento');
-  else if(a=='startp'){setSt(tk,'andamento');P.task=tk.id;setMode('focus');toggle();go('pomodoro')}
-  else if(a=='done')setSt(tk,'feito');else if(a=='cycle')setSt(tk,NEXT[tk.status]);
-  else if(a=='deltask'){if(!confirm(_('Excluir esta tarefa?')))return;S.tasks=S.tasks.filter(x=>x!=tk);if(P.task==id)P.task=null}
-  else if(a=='hplus')h.log[today()]=val(h,today())+1;
-  else if(a=='hminus')h.log[today()]=Math.max(0,val(h,today())-1);
-  else if(a=='hadd')addLog(h,today(),+b.parentNode.querySelector('.amt').value||0);
-  else if(a=='harch')h.archived=today();
-  else if(a=='hunarch')delete h.archived;
-  else if(a=='hday'){const d=b.dataset.d,v=prompt(`${d} · ${h.name} (${UL(h.unit)})`,fv(val(h,d)));if(v===null)return;const n=Math.max(0,+v.replace(',','.')||0);if(n)h.log[d]=n;else delete h.log[d]}
-  else if(a=='delhab'){if(!confirm(_('Excluir este hábito e todo o histórico dele?')))return;S.habits=S.habits.filter(x=>x!=h)}
-  else if(a=='deldiary')S.diary=S.diary.filter(x=>x.id!=id);
-  else if(a=='delbreak'){S.breaks=S.breaks.filter(x=>x.id!=id);if(P.sug==id)P.sug=null}
-  else if(a=='bnext')pickBreak();
-  else if(a=='brestore')DEF().breaks.forEach(b=>{if(!S.breaks.some(x=>x.id==b.id))S.breaks.push(b)});
-  else if(a=='theme'){S.settings.theme=S.settings.theme=='dark'?'light':'dark';tema()}
+  if(a=='theme'){S.settings.theme=S.settings.theme=='dark'?'light':'dark';tema()}
   else if(a=='settheme'){const x=allThemes()[b.dataset.th];S.settings.theme=x.m;S.settings[x.m=='dark'?'td':'tl']=b.dataset.th;tema()}
   else if(a=='delth'){const i=b.dataset.th;S.themes=S.themes.filter(x=>x.id!=i);if(S.settings.tl==i)S.settings.tl='salvia';if(S.settings.td==i)S.settings.td='floresta';tema()}
   else if(a=='lsub')LB.sub=b.dataset.v;
   else if(a=='shelfmode')S.settings.shelf=b.dataset.v;
   else if(a=='bsel')LB.sel=id;
   else if(a=='bopen'){LB.sel=id;openReader(id)}
-  else if(a=='bpomo'){LB.sel=id;openReader(id);setMode('focus');toggle()}
   else if(a=='bedit'){const t=prompt(_('Título:'),bk.title);if(t===null)return;bk.title=t.trim()||bk.title;
     const au=prompt(_('Autor (opcional):'),bk.author||'');if(au!==null)bk.author=au.trim();
     const pg=prompt(_('Total de páginas (0 = automático):'),bk.pages||0);if(pg!==null&&+pg>=0)bk.pages=Math.floor(+pg)}
   else if(a=='bdone')bk.done=!bk.done;
   else if(a=='bdel'){if(!confirm(_('Remover este livro? O PDF também será apagado da pasta livros/.')))return;
-    fetch('/api/livros?name='+encodeURIComponent(bk.file),{method:'DELETE'}).catch(()=>{});S.books=S.books.filter(x=>x!=bk);S.habits.forEach(x=>{if(x.read&&x.read.book==bk.id)delete x.read});if(LB.sel==id)LB.sel=null}
+    fetch('/api/livros?name='+encodeURIComponent(bk.file),{method:'DELETE'}).catch(()=>{});S.books=S.books.filter(x=>x!=bk);
+    (S.habits||[]).forEach(x=>{if(x.read&&x.read.book==bk.id)delete x.read});  // só existe se o dados.json veio da versão completa: desfaz vínculos de hábitos a este livro
+    if(LB.sel==id)LB.sel=null}
   save();render()}
 document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(b)return act(b.dataset.act,b.closest('[data-id]')?.dataset.id,b);
-  const n=e.target.closest('[data-tab]');if(n)return go(n.dataset.tab);const m=e.target.closest('[data-m]');if(m)setMode(m.dataset.m)});
+  const n=e.target.closest('[data-tab]');if(n)return go(n.dataset.tab)});
 document.addEventListener('submit',e=>{e.preventDefault();const f=e.target,v=Object.fromEntries(new FormData(f));
-  if(f.id=='ft')S.tasks.unshift({id:uid(),title:v.title.trim(),status:'pendente',created:today(),pomos:0,minutes:0});
-  else if(f.id=='fh'){const unit=(v.unit=='__c'?v.unitc:v.unit).trim()||'vezes',h={id:uid(),name:v.name.trim(),type:usec(unit)?'time':'count',goal:+v.goal||1,unit,color:v.color,log:{}};
-    if(v.link){if(!metric(h)){alert(_('Para vincular à leitura, escolha a unidade "páginas" ou uma unidade de tempo (minutos, horas, segundos).'));return}h.read={book:v.link}}
-    S.habits.push(h)}
-  else if(f.id=='fd')S.diary.push({id:uid(),ts:Date.now(),date:v.date,mood:+v.mood,text:v.text.trim()});
-  else if(f.id=='fb')S.breaks.push({id:uid(),text:v.text.trim(),kind:v.kind});
-  else if(f.id=='fth'){const id='c'+uid();S.themes.push({id,n:v.name.trim(),m:v.m,c:[v.bg,v.p,v.tx,v.ac,v.ln]});S.settings.theme=v.m;S.settings[v.m=='dark'?'td':'tl']=id;tema()}
-  f.reset();defaults();save();render()});
+  if(f.id=='fth'){const id='c'+uid();S.themes.push({id,n:v.name.trim(),m:v.m,c:[v.bg,v.p,v.tx,v.ac,v.ln]});S.settings.theme=v.m;S.settings[v.m=='dark'?'td':'tl']=id;tema()}
+  f.reset();save();render()});
 document.addEventListener('input',e=>{const x=e.target;
-  if(x.matches('[data-col]')){const c=x.closest('[data-id]');S.habits.find(k=>k.id==c.dataset.id).color=x.value;c.style.setProperty('--c',x.value);save()}
-  else if(x.matches('[data-cp]'))pvUpd();
-  else if(x.id=='tf')rTasks();else if(x.id=='dq')rDiary();else if(x.id=='bq')$('#brows').innerHTML=bRows()});
+  if(x.matches('[data-cp]'))pvUpd();
+  else if(x.id=='bq')$('#brows').innerHTML=bRows()});
 document.addEventListener('change',e=>{const x=e.target;
   if(x.dataset.pdf!==undefined){const f=[...x.files];x.value='';addPdfs(f);return}
   if(x.id=='rpg'){showPage(+x.value||1);return}
-  if(x.id=='hunit'){$('#hunitc').hidden=x.value!='__c';return}
-  if(x.dataset.hlink!==undefined){const h=S.habits.find(k=>k.id==x.closest('[data-id]').dataset.id);if(x.value)h.read={book:x.value};else delete h.read;save();render();return}
-  if(x.dataset.set){S.settings[x.dataset.set]=Math.max(1,+x.value||1);if(!P.run)P.left=dur(P.mode);save();pv()}
-  else if(x.dataset.st){S.settings[x.dataset.st]=x.type=='checkbox'?x.checked:x.dataset.num?+x.value:x.value;aplicar();save();render()}});
+  if(x.id=='gv'){S.settings.goal=Math.max(0,+String(x.value).replace(',','.')||0);save();render();return}
+  if(x.id=='gu'){S.settings.goalType=x.value=='pages'?'pages':'min';save();render();return}
+  if(x.dataset.st){S.settings[x.dataset.st]=x.type=='checkbox'?x.checked:x.dataset.num?+x.value:x.value;aplicar();save();render()}});
 
-document.addEventListener('toggle',e=>{if(e.target.id=='hadet')HAO=e.target.open},true);  // lembra se a seção de arquivados está aberta
-(async()=>{await load();aplicar();P.left=dur('focus');defaults();go(S.settings.tab0);save()})();
+(async()=>{await load();aplicar();go('biblioteca');save()})();
 </script></body></html>
