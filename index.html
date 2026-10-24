@@ -40,7 +40,7 @@ form.row input[type=text]{flex:1;min-width:180px}
 #modes button{border:1.5px solid var(--ln);background:none;color:var(--tx);border-radius:99px;padding:5px 14px;cursor:pointer;font:inherit}
 #modes button.on{background:var(--tx);color:var(--bg);border-color:var(--tx)}
 .set{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px}.set label{display:grid;gap:3px;font-size:13px;color:var(--mu)}
-.task{border-left:6px solid var(--ln)}.task.andamento{border-left-color:#e0a21a}.task.feito{border-left-color:#2f9e6b;opacity:.75}
+.task{border-left:6px solid var(--ln)}.task.feito{opacity:.75}.task.late{background:color-mix(in srgb,#d63b2f 8%,var(--p))}
 .tt{display:flex;gap:10px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
 .chip{padding:1px 10px;border-radius:99px;font-size:12px;font-weight:700}
 .chip.pendente{background:#dde5df;color:#4b5d52}.chip.andamento{background:#fbe8b5;color:#7a5200}.chip.feito{background:#c9ecd9;color:#14633f}
@@ -112,6 +112,18 @@ form.row input[type=text]{flex:1;min-width:180px}
 #rdark.on{background:var(--tx);color:var(--bg)}
 #hadet summary{cursor:pointer;font:700 20px Georgia,serif;margin:22px 0 10px}.arq{opacity:.85}
 .hlk{margin-top:8px}.hsel{max-width:100%}
+/* prioridades, prazos e edição */
+.pchip{display:inline-flex;align-items:center;gap:5px;padding:1px 10px;border-radius:99px;font-size:12px;font-weight:700;border:1.5px solid var(--pc);color:var(--tx)}
+.pchip::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--pc)}
+.chip.late{background:#fbd5d0;color:#8a1c10}[data-theme=dark] .chip.late{background:#5a1d17;color:#ffb4a8}
+.tbar{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:flex-end;margin-bottom:12px}
+.fl{display:grid;gap:3px;font-size:12px;color:var(--mu)}.fl select,.fl input{max-width:100%}
+.tmeta{font-size:13px;color:var(--mu);margin:-2px 0 10px;display:flex;gap:4px 14px;flex-wrap:wrap}.tmeta .lt{color:#c0291c;font-weight:700}[data-theme=dark] .tmeta .lt{color:#ff9c8e}
+#tsum{margin-bottom:10px;font-weight:700;color:#c0291c}[data-theme=dark] #tsum{color:#ff9c8e}
+dialog{background:var(--p);color:var(--tx);border:1px solid var(--ln);border-radius:12px;padding:18px;width:min(520px,92vw)}
+dialog::backdrop{background:rgba(0,0,0,.5)}
+dialog h2{margin:0 0 12px}
+dialog .fl{margin-bottom:10px}dialog .fl input[type=text],dialog .fl input[type=number],dialog .fl select{width:100%}
 /* celular: cabeçalho compacto (título + tema na 1ª linha, menu rolável na 2ª) */
 @media(max-width:720px){
 header{padding:6px 12px;gap:2px 10px}
@@ -164,15 +176,30 @@ nav button{flex:none;white-space:nowrap;padding:5px 10px;font-size:14px}
 <section class="view" id="v-dashboard"><div id="dash"></div></section>
 
 <section class="view" id="v-tarefas">
-  <form class="card row" id="ft"><input type="text" name="title" placeholder="Nova tarefa" required><button class="btn pri">Adicionar tarefa</button></form>
-  <div class="row" style="margin-bottom:12px"><span class="mu">Mostrar:</span>
-    <select id="tf"><option value="abertas">Abertas</option><option value="pendente">Pendentes</option><option value="andamento">Em andamento</option><option value="feito">Feitas</option><option value="todas">Todas</option></select></div>
+  <form class="card" id="ft">
+    <div class="row"><input type="text" name="title" placeholder="Nova tarefa" required style="flex:1;min-width:180px"><button class="btn pri">Adicionar tarefa</button></div>
+    <div class="row" style="margin-top:10px;align-items:flex-end">
+      <label class="fl">Prioridade<select name="priority" data-prsel></select></label>
+      <label class="fl">Início<input type="date" name="start"></label>
+      <label class="fl">Prazo (data)<input type="date" name="due_d"></label>
+      <label class="fl">Hora<input type="time" name="due_t"></label>
+    </div>
+    <div class="mu" style="font-size:12px;margin-top:6px">Sem hora, o prazo vai até 23:59.</div>
+  </form>
+  <div class="tbar">
+    <label class="fl">Mostrar<select id="tf"><option value="abertas">Abertas</option><option value="pendente">Pendentes</option><option value="andamento">Em andamento</option><option value="feito">Feitas</option><option value="atrasadas">Em atraso</option><option value="todas">Todas</option></select></label>
+    <label class="fl">Prioridade<select id="tprio" data-fs="tprio" data-prfilter></select></label>
+    <label class="fl">Ordenar por<select id="tsort" data-fs="tsort"><option value="criacao">Ordem de criação</option><option value="inicio">Data de início</option><option value="prazo">Prazo (data de término)</option><option value="nome">Nome</option><option value="prioridade">Prioridade</option></select></label>
+    <label class="fl">Ordem<select id="tdir" data-fs="tdir"><option value="asc">↑ Crescente</option><option value="desc">↓ Decrescente</option></select></label>
+  </div>
+  <div id="tsum"></div>
   <div id="tlist"></div>
 </section>
 
 <section class="view" id="v-habitos">
   <form class="card row" id="fh">
     <input type="text" name="name" placeholder="Novo hábito (ex.: Ler)" required>
+    <select name="priority" data-prsel title="Prioridade" aria-label="Prioridade"></select>
     <input type="number" name="goal" min="0.01" step="any" value="1" title="Meta diária" aria-label="Meta diária">
     <select name="unit" id="hunit" title="Unidade de medida" aria-label="Unidade de medida"></select>
     <input type="text" name="unitc" id="hunitc" placeholder="Nome da unidade (ex.: km)" style="flex:0 1 190px;min-width:140px" hidden>
@@ -180,6 +207,11 @@ nav button{flex:none;white-space:nowrap;padding:5px 10px;font-size:14px}
     <input type="color" name="color" value="#2f9e6b" title="Cor do painel">
     <button class="btn pri">Adicionar hábito</button>
   </form>
+  <div class="tbar">
+    <label class="fl">Prioridade<select id="hprio" data-fs="hprio" data-prfilter></select></label>
+    <label class="fl">Ordenar por<select id="hsort" data-fs="hsort"><option value="criacao">Ordem de criação</option><option value="nome">Nome</option><option value="prioridade">Prioridade</option></select></label>
+    <label class="fl">Ordem<select id="hdir" data-fs="hdir"><option value="asc">↑ Crescente</option><option value="desc">↓ Decrescente</option></select></label>
+  </div>
   <div id="hlist"></div>
   <div id="harch"></div>
 </section>
@@ -198,6 +230,8 @@ nav button{flex:none;white-space:nowrap;padding:5px 10px;font-size:14px}
 
 <section class="view" id="v-config"><div id="cfg"></div></section>
 <section class="view" id="v-biblioteca"><div id="lib"></div></section>
+
+<dialog id="edlg"><form id="fe"></form></dialog>
 
 <div id="reader" hidden>
   <div class="rbar">
@@ -251,6 +285,11 @@ Object.assign(EN,{"páginas":"pages","minutos":"minutes","horas":"hours","segund
 "Para vincular à leitura, escolha a unidade \"páginas\" ou uma unidade de tempo (minutos, horas, segundos).":"To link to reading, pick the unit \"pages\" or a time unit (minutes, hours, seconds).",
 "qualquer leitura":"any reading","tempo lido":"reading time","páginas lidas":"pages read","Pausar / arquivar (dá para restaurar depois)":"Pause / archive (you can restore it later)",
 "Pausados e arquivados":"Paused and archived","arquivado em":"archived on","Restaurar":"Restore","Arquivar":"Archive"});
+Object.assign(EN,{"Livre":"Free","quando quiser":"whenever","Fazer logo":"Do soon","Urgente":"Urgent","Prioridade":"Priority","Início":"Start","Início:":"Start:","Prazo (data)":"Due date","Hora":"Time",
+"Sem hora, o prazo vai até 23:59.":"Without a time, the deadline runs until 11:59 PM.","Prazo:":"Due:","Mostrar":"Show","Em atraso":"Overdue","Ordenar por":"Sort by","Ordem":"Order","Ordem de criação":"Creation order",
+"Data de início":"Start date","Prazo (data de término)":"Deadline (end date)","Nome":"Name","↑ Crescente":"↑ Ascending","↓ Decrescente":"↓ Descending","Em atraso há":"Overdue by","em":"in","começa em":"starts in","dia":"day",
+"Sem prazo definido":"No deadline set","tarefa em atraso":"task overdue","tarefas em atraso":"tasks overdue","Tarefas em atraso":"Overdue tasks","Editar tarefa":"Edit task","Editar hábito":"Edit habit","Título":"Title",
+"Salvar":"Save","Cancelar":"Cancel","O prazo não pode ser antes da data de início.":"The deadline can't be before the start date.","Nenhum hábito com esse filtro.":"No habits match this filter."});
 const _=s=>LANG=='en'?(EN[s]??s):s;
 function trDom(){const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;
   while(n=w.nextNode()){if(n.parentNode.closest('script,style'))continue;if(n.__o===undefined)n.__o=n.nodeValue;const k=n.__o.trim();if(k)n.nodeValue=n.__o.replace(k,()=>_(k))}
@@ -274,7 +313,7 @@ function aplicar(){const s=S.settings;LANG=s.lang=='en'?'en':'pt';LOC=LANG=='en'
 let S,tab='pomodoro',P={mode:'focus',left:0,run:false,end:0,cycle:0,task:null,sug:null};
 const stl=k=>_({pendente:'Pendente',andamento:'Em andamento',feito:'Feito'}[k]),NEXT={pendente:'andamento',andamento:'feito',feito:'pendente'};
 const MOODS={1:'😢',2:'😕',3:'😐',4:'🙂',5:'😄'};
-const DEF=()=>({settings:{focus:25,short:5,long:15,cycles:4,theme:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light',tl:'salvia',td:'floresta',lang:'pt',fs:15,tab0:'pomodoro',shelf:'a',hm:12,ws:0,cs:12,lbl:true,snd:true,rdark:false},
+const DEF=()=>({settings:{focus:25,short:5,long:15,cycles:4,theme:matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light',tl:'salvia',td:'floresta',lang:'pt',fs:15,tab0:'pomodoro',shelf:'a',hm:12,ws:0,cs:12,lbl:true,snd:true,rdark:false,tsort:'criacao',tdir:'desc',tprio:'todas',hsort:'criacao',hdir:'asc',hprio:'todas'},
   tasks:[],diary:[],themes:[],books:[],stats:{days:{}},
   breaksV:2,breaks:[['Beber um copo de água','any'],['Alongar pescoço, ombros e costas','any'],['Olhar para longe por 20 segundos (descansar os olhos)','short'],['Respirar fundo 5 vezes','short'],['Levantar e andar um pouco','any'],['Organizar a mesa de trabalho','short'],['Fazer um lanche leve','long'],['Dar uma volta lá fora','long'],['Alongar punhos e mãos','short'],['Pegar um pouco de luz natural na janela','any'],['Ouvir uma música de que você gosta','long'],['Anotar algo bom que aconteceu hoje','long']].map(([text,kind],i)=>({id:'b'+i,text,kind})),
   habits:[{id:uid(),name:'Estudar',type:'time',goal:120,unit:'min',color:'#3b82c4',log:{}},{id:uid(),name:'Beber água',type:'count',goal:8,unit:'copos',color:'#2f9e6b',log:{}}]});
@@ -294,6 +333,37 @@ const activeH=()=>S.habits.filter(h=>!h.archived);
 /* leitura -> hábitos vinculados: soma páginas novas ou segundos lidos no leitor */
 function linkHab(b,by,x){activeH().forEach(h=>{if(!h.read||metric(h)!=by||(h.read.book!='all'&&h.read.book!=b.id))return;addLog(h,today(),by=='time'?x/tsec(h):x)})}
 const dur=m=>S.settings[m]*60;
+/* prioridades: azul = livre, verde = normal, amarelo = fazer logo, vermelho = urgente (r = peso para ordenar) */
+const PR={livre:{l:'Livre',d:'quando quiser',e:'🔵',c:'#3b82c4',r:0},normal:{l:'Normal',e:'🟢',c:'#2f9e6b',r:1},logo:{l:'Fazer logo',e:'🟡',c:'#e0a21a',r:2},urgente:{l:'Urgente',e:'🔴',c:'#d63b2f',r:3}};
+const prOf=x=>PR[x.priority]?x.priority:'normal';   // itens antigos, sem prioridade, contam como normal
+const prOpts=f=>(f?`<option value="todas">${_('Todas')}</option>`:'')+Object.entries(PR).map(([k,p])=>`<option value="${k}"${!f&&k=='normal'?' selected':''}>${p.e} ${_(p.l)}${p.d?' · '+_(p.d):''}</option>`).join('');
+const prChip=x=>`<span class="pchip" style="--pc:${PR[prOf(x)].c}">${_(PR[prOf(x)].l)}</span>`;
+function fillPr(){$$('[data-prsel],[data-prfilter]').forEach(s=>{const f=s.hasAttribute('data-prfilter'),v=s.value;s.innerHTML=prOpts(f);s.value=v||(f?'todas':'normal')})}
+/* prazos: início é uma data; prazo é data + hora no horário local ("2026-10-25T18:00") */
+const dueMs=k=>k.due?new Date(k.due).getTime():null;
+const startMs=k=>k.start?new Date(k.start+'T00:00').getTime():null;
+const late=k=>k.status!='feito'&&dueMs(k)!==null&&Date.now()>dueMs(k);   // em atraso: não concluída e o prazo já passou
+const fdt=ms=>new Date(ms).toLocaleString(LOC,{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+const fdate=ms=>new Date(ms).toLocaleDateString(LOC,{day:'2-digit',month:'2-digit',year:'numeric'});
+function span(ms){const m=Math.max(1,Math.round(ms/6e4));if(m<60)return m+' min';const h=Math.round(m/60);if(h<48)return h+' h';const d=Math.round(h/24);return d+' '+_(d==1?'dia':'dias')}
+const dueOf=v=>v.due_d?v.due_d+'T'+(v.due_t||'23:59'):null;   // sem hora, vale até o fim do dia
+const badRange=(start,due)=>start&&due&&new Date(due)<new Date(start+'T00:00');
+function tmeta(k){const out=[],s=startMs(k),d=dueMs(k),n=Date.now();
+  if(s!==null){const dd=Math.ceil((s-n)/864e5);out.push(`${_('Início:')} ${fdate(s)}${s>n&&k.status!='feito'?` (${_('começa em')} ${dd} ${_(dd==1?'dia':'dias')})`:''}`)}
+  if(d!==null){if(late(k))out.push(`<span class="lt">⚠ ${_('Em atraso há')} ${span(n-d)}</span> · ${_('Prazo:')} ${fdt(d)}`);
+    else out.push(`${_('Prazo:')} ${fdt(d)}${k.status!='feito'?` · ${_('em')} ${span(d-n)}`:''}`)}
+  else out.push(_('Sem prazo definido'));
+  return `<div class="tmeta">${out.map(x=>`<span>${x}</span>`).join('')}</div>`}
+/* ordenação: base = 'new' (lista com o mais novo primeiro, como as tarefas) ou 'old' (mais antigo primeiro, como os hábitos).
+   Itens sem data vão sempre para o fim, em qualquer direção. */
+function ordenar(L,key,dir,base,nome){const s=dir=='desc'?-1:1,ix=new Map(L.map((x,i)=>[x,i])),rk=x=>base=='new'?-ix.get(x):ix.get(x),
+  num={inicio:startMs,prazo:dueMs,prioridade:x=>PR[prOf(x)].r}[key]||(()=>0);
+  return [...L].sort((a,b)=>{
+    if(key=='criacao')return s*(rk(a)-rk(b));
+    if(key=='nome')return s*nome(a).localeCompare(nome(b),LOC,{sensitivity:'base',numeric:true})||ix.get(a)-ix.get(b);
+    const va=num(a),vb=num(b);
+    if(va===null||vb===null)return va===vb?ix.get(a)-ix.get(b):va===null?1:-1;
+    return s*(va-vb)||ix.get(a)-ix.get(b)})}
 async function load(){
   let d=null;
   try{const r=await fetch('/api/data');if(!r.ok)throw 0;d=await r.json();if(!Object.keys(d).length)d=null}
@@ -304,7 +374,7 @@ async function load(){
 function streak(h){let d=new Date(),n=0;if(val(h,iso(d))<h.goal)d.setDate(d.getDate()-1);while(val(h,iso(d))>=h.goal){n++;d.setDate(d.getDate()-1)}return n}
 function best(h){let b=0,c=0,p=null;for(const d of Object.keys(h.log).filter(k=>h.log[k]>=h.goal).sort()){c=p&&new Date(d)-new Date(p)==864e5?c+1:1;b=Math.max(b,c);p=d}return b}
 function summ(){const D=Object.values(S.stats.days);S.stats.resumo={atualizadoEm:new Date().toISOString(),pomodoros:sum(D,'pomos'),minutosFoco:sum(D,'focusMin'),
-  tarefasFeitas:S.tasks.filter(k=>k.status=='feito').length,tarefasAbertas:S.tasks.filter(k=>k.status!='feito').length,notasDiario:S.diary.length,biblioteca:(()=>{const B=S.books||[];return{livros:B.length,lendo:B.filter(b=>bst(b)=='lendo').length,lidos:B.filter(b=>b.done).length,segundosLeitura:sum(D,'readSec'),paginasLidas:sum(D,'readPages')}})(),
+  tarefasFeitas:S.tasks.filter(k=>k.status=='feito').length,tarefasAbertas:S.tasks.filter(k=>k.status!='feito').length,tarefasEmAtraso:S.tasks.filter(late).length,notasDiario:S.diary.length,biblioteca:(()=>{const B=S.books||[];return{livros:B.length,lendo:B.filter(b=>bst(b)=='lendo').length,lidos:B.filter(b=>b.done).length,segundosLeitura:sum(D,'readSec'),paginasLidas:sum(D,'readPages')}})(),
   habitos:Object.fromEntries(activeH().map(h=>[h.name,{tipo:h.type,meta:h.goal,total:Object.values(h.log).reduce((a,b)=>a+b,0),diasMetaBatida:Object.values(h.log).filter(v=>v>=h.goal).length,sequenciaAtual:streak(h),melhorSequencia:best(h)}]))}}
 let tm;
 function save(){summ();localStorage.setItem('rotina',JSON.stringify(S));clearTimeout(tm);
@@ -345,10 +415,15 @@ function rBreaks(){const K={any:'Qualquer pausa',short:'Pausa curta',long:'Pausa
 function setSt(k,s){if(!k||k.status==s)return;
   if(s=='feito'){k.done=today();day().tasksDone++}else if(k.status=='feito'){const d=S.stats.days[k.done];if(d&&d.tasksDone)d.tasksDone--;k.done=null}
   k.status=s}
-function rTasks(){const f=$('#tf').value,L=S.tasks.filter(k=>f=='todas'||(f=='abertas'?k.status!='feito':k.status==f));
-  $('#tlist').innerHTML=L.map(k=>`<div class="card task ${k.status}" data-id="${k.id}"><div class="tt"><b>${esc(k.title)}</b><span class="chip ${k.status}">${stl(k.status)}</span>${k.pomos?`<span class="mu">🍅 ${k.pomos} · ${k.minutes} min</span>`:''}</div>
+function rTasks(){const st=S.settings;['tprio','tsort','tdir'].forEach(k=>{$('#'+k).value=st[k]});
+  const f=$('#tf').value,pf=st.tprio,
+    L=ordenar(S.tasks.filter(k=>(f=='todas'||(f=='abertas'?k.status!='feito':f=='atrasadas'?late(k):k.status==f))&&(pf=='todas'||prOf(k)==pf)),st.tsort,st.tdir,'new',k=>k.title),
+    nl=S.tasks.filter(late).length;
+  $('#tsum').textContent=nl?`⚠ ${nl} ${_(nl==1?'tarefa em atraso':'tarefas em atraso')}`:'';
+  $('#tlist').innerHTML=L.map(k=>`<div class="card task ${k.status}${late(k)?' late':''}" data-id="${k.id}" style="border-left-color:${PR[prOf(k)].c}"><div class="tt"><b>${esc(k.title)}</b>${prChip(k)}<span class="chip ${k.status}">${stl(k.status)}</span>${late(k)?`<span class="chip late">${_('Em atraso')}</span>`:''}${k.pomos?`<span class="mu">🍅 ${k.pomos} · ${k.minutes} min</span>`:''}</div>
+  ${tmeta(k)}
   <div class="row">${k.status!='feito'?`<button class="btn" data-act="start">${_('▶ Começar tarefa')}</button><button class="btn" data-act="startp">${_('🍅 Começar com pomodoro')}</button><button class="btn pri" data-act="done">${_('✓ Concluir tarefa')}</button>`:''}
-  <button class="btn" data-act="cycle">${_('⇄ Mudar estado')}</button><button class="btn sm" data-act="deltask" aria-label="${_('Excluir')}">🗑</button></div></div>`).join('')||`<p class="mu">${_('Nenhuma tarefa nesta visão. Adicione uma acima.')}</p>`}
+  <button class="btn" data-act="cycle">${_('⇄ Mudar estado')}</button><button class="btn sm" data-act="edit">${_('Editar')}</button><button class="btn sm" data-act="deltask" aria-label="${_('Excluir')}">🗑</button></div></div>`).join('')||`<p class="mu">${_('Nenhuma tarefa nesta visão. Adicione uma acima.')}</p>`}
 
 /* ---------- mapa de calor dos hábitos ---------- */
 const lv=(h,v)=>{const r=v/h.goal;return !v?0:r<.34?1:r<.67?2:r<1?3:4};
@@ -376,23 +451,43 @@ function hform(){const u=$('#hunit'),cu=u.value,l=$('#hlinkf'),cl=l.value;  // m
   l.innerHTML=linkOpts('');
   if(cu&&[...u.options].some(o=>o.value==cu))u.value=cu;if(cl&&[...l.options].some(o=>o.value==cl))l.value=cl;
   $('#hunitc').hidden=u.value!='__c'}
-function rHabits(){hform();
-  $('#hlist').innerHTML=activeH().map(h=>{const v=val(h,today()),ts=tsec(h),u=esc(UL(h.unit));
-  return `<div class="card" data-id="${h.id}" style="--c:${h.color}"><div class="hh"><div><b style="font:700 18px Georgia,serif">${esc(h.name)}</b><div class="mu">${fv(v)}/${fv(h.goal)} ${u} ${_('hoje')} · ${_('sequência:')} ${streak(h)} ${_('dias')}${h.read?' · '+linkTxt(h):''}</div></div>
-  <div class="row"><input type="color" value="${h.color}" data-col title="${_('Mudar cor do painel')}" aria-label="${_('Cor do painel')}"><button class="btn sm" data-act="harch" title="${_('Pausar / arquivar (dá para restaurar depois)')}" aria-label="${_('Pausar / arquivar (dá para restaurar depois)')}">${_('Arquivar')}</button><button class="btn sm" data-act="delhab" aria-label="${_('Excluir')}">🗑</button></div></div>
+function rHabits(){hform();const st=S.settings;['hprio','hsort','hdir'].forEach(k=>{$('#'+k).value=st[k]});
+  const HL=ordenar(activeH().filter(h=>st.hprio=='todas'||prOf(h)==st.hprio),st.hsort,st.hdir,'old',h=>h.name);
+  $('#hlist').innerHTML=HL.map(h=>{const v=val(h,today()),ts=tsec(h),u=esc(UL(h.unit));
+  return `<div class="card" data-id="${h.id}" style="--c:${h.color};border-left:6px solid ${PR[prOf(h)].c}"><div class="hh"><div><b style="font:700 18px Georgia,serif">${esc(h.name)}</b> ${prChip(h)}<div class="mu">${fv(v)}/${fv(h.goal)} ${u} ${_('hoje')} · ${_('sequência:')} ${streak(h)} ${_('dias')}${h.read?' · '+linkTxt(h):''}</div></div>
+  <div class="row"><input type="color" value="${h.color}" data-col title="${_('Mudar cor do painel')}" aria-label="${_('Cor do painel')}"><button class="btn sm" data-act="edit">${_('Editar')}</button><button class="btn sm" data-act="harch" title="${_('Pausar / arquivar (dá para restaurar depois)')}" aria-label="${_('Pausar / arquivar (dá para restaurar depois)')}">${_('Arquivar')}</button><button class="btn sm" data-act="delhab" aria-label="${_('Excluir')}">🗑</button></div></div>
   <div class="bar"><i style="width:${Math.min(100,v/h.goal*100)}%"></i></div>
   <div class="row">${h.type=='count'?`<button class="btn" data-act="hminus">−1</button><button class="btn pri" data-act="hplus">+1 ${u}</button>`:`<input type="number" min="0" step="any" value="${ts==3600?1:ts==1?30:25}" class="amt" aria-label="${u}"><button class="btn pri" data-act="hadd">+ ${u}</button>`}</div>
   ${metric(h)?`<div class="row hlk"><select class="hsel" data-hlink title="${_('Vincular à leitura')}" aria-label="${_('Vincular à leitura')}">${linkOpts(h.read?h.read.book:'')}</select></div>`:''}
-  ${heat(h,true)}</div>`}).join('')||`<p class="mu">${_('Nenhum hábito ainda. Crie o primeiro acima.')}</p>`;
+  ${heat(h,true)}</div>`}).join('')||`<p class="mu">${_(activeH().length?'Nenhum hábito com esse filtro.':'Nenhum hábito ainda. Crie o primeiro acima.')}</p>`;
   rArch()}
 function rArch(){const A=S.habits.filter(h=>h.archived);
   $('#harch').innerHTML=A.length?`<details id="hadet"${HAO?' open':''}><summary>${_('Pausados e arquivados')} (${A.length})</summary>${A.map(h=>`<div class="card arq" data-id="${h.id}" style="--c:${h.color}"><div class="hh"><div><b style="font:700 17px Georgia,serif">${esc(h.name)}</b><div class="mu">${_('arquivado em')} ${new Date(h.archived+'T12:00').toLocaleDateString(LOC)} · ${_('total')}: ${fv(Object.values(h.log).reduce((a,b)=>a+b,0))} ${esc(UL(h.unit))}</div></div>
   <div class="row"><button class="btn pri sm" data-act="hunarch">${_('Restaurar')}</button><button class="btn sm" data-act="delhab" aria-label="${_('Excluir')}">🗑</button></div></div></div>`).join('')}</details>`:''}
 
+/* ---------- editar tarefas e hábitos (janela) ---------- */
+let E=null;
+function openEdit(id){const k=S.tasks.find(x=>x.id==id),h=k?null:S.habits.find(x=>x.id==id),it=k||h;if(!it)return;E={id,kind:k?'t':'h'};
+  const btns=`<div class="row" style="justify-content:flex-end;margin-top:6px"><button type="button" class="btn" data-act="edcancel">${_('Cancelar')}</button><button class="btn pri">${_('Salvar')}</button></div>`,
+    pr=`<label class="fl">${_('Prioridade')}<select name="priority">${prOpts(false)}</select></label>`;
+  if(k){const [dd,dt]=(k.due||'').split('T');
+    $('#fe').innerHTML=`<h2>${_('Editar tarefa')}</h2><label class="fl">${_('Título')}<input type="text" name="title" required value="${esc(k.title)}"></label>${pr}
+    <div class="row" style="align-items:flex-end"><label class="fl">${_('Início')}<input type="date" name="start" value="${k.start||''}"></label>
+    <label class="fl">${_('Prazo (data)')}<input type="date" name="due_d" value="${dd||''}"></label><label class="fl">${_('Hora')}<input type="time" name="due_t" value="${dt||''}"></label></div>
+    <div class="mu" style="font-size:12px;margin:2px 0 10px">${_('Sem hora, o prazo vai até 23:59.')}</div>${btns}`}
+  else{const u=UNITS.includes(h.unit)?h.unit:'__c';
+    $('#fe').innerHTML=`<h2>${_('Editar hábito')}</h2><label class="fl">${_('Nome')}<input type="text" name="name" required value="${esc(h.name)}"></label>${pr}
+    <div class="row" style="align-items:flex-end"><label class="fl">${_('Meta diária')}<input type="number" name="goal" min="0.01" step="any" value="${h.goal}"></label>
+    <label class="fl">${_('Unidade de medida')}<select name="unit" id="eunit">${UNITS.map(x=>`<option value="${x}">${_(x)}</option>`).join('')}<option value="__c">${_('Outra…')}</option></select></label></div>
+    <label class="fl" id="eunitcw"${u=='__c'?'':' hidden'}>${_('Nome da unidade (ex.: km)')}<input type="text" name="unitc" value="${u=='__c'?esc(h.unit):''}"></label>
+    <label class="fl">${_('Cor do painel')}<input type="color" name="color" value="${h.color}"></label>${btns}`;
+    $('#eunit').value=u}
+  $('#fe [name=priority]').value=prOf(it);$('#edlg').showModal()}
+
 /* ---------- dashboard ---------- */
 function rDash(){summ();const r=S.stats.resumo,D=S.stats.days,td=D[today()]||{};
   const L=[...Array(14)].map((x,i)=>{const d=new Date();d.setDate(d.getDate()-13+i);return iso(d)});
-  const C=[['Pomodoros hoje',td.pomos||0],['Pomodoros no total',r.pomodoros],['Horas de foco',(r.minutosFoco/60).toFixed(1)],['Tarefas feitas',r.tarefasFeitas],['Tarefas abertas',r.tarefasAbertas],['Notas no diário',r.notasDiario],['Tempo de leitura',fmtT(r.biblioteca.segundosLeitura)],['Páginas lidas',r.biblioteca.paginasLidas],['Melhor sequência',Math.max(0,...activeH().map(best))+' '+_('dias')]];
+  const C=[['Pomodoros hoje',td.pomos||0],['Pomodoros no total',r.pomodoros],['Horas de foco',(r.minutosFoco/60).toFixed(1)],['Tarefas feitas',r.tarefasFeitas],['Tarefas abertas',r.tarefasAbertas],['Tarefas em atraso',r.tarefasEmAtraso],['Notas no diário',r.notasDiario],['Tempo de leitura',fmtT(r.biblioteca.segundosLeitura)],['Páginas lidas',r.biblioteca.paginasLidas],['Melhor sequência',Math.max(0,...activeH().map(best))+' '+_('dias')]];
   const bars=k=>{const m=Math.max(1,...L.map(x=>(D[x]||{})[k]||0));return `<div class="bars">${L.map(d=>{const v=(D[d]||{})[k]||0;return `<div class="b"><em>${v||''}</em><i style="height:${v/m*110}px"></i><span>${d.slice(8)}</span></div>`}).join('')}</div>`};
   const hm=activeH().map(h=>`<div class="card" style="--c:${h.color}"><b style="font:700 17px Georgia,serif">${esc(h.name)}</b>${heat(h,false)}</div>`).join('')||`<div class="card mu">${_('Sem hábitos.')}</div>`;
   $('#dash').innerHTML=`<div class="grid">${C.map(c=>`<div class="card stat"><b>${c[1]}</b>${_(c[0])}</div>`).join('')}</div>
@@ -523,13 +618,15 @@ function pvUpd(){const f=$('#fth');if(!f)return;const g=n=>f.elements[n].value,p
   p.style.cssText=`background:${g('bg')};color:${g('tx')};border:1px solid ${g('ln')}`;p.firstElementChild.style.cssText=`background:${g('p')};border:1px solid ${g('ln')}`;p.lastElementChild.style.background=g('ac')}
 
 /* ---------- núcleo ---------- */
-function render(){({pomodoro:rPomo,dashboard:rDash,tarefas:rTasks,habitos:rHabits,diario:rDiary,config:rCfg,biblioteca:rLib})[tab]();
+function render(){fillPr();({pomodoro:rPomo,dashboard:rDash,tarefas:rTasks,habitos:rHabits,diario:rDiary,config:rCfg,biblioteca:rLib})[tab]();
   $$('.heatw').forEach(x=>x.scrollLeft=x.scrollWidth);trDom()}
 function go(n){tab=n;$$('.view').forEach(v=>v.classList.toggle('on',v.id=='v-'+n));$$('nav button').forEach(b=>b.classList.toggle('on',b.dataset.tab==n));render();
   const a=$('#nav .on'),nv=$('#nav');if(a)nv.scrollLeft+=a.getBoundingClientRect().left-nv.getBoundingClientRect().left-(nv.clientWidth-a.offsetWidth)/2}  // no celular o menu rola: deixa a aba ativa no meio
 function defaults(){$('#fd [name=date]').value=today()}
 function act(a,id,b){const tk=S.tasks.find(x=>x.id==id),h=S.habits.find(x=>x.id==id),bk=S.books.find(x=>x.id==id);
   if(a.startsWith('rd-'))return readerAct(a);
+  if(a=='edit')return openEdit(id);
+  if(a=='edcancel'){$('#edlg').close();return}
   if(a=='toggle')toggle();else if(a=='reset')setMode(P.mode);
   else if(a=='skip'){if(P.mode=='focus')next();else setMode('focus')}
   else if(a=='unlink')P.task=null;
@@ -566,8 +663,14 @@ function act(a,id,b){const tk=S.tasks.find(x=>x.id==id),h=S.habits.find(x=>x.id=
 document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(b)return act(b.dataset.act,b.closest('[data-id]')?.dataset.id,b);
   const n=e.target.closest('[data-tab]');if(n)return go(n.dataset.tab);const m=e.target.closest('[data-m]');if(m)setMode(m.dataset.m)});
 document.addEventListener('submit',e=>{e.preventDefault();const f=e.target,v=Object.fromEntries(new FormData(f));
-  if(f.id=='ft')S.tasks.unshift({id:uid(),title:v.title.trim(),status:'pendente',created:today(),pomos:0,minutes:0});
-  else if(f.id=='fh'){const unit=(v.unit=='__c'?v.unitc:v.unit).trim()||'vezes',h={id:uid(),name:v.name.trim(),type:usec(unit)?'time':'count',goal:+v.goal||1,unit,color:v.color,log:{}};
+  if(f.id=='ft'){const due=dueOf(v);if(badRange(v.start,due)){alert(_('O prazo não pode ser antes da data de início.'));return}
+    S.tasks.unshift({id:uid(),title:v.title.trim(),status:'pendente',created:today(),pomos:0,minutes:0,priority:v.priority||'normal',start:v.start||null,due})}
+  else if(f.id=='fe'){const it=E&&(E.kind=='t'?S.tasks:S.habits).find(x=>x.id==E.id);if(!it)return $('#edlg').close();
+    if(E.kind=='t'){const due=dueOf(v);if(badRange(v.start,due)){alert(_('O prazo não pode ser antes da data de início.'));return}
+      it.title=v.title.trim()||it.title;it.priority=v.priority;it.start=v.start||null;it.due=due}
+    else{const unit=(v.unit=='__c'?v.unitc:v.unit).trim()||'vezes';it.name=v.name.trim()||it.name;it.priority=v.priority;it.goal=+v.goal||it.goal;it.unit=unit;it.type=usec(unit)?'time':'count';it.color=v.color;if(!metric(it))delete it.read}
+    $('#edlg').close()}
+  else if(f.id=='fh'){const unit=(v.unit=='__c'?v.unitc:v.unit).trim()||'vezes',h={id:uid(),name:v.name.trim(),type:usec(unit)?'time':'count',goal:+v.goal||1,unit,color:v.color,log:{},priority:v.priority||'normal'};
     if(v.link){if(!metric(h)){alert(_('Para vincular à leitura, escolha a unidade "páginas" ou uma unidade de tempo (minutos, horas, segundos).'));return}h.read={book:v.link}}
     S.habits.push(h)}
   else if(f.id=='fd')S.diary.push({id:uid(),ts:Date.now(),date:v.date,mood:+v.mood,text:v.text.trim()});
@@ -582,10 +685,19 @@ document.addEventListener('change',e=>{const x=e.target;
   if(x.dataset.pdf!==undefined){const f=[...x.files];x.value='';addPdfs(f);return}
   if(x.id=='rpg'){showPage(+x.value||1);return}
   if(x.id=='hunit'){$('#hunitc').hidden=x.value!='__c';return}
+  if(x.id=='eunit'){$('#eunitcw').hidden=x.value!='__c';return}
+  if(x.dataset.fs){const k=x.dataset.fs;S.settings[k]=x.value;   // ao trocar o critério, a direção volta ao padrão dele
+    if(k=='tsort')S.settings.tdir=x.value=='prioridade'||x.value=='criacao'?'desc':'asc';
+    if(k=='hsort')S.settings.hdir=x.value=='prioridade'?'desc':'asc';
+    save();render();return}
   if(x.dataset.hlink!==undefined){const h=S.habits.find(k=>k.id==x.closest('[data-id]').dataset.id);if(x.value)h.read={book:x.value};else delete h.read;save();render();return}
   if(x.dataset.set){S.settings[x.dataset.set]=Math.max(1,+x.value||1);if(!P.run)P.left=dur(P.mode);save();pv()}
   else if(x.dataset.st){S.settings[x.dataset.st]=x.type=='checkbox'?x.checked:x.dataset.num?+x.value:x.value;aplicar();save();render()}});
 
+/* o "em atraso" aparece sozinho quando o prazo passa: reavalia a lista de tarefas a cada minuto e ao voltar para a aba */
+const tick=()=>{if(tab=='tarefas'&&!document.hidden&&!$('#edlg').open){rTasks();trDom()}};
+setInterval(tick,60000);document.addEventListener('visibilitychange',tick);
+$('#edlg').addEventListener('close',()=>{E=null});
 document.addEventListener('toggle',e=>{if(e.target.id=='hadet')HAO=e.target.open},true);  // lembra se a seção de arquivados está aberta
 (async()=>{await load();aplicar();P.left=dur('focus');defaults();go(S.settings.tab0);save()})();
 </script></body></html>
